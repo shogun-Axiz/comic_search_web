@@ -77,29 +77,29 @@
 						name="publisher" placeholder="出版社">
 				</p>
 				<p>
-					<label for="category">カテゴリー</label> <select name="カテゴリー"
+					<label for="category">カテゴリー</label> <select name="categoryId"
 						style="width: 100%;">
 						<option value="" selected>全て</option>
-						<option value="コメディ">コメディ</option>
-						<option value="スポーツ">スポーツ</option>
-						<option value="ドラマ">ドラマ</option>
-						<option value="ビジネス">ビジネス</option>
-						<option value="ファンタジー">ファンタジー</option>
-						<option value="ホラー">ホラー</option>
-						<option value="ロマンス">ロマンス</option>
-						<option value="海外コミック">海外コミック</option>
-						<option value="絵本・童話">絵本・童話</option>
-						<option value="格闘・アクション・冒険">格闘・アクション・冒険</option>
-						<option value="教養・学習">教養・学習</option>
-						<option value="推理・ミステリー">推理・ミステリー</option>
-						<option value="料理・グルメ">料理・グルメ</option>
-						<option value="歴史マンガ">歴史マンガ</option>
+						<option value="1">コメディ</option>
+						<option value="2">スポーツ</option>
+						<option value="3">ドラマ</option>
+						<option value="4">ビジネス</option>
+						<option value="5">ファンタジー</option>
+						<option value="6">ホラー</option>
+						<option value="7">ロマンス</option>
+						<option value="8">海外コミック</option>
+						<option value="9">絵本・童話</option>
+						<option value="10">格闘・アクション・冒険</option>
+						<option value="11">教養・学習</option>
+						<option value="12">推理・ミステリー</option>
+						<option value="13">料理・グルメ</option>
+						<option value="14">歴史マンガ</option>
 					</select>
 				</p>
 				<p>
 					<label for="price">値段(円)</label>
 				<div>
-					<select name="値段" style="width: 43%; margin-left: 12px;">
+					<select name="price1" style="width: 43%; margin-left: 12px;">
 						<option value="" selected>指定なし</option>
 						<option value="0">0</option>
 						<option value="100">100</option>
@@ -112,7 +112,7 @@
 						<option value="800">800</option>
 						<option value="900">900</option>
 						<option value="1000">1000</option>
-					</select> &emsp;～&emsp; <select name="値段" style="width: 43%;">
+					</select> &emsp;～&emsp; <select name="price2" style="width: 43%;">
 						<option value="" selected>指定なし</option>
 						<option value="0">0</option>
 						<option value="100">100</option>
