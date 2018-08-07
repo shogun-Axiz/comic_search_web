@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -27,40 +29,43 @@
 
 <script>
 	$(function() {
-	  $(".xdate").datepicker( {
-	    changeYear: true,  // 年選択をプルダウン化
-	    changeMonth: true , // 月選択をプルダウン化
-	    yearRange: "-50:+1"
-	  } );
+		$(".xdate").datepicker({
+			changeYear : true, // 年選択をプルダウン化
+			changeMonth : true, // 月選択をプルダウン化
+			yearRange : "-50:+1"
+		});
 
-	  // 日本語化
-	  $.datepicker.regional['ja'] = {
-	    closeText: '閉じる',
-	    prevText: '<前',
+		// 日本語化
+		$.datepicker.regional['ja'] = {
+			closeText : '閉じる',
+			prevText : '<前',
 	    nextText: '次>',
-	    currentText: '今日',
-	    monthNames: ['1月','2月','3月','4月','5月','6月',
-	    '7月','8月','9月','10月','11月','12月'],
-	    monthNamesShort: ['1月','2月','3月','4月','5月','6月',
-	    '7月','8月','9月','10月','11月','12月'],
-	    dayNames: ['日曜日','月曜日','火曜日','水曜日','木曜日','金曜日','土曜日'],
-	    dayNamesShort: ['日','月','火','水','木','金','土'],
-	    dayNamesMin: ['日','月','火','水','木','金','土'],
-	    weekHeader: '週',
-	    dateFormat: 'yy/mm/dd',
-	    firstDay: 0,
-	    isRTL: false,
-	    showMonthAfterYear: true,
-	    yearSuffix: '年'};
-	  $.datepicker.setDefaults($.datepicker.regional['ja']);
+			currentText : '今日',
+			monthNames : [ '1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月',
+					'9月', '10月', '11月', '12月' ],
+			monthNamesShort : [ '1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月',
+					'9月', '10月', '11月', '12月' ],
+			dayNames : [ '日曜日', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日' ],
+			dayNamesShort : [ '日', '月', '火', '水', '木', '金', '土' ],
+			dayNamesMin : [ '日', '月', '火', '水', '木', '金', '土' ],
+			weekHeader : '週',
+			dateFormat : 'yy/mm/dd',
+			firstDay : 0,
+			isRTL : false,
+			showMonthAfterYear : true,
+			yearSuffix : '年'
+		};
+		$.datepicker.setDefaults($.datepicker.regional['ja']);
 	});
-	</script>
+</script>
 </head>
 <body>
 	<jsp:include page="include/header.jsp" flush="true" />
 	<div class="login">
 		<div class="login-triangle"></div>
-
+		<c:if test="${not empty msg}">
+			<p style="color: white;">${msg}</p>
+		</c:if>
 		<h2 class="login-header">漫画検索</h2>
 		<div style="background-color: snow">
 			<form class="login-container" action="comicSearch" method="GET">
@@ -79,7 +84,7 @@
 				<p>
 					<label for="category">カテゴリー</label> <select name="categoryId"
 						style="width: 100%;">
-						<option value="" selected>全て</option>
+						<option value="0" selected>全て</option>
 						<option value="1">コメディ</option>
 						<option value="2">スポーツ</option>
 						<option value="3">ドラマ</option>
@@ -100,7 +105,7 @@
 					<label for="price">値段(円)</label>
 				<div>
 					<select name="price1" style="width: 43%; margin-left: 12px;">
-						<option value="" selected>指定なし</option>
+						<option value="-1" selected>指定なし</option>
 						<option value="0">0</option>
 						<option value="100">100</option>
 						<option value="200">200</option>
@@ -113,7 +118,7 @@
 						<option value="900">900</option>
 						<option value="1000">1000</option>
 					</select> &emsp;～&emsp; <select name="price2" style="width: 43%;">
-						<option value="" selected>指定なし</option>
+						<option value="-1" selected>指定なし</option>
 						<option value="0">0</option>
 						<option value="100">100</option>
 						<option value="200">200</option>
@@ -149,6 +154,49 @@
 	</div>
 	</div>
 	</div>
+	<br>
+
+	<c:if test="${isSuccess == true}">
+	<h2>
+		<p style="text-align: center; color: white;">[検索結果]</p>
+	</h2>
+	<br>
+	<div id="comic">
+		<table border="1" align="center"
+			style="width: 90%; background-color: white; font-size: 18px;">
+			<thead>
+				<tr align="center">
+					<th class="sort" data-sort="title" style="background-color: #CCFFFF;">タイトル</th>
+					<th class="sort" data-sort="category" style="background-color: #CCFFFF;">カテゴリー</th>
+					<th class="sort" data-sort="publisher" style="background-color: #CCFFFF;">出版社</th>
+					<th class="sort" data-sort="price" style="background-color: #CCFFFF;">値段（円）</th>
+					<th class="sort" data-sort="releaseDate" style="background-color: #CCFFFF;">発売日</th>
+					<th class="sort" data-sort="authorName" style="background-color: #CCFFFF;">原作者名</th>
+				</tr>
+			</thead>
+			<tbody class="list">
+				<c:forEach var="list" items="${list}">
+						<tr align="center">
+							<td class="title"><a href="./book?comicId=${list.comicId}"
+								target="_blank">${fn:escapeXml(list.title)}</a></td>
+							<td class="category">${fn:escapeXml(list.categoryName)}</td>
+							<td class="auhtorName">${fn:escapeXml(list.authorName)}</td>
+							<td class="price">${fn:escapeXml(list.price)}</td>
+							<td class="releaseDate">${fn:escapeXml(list.releaseDate)}</td>
+							<td class="publisher">${fn:escapeXml(list.publisher)}</td>
+						</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
+	</c:if>
 	<jsp:include page="include/footer2.jsp" flush="true" />
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+<script>
+var options = {
+  valueNames: [ 'title', 'category', 'publisher', 'price', 'releaseDate', 'authorName' ]
+};
+var comicList = new List('comic', options);
+</script>
 </html>

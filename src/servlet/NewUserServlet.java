@@ -22,7 +22,7 @@ import service.UserService;
  * Servlet implementation class NewUser
  */
 @WebServlet("/newUser")
-public class NewUser extends HttpServlet {
+public class NewUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)

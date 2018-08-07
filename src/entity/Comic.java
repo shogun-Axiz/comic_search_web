@@ -7,6 +7,7 @@ public class Comic {
 	private UUID comicId;
 	private String title;
 	private Integer categoryId;
+	private String categoryName;
 	private Integer price;
 	private String publisher;
 	private String authorName;
@@ -23,12 +24,12 @@ public class Comic {
 
 	}
 
-	public Comic(UUID comicId, String title, Integer categoryId, Integer price, String publisher, String authorName,
+	public Comic(UUID comicId, String title, String categoryName, Integer price, String publisher, String authorName,
 			Date releaseDate, String synopsis, String link, String image, String createdUser, Date createdDate,
 			String modifiedUser, Date modifiedDate) {
 		this.comicId = comicId;
 		this.title = title;
-		this.categoryId = categoryId;
+		this.categoryName = categoryName;
 		this.price = price;
 		this.publisher = publisher;
 		this.authorName = authorName;
@@ -58,12 +59,12 @@ public class Comic {
 		this.title = title;
 	}
 
-	public Integer getCategoryId() {
-		return categoryId;
+	public String getCategoryName() {
+		return categoryName;
 	}
 
-	public void setCategoryId(Integer categoryId) {
-		this.categoryId = categoryId;
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
 
 	public Integer getPrice() {
