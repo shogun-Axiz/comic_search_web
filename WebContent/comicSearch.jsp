@@ -75,7 +75,7 @@
 				</p>
 				<p>
 					<label for="authorName">原作者名</label><input type="text"
-						name="authorName" placeholder="原作者名">
+						name="authorName" placeholder="原作者名" >
 				</p>
 				<p>
 					<label for="publisher">出版社</label><input type="text"
