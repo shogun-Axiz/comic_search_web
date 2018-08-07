@@ -33,7 +33,7 @@ public class ComicSearchServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 
 		String title = request.getParameter("title");
-		String authorName = request.getParameter("auhtorName");
+		String authorName = request.getParameter("authorName");
 		String publisher = request.getParameter("publisher");
 		String strCategoryId = request.getParameter("categoryId");
 		String strPrice1 = request.getParameter("price1");
@@ -66,6 +66,7 @@ public class ComicSearchServlet extends HttpServlet {
 			try {
 				java.util.Date day1 = sdf1.parse(strReleaseDate1);
 				releaseDate1 = new java.sql.Date(day1.getTime());
+				System.out.println(releaseDate1);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -93,6 +94,7 @@ public class ComicSearchServlet extends HttpServlet {
 			try {
 				java.util.Date day2 = sdf2.parse(strReleaseDate2);
 				releaseDate2 = new java.sql.Date(day2.getTime());
+				System.out.println(releaseDate2);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}

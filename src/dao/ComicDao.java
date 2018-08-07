@@ -77,15 +77,15 @@ public class ComicDao {
 					strList.add("price <= " + price2);
 				}
 				if ((releaseDate1 != null) && (!(releaseDate1.equals("")))) {
-					strList.add("update_at > " + releaseDate1);
+					strList.add("releasedate > '" + releaseDate1 + "'");
 				}
 				if ((releaseDate2 != null) && (!(releaseDate2.equals("")))) {
-					strList.add("update_at < " + releaseDate2);
+					strList.add("releasedate < '" + releaseDate2 + "'");
 				}
 
 				String DATA = String.join(" AND ", strList);
 
-				String data = TABLE_NAME + "WHERE " + DATA + LATE;
+				String data = TABLE_NAME + " WHERE " + DATA + LATE;
 
 				try (PreparedStatement stmt = conn.prepareStatement(data)) {
 					System.out.println(data);
