@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import entity.User;
@@ -12,6 +14,7 @@ public class UserDao {
 	private static final String SQL_SELECT_MAIL_AND_PASS = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE email = ? AND password = ?";
 	private static final String SQL_SELECT_MAIL = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE email = ?";
 	private static final String SQL_SELECT_PASS = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE password = ?";
+	private static final String SQL_SELECT_NAME = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE username = ?";
 	private static final String SQL_INSERT_ALL = "INSERT INTO users (userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	private Connection conn;
@@ -89,5 +92,27 @@ public class UserDao {
 			throw new RuntimeException(e);
 		}
 	}
+
+	public List<User> findByName(String userName) {
+		List<User> list = new ArrayList<User>();
+
+		try (PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_NAME)) {
+			stmt.setString(1, userName);
+
+			ResultSet rs = stmt.executeQuery();
+
+			while(rs.next()) {
+				User u = new User( (UUID.fromString(rs.getString("userid"))), rs.getString("email"),
+						rs.getString("username"), rs.getString("password"), rs.getDate("birthday"),
+						rs.getDate("joindate"), rs.getDate("withdrawaldate"), rs.getBoolean("adminflg"),
+						rs.getString("modifieduser"), rs.getDate("modifieddate"));
+				list.add(u);
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return list;
+	}
+
 
 }

@@ -1,17 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <script type="text/javascript">
 <!--
-
-function logout(){
+	function logout() {
 		alert("ログアウトしました \nログイン画面に戻ります");
-		location.href = "index.jsp";
-}
-
+		location.href = "./logout";
+	}
 // -->
 </script>
 </head>

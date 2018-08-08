@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -19,12 +20,15 @@
 <!--
 	function logout() {
 		alert("ログアウトしました \nログイン画面に戻ります");
-		location.href = "index.jsp";
+		location.href = "./logout";
 	}
 // -->
 </script>
 </head>
 <body>
+	<c:if test="${empty username}">
+		<c:redirect url="index.jsp" />
+	</c:if>
 	<header style="background-color: blue;">
 		<div style="text-align: right;">
 			<div style="text-align: left;">

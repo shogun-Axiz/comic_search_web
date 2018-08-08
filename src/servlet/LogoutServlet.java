@@ -1,8 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,33 +9,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import entity.User;
-import service.UserService;
-
 /**
- * Servlet implementation class AccountEditServlet
+ * Servlet implementation class LogoutServlet
  */
-@WebServlet("/accountEdit")
-public class ToAccountEditServlet extends HttpServlet {
+@WebServlet("/logout")
+public class LogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
 
 		HttpSession session = request.getSession();
 
 		String userName = (String) session.getAttribute("username");
-		System.out.println(userName);
 
-		UserService userService = new UserService();
-
-		try {
-			List<User> user = userService.authentication4(userName);
-			request.setAttribute("user", user);
-			request.getRequestDispatcher("accountEdit.jsp").forward(request, response);
-		} catch (SQLException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
+		if(userName != null) {
+			userName = null;
+			session.setAttribute("username", userName);
+			request.getRequestDispatcher("index.jsp").forward(request, response);
+		}else {
+			request.getRequestDispatcher("index.jsp").forward(request, response);
 		}
 	}
 

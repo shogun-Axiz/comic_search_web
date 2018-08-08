@@ -31,11 +31,12 @@
 					rePassword : document.getElementById("rePassword").value,
 					birthday : document.getElementById("xxdate").value
 			};
-			$.ajax({
+			var result = $.ajax({
 				type : 'GET',
 				url : url,
 				data :request,
 				dataType : 'text',
+				async : false,
 				success : function(data) {
 					//取得成功したら実行する処理
 					alert(data);
@@ -65,6 +66,7 @@
 		// 「キャンセル」時の処理終了
 
 	}
+	var result = disp();
 </script>
 <link rel="stylesheet" href="themes/base/jquery.ui.all.css" />
 <script type="text/javascript" src="jquery-1.4.2.js"></script>

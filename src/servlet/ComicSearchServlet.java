@@ -43,14 +43,14 @@ public class ComicSearchServlet extends HttpServlet {
 		String strReleaseDate1 = request.getParameter("releaseDate1");
 		String strReleaseDate2 = request.getParameter("releaseDate2");
 
-		session.setAttribute("title", title);
-		session.setAttribute("authorName", authorName);
-		session.setAttribute("publisher", publisher);
-		session.setAttribute("strCategoryId", strCategoryId);
-		session.setAttribute("strPrice1", strPrice1);
-		session.setAttribute("strPrice2", strPrice2);
-		session.setAttribute("strReleaseDate1", strReleaseDate1);
-		session.setAttribute("strReleaseDate2", strReleaseDate2);
+		request.setAttribute("title", title);
+		request.setAttribute("authorName", authorName);
+		request.setAttribute("publisher", publisher);
+		request.setAttribute("strCategoryId", strCategoryId);
+		request.setAttribute("strPrice1", strPrice1);
+		request.setAttribute("strPrice2", strPrice2);
+		request.setAttribute("strReleaseDate1", strReleaseDate1);
+		request.setAttribute("strReleaseDate2", strReleaseDate2);
 
 		Integer categoryId = Integer.parseInt(strCategoryId);
 		Integer price1 = Integer.parseInt(strPrice1);

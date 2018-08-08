@@ -2,6 +2,7 @@ package service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import dao.UserDao;
 import entity.User;
@@ -60,15 +61,33 @@ public class UserService {
 		return null;
 	}
 
-	public int registration(User regist) {
-		try (Connection conn = DbUtil.getConnection()) {
+	public int registration(User regist) throws SQLException {
+		Connection conn = DbUtil.getConnection();
+		try  {
 			UserDao userDao = new UserDao(conn);
 			return userDao.registration(regist);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		} finally {
+            // コネクションの解放
+            conn.close();
+        }
 
 		return 0;
+	}
+
+	public List<User> authentication4(String userName) throws SQLException {
+		Connection conn = DbUtil.getConnection();
+		try  {
+			UserDao userDao = new UserDao(conn);
+			return userDao.findByName(userName);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+            // コネクションの解放
+            conn.close();
+        }
+		return null;
 	}
 
 }

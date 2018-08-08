@@ -3,6 +3,7 @@ package servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -123,7 +124,12 @@ public class NewUserServlet extends HttpServlet {
 
 			UserService userService = new UserService();
 
-			userService.registration(regist);
+			try {
+				userService.registration(regist);
+			} catch (SQLException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+			}
 
 		}
 

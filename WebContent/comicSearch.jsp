@@ -30,6 +30,9 @@
 <script src="js/calendar.js"></script>
 </head>
 <body>
+	<c:if test="${empty username}">
+		<c:redirect url="index.jsp" />
+	</c:if>
 	<jsp:include page="include/header.jsp" flush="true" />
 	<div class="login">
 		<div class="login-triangle"></div>
@@ -49,8 +52,8 @@
 						name="publisher" placeholder="出版社" value="${publisher}">
 				</p>
 				<p>
-					<label for="category">カテゴリー</label> <select id="catSel" name="categoryId"
-						style="width: 100%;" >
+					<label for="category">カテゴリー</label> <select id="catSel"
+						name="categoryId" style="width: 100%;">
 						<option value="0" selected>全て</option>
 						<c:forEach var="cat" items="${cat}">
 							<option value="${cat.categoryId }">${cat.categoryName }</option>
@@ -60,7 +63,8 @@
 				<p>
 					<label for="price">値段(円)</label>
 				<div>
-					<select name="price1" style="width: 43%; margin-left: 12px;" value="${strPrice1}">
+					<select id="priceSel1" name="price1"
+						style="width: 43%; margin-left: 12px;">
 						<option value="-1" selected>指定なし</option>
 						<option value="0">0</option>
 						<option value="100">100</option>
@@ -73,9 +77,8 @@
 						<option value="800">800</option>
 						<option value="900">900</option>
 						<option value="1000">1000</option>
-					</select>
-					 &emsp;～&emsp;
-					 <select id="catSel" name="price2" style="width: 43%;">
+					</select> &emsp;～&emsp; <select id="priceSel2" name="price2"
+						style="width: 43%;">
 						<option value="-1" selected>指定なし</option>
 						<option value="0">0</option>
 						<option value="100">100</option>
@@ -96,11 +99,9 @@
 				<div>
 					<input type="text" id="xxdate1" class="xdate"
 						style="width: 43%; margin-left: 11px;" name="releaseDate1"
-						placeholder="発売日" value="${strReleaseDate1}"/>
-					&emsp;～&emsp;
-					<input type="text" id="xxdate2"
-						class="xdate" style="width: 43%" name="releaseDate2"
-						placeholder="発売日" value="${strReleaseDate2}"/>
+						placeholder="発売日" value="${strReleaseDate1}" /> &emsp;～&emsp; <input
+						type="text" id="xxdate2" class="xdate" style="width: 43%"
+						name="releaseDate2" placeholder="発売日" value="${strReleaseDate2}" />
 					<div>
 						</p>
 						<h2>
@@ -116,30 +117,37 @@
 	</div>
 	<br>
 	<c:if test="${not empty msg}">
-			<p style="color: white; font-size : 24px; text-align : center;">${msg}</p>
+		<p style="color: white; font-size: 24px; text-align: center;">${msg}</p>
 	</c:if>
 	<c:if test="${isSuccess == true}">
-	<h2>
-		<p style="text-align: center; color: white;">[検索結果]</p>
-	</h2>
-	<br>
-	<p style="text-align: center; color: white;">各項目名をクリックすると並び替えができます（asc : 昇順  desc : 降順）</p>
-	<br>
-	<div id="comic">
-		<table border="1" align="center"
-			style="width: 90%; background-color: white; font-size: 18px;">
-			<thead>
-				<tr align="center">
-					<th class="sort" data-sort="title" style="background-color: #CCFFFF;">タイトル</th>
-					<th class="sort" data-sort="category" style="background-color: #CCFFFF;">カテゴリー</th>
-					<th class="sort" data-sort="publisher" style="background-color: #CCFFFF;">出版社</th>
-					<th class="sort" data-sort="price" style="background-color: #CCFFFF;">値段（円）</th>
-					<th class="sort" data-sort="releaseDate" style="background-color: #CCFFFF;">発売日</th>
-					<th class="sort" data-sort="authorName" style="background-color: #CCFFFF;">原作者名</th>
-				</tr>
-			</thead>
-			<tbody class="list">
-				<c:forEach var="list" items="${list}">
+		<h2>
+			<p style="text-align: center; color: white;">[検索結果]</p>
+		</h2>
+		<br>
+		<p style="text-align: center; color: white;">各項目名をクリックすると並び替えができます（asc
+			: 昇順 desc : 降順）</p>
+		<br>
+		<div id="comic">
+			<table border="1" align="center"
+				style="width: 90%; background-color: white; font-size: 18px;">
+				<thead>
+					<tr align="center">
+						<th class="sort" data-sort="title"
+							style="background-color: #CCFFFF;">タイトル</th>
+						<th class="sort" data-sort="category"
+							style="background-color: #CCFFFF;">カテゴリー</th>
+						<th class="sort" data-sort="publisher"
+							style="background-color: #CCFFFF;">出版社</th>
+						<th class="sort" data-sort="price"
+							style="background-color: #CCFFFF;">値段（円）</th>
+						<th class="sort" data-sort="releaseDate"
+							style="background-color: #CCFFFF;">発売日</th>
+						<th class="sort" data-sort="authorName"
+							style="background-color: #CCFFFF;">原作者名</th>
+					</tr>
+				</thead>
+				<tbody class="list">
+					<c:forEach var="list" items="${list}">
 						<tr align="center">
 							<td class="title"><a href="./book?comicId=${list.comicId}"
 								target="_blank">${fn:escapeXml(list.title)}</a></td>
@@ -149,19 +157,32 @@
 							<td class="releaseDate">${fn:escapeXml(list.releaseDate)}</td>
 							<td class="publisher">${fn:escapeXml(list.publisher)}</td>
 						</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-	</div>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
 	</c:if>
 	<jsp:include page="include/footer2.jsp" flush="true" />
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
 <script>
-var options = {
-  valueNames: [ 'title', 'category', 'publisher', 'price', 'releaseDate', 'authorName' ]
-};
-var comicList = new List('comic', options);
+	var options = {
+		valueNames : [ 'title', 'category', 'publisher', 'price',
+				'releaseDate', 'authorName' ]
+	};
+	var comicList = new List('comic', options);
+
+	$(function() {
+		$("#catSel").val("${strCategoryId}");
+	});
+
+	$(function() {
+		$("#priceSel1").val("${strPrice1}");
+	});
+
+	$(function() {
+		$("#priceSel2").val("${strPrice2}");
+	});
 </script>
-<script src="js/select.js"></script>
 </html>
