@@ -3,6 +3,7 @@ package service;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
 
 import dao.UserDao;
 import entity.User;
@@ -76,11 +77,11 @@ public class UserService {
 		return 0;
 	}
 
-	public List<User> authentication4(String userName) throws SQLException {
+	public List<User> authentication4(UUID userId) throws SQLException {
 		Connection conn = DbUtil.getConnection();
 		try  {
 			UserDao userDao = new UserDao(conn);
-			return userDao.findByName(userName);
+			return userDao.findById(userId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -88,6 +89,21 @@ public class UserService {
             conn.close();
         }
 		return null;
+	}
+
+	public int update(User updateData) throws SQLException {
+		Connection conn = DbUtil.getConnection();
+		try  {
+			UserDao userDao = new UserDao(conn);
+			return userDao.update(updateData);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+            // コネクションの解放
+            conn.close();
+        }
+
+		return 0;
 	}
 
 }

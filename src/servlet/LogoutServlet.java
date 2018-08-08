@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,11 +24,14 @@ public class LogoutServlet extends HttpServlet {
 
 		HttpSession session = request.getSession();
 
+		UUID userId = (UUID) session.getAttribute("userid");
 		String userName = (String) session.getAttribute("username");
 
-		if (userName != null) {
+		if ((userName != null) && (userId != null)){
 			userName = null;
+			userId = null;
 			session.setAttribute("username", userName);
+			session.setAttribute("userid", userId);
 		}
 
 		request.getRequestDispatcher("index.jsp").forward(request, response);

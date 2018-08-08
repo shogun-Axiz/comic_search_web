@@ -3,6 +3,7 @@ package servlet;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -65,8 +66,11 @@ public class LoginServlet extends HttpServlet {
 			} else {
 				boolean adminFlg = user.isAdminFlg();
 				String userName = user.getUserName();
+				UUID userId = user.getUserId();
 
 				HttpSession session = request.getSession();
+
+				session.setAttribute("userid", userId);
 				session.setAttribute("username", userName);
 				if (adminFlg == true) {
 					request.getRequestDispatcher("adminTop.jsp").forward(request, response);

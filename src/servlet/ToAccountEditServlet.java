@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,23 +28,21 @@ public class ToAccountEditServlet extends HttpServlet {
 
 		HttpSession session = request.getSession();
 
-		String userName = (String) session.getAttribute("username");
-		System.out.println(userName);
+		UUID userId = (UUID) session.getAttribute("userid");
+		System.out.println(userId);
 
 		UserService userService = new UserService();
 
 		try {
-			List<User> user = userService.authentication4(userName);
+			List<User> user = userService.authentication4(userId);
 
+			String userName = user.get(0).getUserName();
 			String email = user.get(0).getEmail();
-			System.out.println(email);
 			Date birthday = user.get(0).getBirthday();
-			System.out.println(birthday);
-
-			request.setAttribute("email", email);
-			request.setAttribute("birthday", birthday);
 
 			request.setAttribute("username", userName);
+			request.setAttribute("email", email);
+			request.setAttribute("birthday", birthday);
 
 			request.getRequestDispatcher("accountEdit.jsp").forward(request, response);
 		} catch (SQLException e) {

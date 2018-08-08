@@ -14,8 +14,9 @@ public class UserDao {
 	private static final String SQL_SELECT_MAIL_AND_PASS = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE email = ? AND password = ?";
 	private static final String SQL_SELECT_MAIL = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE email = ?";
 	private static final String SQL_SELECT_PASS = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE password = ?";
-	private static final String SQL_SELECT_NAME = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE username = ?";
+	private static final String SQL_SELECT_ID = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE userid = ?";
 	private static final String SQL_INSERT_ALL = "INSERT INTO users (userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String SQL_UPDATE_ALL = "UPDATE  users SET email = ?, username = ?, password = ?, birthday = ?, joindate = ?, withdrawaldate = ?, adminflg = ?, modifieduser = ?, modifieddate = ? WHERE userid = ?";
 
 	private Connection conn;
 
@@ -85,7 +86,6 @@ public class UserDao {
 			stmt.setString(9, regist.getModifiedUser());
 			stmt.setDate(10, regist.getModifiedDate());
 
-			System.out.println("postgres     > " + stmt.toString());
 			return stmt.executeUpdate();
 
 		}catch(SQLException e) {
@@ -93,13 +93,12 @@ public class UserDao {
 		}
 	}
 
-	public List<User> findByName(String userName) {
+	public List<User> findById(UUID userId) {
 		List<User> list = new ArrayList<User>();
 
-		try (PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_NAME)) {
-			System.out.println(SQL_SELECT_NAME);
+		try (PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_ID)) {
 
-			stmt.setString(1, userName);
+			stmt.setObject(1, userId);
 
 			ResultSet rs = stmt.executeQuery();
 
@@ -114,6 +113,17 @@ public class UserDao {
 			throw new RuntimeException(e);
 		}
 		return list;
+	}
+
+	public int update(User updateData) {
+		try (PreparedStatement stmt = conn.prepareStatement(SQL_UPDATE_ALL)){
+			stmt.setString(1, updateData.getEmail());
+
+			return stmt.executeUpdate();
+
+		}catch(SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 
