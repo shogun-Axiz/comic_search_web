@@ -30,8 +30,6 @@ public class BookServlet extends HttpServlet {
 
 		UUID comicId = UUID.fromString(strComicId);
 
-		System.out.println(comicId);
-
 		ComicService comicService = new ComicService();
 
 		try {

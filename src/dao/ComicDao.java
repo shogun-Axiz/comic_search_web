@@ -88,7 +88,6 @@ public class ComicDao {
 				String data = TABLE_NAME + " WHERE " + DATA + LATE;
 
 				try (PreparedStatement stmt = conn.prepareStatement(data)) {
-					System.out.println(data);
 
 					ResultSet rs = stmt.executeQuery();
 
@@ -123,7 +122,6 @@ public class ComicDao {
 		String DATA = String.join("", strList);
 
 		String data = TABLE_NAME + " WHERE " + DATA + LATE;
-		System.out.println(data);
 		List<Comic> list = new ArrayList<Comic>();
 		try (PreparedStatement stmt = conn.prepareStatement(data)) {
 

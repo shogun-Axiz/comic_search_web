@@ -15,7 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import entity.Category;
 import entity.Comic;
+import service.CategoryService;
 import service.ComicService;
 
 /**
@@ -40,6 +42,15 @@ public class ComicSearchServlet extends HttpServlet {
 		String strPrice2 = request.getParameter("price2");
 		String strReleaseDate1 = request.getParameter("releaseDate1");
 		String strReleaseDate2 = request.getParameter("releaseDate2");
+
+		session.setAttribute("title", title);
+		session.setAttribute("authorName", authorName);
+		session.setAttribute("publisher", publisher);
+		session.setAttribute("strCategoryId", strCategoryId);
+		session.setAttribute("strPrice1", strPrice1);
+		session.setAttribute("strPrice2", strPrice2);
+		session.setAttribute("strReleaseDate1", strReleaseDate1);
+		session.setAttribute("strReleaseDate2", strReleaseDate2);
 
 		Integer categoryId = Integer.parseInt(strCategoryId);
 		Integer price1 = Integer.parseInt(strPrice1);
@@ -66,7 +77,6 @@ public class ComicSearchServlet extends HttpServlet {
 			try {
 				java.util.Date day1 = sdf1.parse(strReleaseDate1);
 				releaseDate1 = new java.sql.Date(day1.getTime());
-				System.out.println(releaseDate1);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -94,7 +104,6 @@ public class ComicSearchServlet extends HttpServlet {
 			try {
 				java.util.Date day2 = sdf2.parse(strReleaseDate2);
 				releaseDate2 = new java.sql.Date(day2.getTime());
-				System.out.println(releaseDate2);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -114,7 +123,19 @@ public class ComicSearchServlet extends HttpServlet {
 			if (isSuccess == true) {
 
 				request.setAttribute("isSuccess", isSuccess);
-				request.getRequestDispatcher("comicSearch.jsp").forward(request, response);
+
+				CategoryService categoryService = new CategoryService();
+				try {
+					List<Category> cat = categoryService.authentication();
+					boolean isSuccess2 = cat.size() != 0;
+					if(isSuccess2 == true) {
+						request.setAttribute("cat", cat);
+						request.getRequestDispatcher("comicSearch.jsp").forward(request, response);
+					}
+				} catch (SQLException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+				}
 
 			} else {
 				// メッセージ設定

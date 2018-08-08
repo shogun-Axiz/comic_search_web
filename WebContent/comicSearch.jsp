@@ -33,27 +33,24 @@
 	<jsp:include page="include/header.jsp" flush="true" />
 	<div class="login">
 		<div class="login-triangle"></div>
-		<c:if test="${not empty msg}">
-			<p style="color: white;">${msg}</p>
-		</c:if>
 		<h2 class="login-header">漫画検索</h2>
 		<div style="background-color: snow">
 			<form class="login-container" action="comicSearch" method="GET">
 				<p>
 					<label for="title">タイトル</label><input type="text" name="title"
-						placeholder="タイトル">
+						placeholder="タイトル" value="${title}">
 				</p>
 				<p>
 					<label for="authorName">原作者名</label><input type="text"
-						name="authorName" placeholder="原作者名" >
+						name="authorName" placeholder="原作者名" value="${authorName}">
 				</p>
 				<p>
 					<label for="publisher">出版社</label><input type="text"
-						name="publisher" placeholder="出版社">
+						name="publisher" placeholder="出版社" value="${publisher}">
 				</p>
 				<p>
-					<label for="category">カテゴリー</label> <select name="categoryId"
-						style="width: 100%;">
+					<label for="category">カテゴリー</label> <select id="catSel" name="categoryId"
+						style="width: 100%;" >
 						<option value="0" selected>全て</option>
 						<c:forEach var="cat" items="${cat}">
 							<option value="${cat.categoryId }">${cat.categoryName }</option>
@@ -63,7 +60,7 @@
 				<p>
 					<label for="price">値段(円)</label>
 				<div>
-					<select name="price1" style="width: 43%; margin-left: 12px;">
+					<select name="price1" style="width: 43%; margin-left: 12px;" value="${strPrice1}">
 						<option value="-1" selected>指定なし</option>
 						<option value="0">0</option>
 						<option value="100">100</option>
@@ -76,7 +73,9 @@
 						<option value="800">800</option>
 						<option value="900">900</option>
 						<option value="1000">1000</option>
-					</select> &emsp;～&emsp; <select name="price2" style="width: 43%;">
+					</select>
+					 &emsp;～&emsp;
+					 <select id="catSel" name="price2" style="width: 43%;">
 						<option value="-1" selected>指定なし</option>
 						<option value="0">0</option>
 						<option value="100">100</option>
@@ -96,10 +95,12 @@
 					<label for="releaseDate">発売日</label>
 				<div>
 					<input type="text" id="xxdate1" class="xdate"
-						style="width: 44%; margin-left: 11px;" name="releaseDate1"
-						placeholder="発売日" />&emsp;～&emsp;<input type="text" id="xxdate2"
-						class="xdate" style="width: 44%" name="releaseDate2"
-						placeholder="発売日" />
+						style="width: 43%; margin-left: 11px;" name="releaseDate1"
+						placeholder="発売日" value="${strReleaseDate1}"/>
+					&emsp;～&emsp;
+					<input type="text" id="xxdate2"
+						class="xdate" style="width: 43%" name="releaseDate2"
+						placeholder="発売日" value="${strReleaseDate2}"/>
 					<div>
 						</p>
 						<h2>
@@ -114,11 +115,15 @@
 	</div>
 	</div>
 	<br>
-
+	<c:if test="${not empty msg}">
+			<p style="color: white; font-size : 24px; text-align : center;">${msg}</p>
+	</c:if>
 	<c:if test="${isSuccess == true}">
 	<h2>
 		<p style="text-align: center; color: white;">[検索結果]</p>
 	</h2>
+	<br>
+	<p style="text-align: center; color: white;">各項目名をクリックすると並び替えができます（asc : 昇順  desc : 降順）</p>
 	<br>
 	<div id="comic">
 		<table border="1" align="center"
@@ -158,4 +163,5 @@ var options = {
 };
 var comicList = new List('comic', options);
 </script>
+<script src="js/select.js"></script>
 </html>

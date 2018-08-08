@@ -1,0 +1,6 @@
+/**
+ *
+ */
+$(function(){
+	$("#catSel").val("${strCategoryId}");
+});
