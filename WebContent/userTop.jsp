@@ -47,7 +47,7 @@
 
 		<h2 class="login-header">会員メニュー</h2>
 		<div style="background-color: snow">
-			<form action="comicSearch.jsp">
+			<form action="toComicSearch">
 				<p>
 					<input type="submit" value="漫画検索">
 				</p>

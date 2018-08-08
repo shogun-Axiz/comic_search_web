@@ -45,14 +45,19 @@ public class LoginServlet extends HttpServlet {
 		try {
 			user = userService.authentication(email, password);
 		} catch (SQLException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
+
+			request.setAttribute("msg", "サーバーエラーが発生しました\r\n" + "製造元に問い合わせてください");
+
+			request.getRequestDispatcher("index.jsp").forward(request, response);
+
+			return;
+
 		}
 		boolean isSuccess = (user != null);
 
 		if (isSuccess) {
 			Date withdrawaldate = user.getWithdrawalDate();
-			System.out.println(withdrawaldate);
 			if (withdrawaldate != null) {
 				request.setAttribute("msg", "入力されたアカウントは既に退会されております");
 
@@ -70,51 +75,9 @@ public class LoginServlet extends HttpServlet {
 				}
 			}
 		} else {
-			User user1 = null;
-			try {
-				user1 = userService.authentication2(email);
-			} catch (SQLException e) {
-				// TODO 自動生成された catch ブロック
-				e.printStackTrace();
-			}
-			if (user1 == null) {
-				User user2 = null;
-				try {
-					user2 = userService.authentication3(password);
-				} catch (SQLException e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
-				}
-				if(user2 == null) {
-					request.setAttribute("msg", "メールアドレスあるいはパスワードが間違っています");
+			request.setAttribute("msg", "メールアドレスあるいはパスワードが間違っています");
 
-					request.getRequestDispatcher("index.jsp").forward(request, response);
-				}else {
-					String email2 = user2.getEmail();
-					if(!(email.equals(email2))) {
-						request.setAttribute("msg", "メールアドレスあるいはパスワードが間違っています");
-
-						request.getRequestDispatcher("index.jsp").forward(request, response);
-					}else {
-						request.setAttribute("msg", "サーバーエラーが発生しました\r\n" + "製造元に問い合わせてください");
-
-						request.getRequestDispatcher("index.jsp").forward(request, response);
-					}
-				}
-
-			} else {
-				String password2 = user1.getPassword();
-				System.out.println(password2);
-				if (!(password.equals(password2))) {
-					request.setAttribute("msg", "メールアドレスあるいはパスワードが間違っています");
-
-					request.getRequestDispatcher("index.jsp").forward(request, response);
-				} else {
-					request.setAttribute("msg", "サーバーエラーが発生しました\r\n" + "製造元に問い合わせてください");
-
-					request.getRequestDispatcher("index.jsp").forward(request, response);
-				}
-			}
+			request.getRequestDispatcher("index.jsp").forward(request, response);
 
 		}
 	}

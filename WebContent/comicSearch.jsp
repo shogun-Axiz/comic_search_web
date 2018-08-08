@@ -27,37 +27,7 @@
 <script type="text/javascript"
 	src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
 
-<script>
-	$(function() {
-		$(".xdate").datepicker({
-			changeYear : true, // 年選択をプルダウン化
-			changeMonth : true, // 月選択をプルダウン化
-			yearRange : "-50:+1"
-		});
-
-		// 日本語化
-		$.datepicker.regional['ja'] = {
-			closeText : '閉じる',
-			prevText : '<前',
-	    nextText: '次>',
-			currentText : '今日',
-			monthNames : [ '1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月',
-					'9月', '10月', '11月', '12月' ],
-			monthNamesShort : [ '1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月',
-					'9月', '10月', '11月', '12月' ],
-			dayNames : [ '日曜日', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日' ],
-			dayNamesShort : [ '日', '月', '火', '水', '木', '金', '土' ],
-			dayNamesMin : [ '日', '月', '火', '水', '木', '金', '土' ],
-			weekHeader : '週',
-			dateFormat : 'yy/mm/dd',
-			firstDay : 0,
-			isRTL : false,
-			showMonthAfterYear : true,
-			yearSuffix : '年'
-		};
-		$.datepicker.setDefaults($.datepicker.regional['ja']);
-	});
-</script>
+<script src="js/calendar.js"></script>
 </head>
 <body>
 	<jsp:include page="include/header.jsp" flush="true" />
@@ -85,20 +55,9 @@
 					<label for="category">カテゴリー</label> <select name="categoryId"
 						style="width: 100%;">
 						<option value="0" selected>全て</option>
-						<option value="1">コメディ</option>
-						<option value="2">スポーツ</option>
-						<option value="3">ドラマ</option>
-						<option value="4">ビジネス</option>
-						<option value="5">ファンタジー</option>
-						<option value="6">ホラー</option>
-						<option value="7">ロマンス</option>
-						<option value="8">海外コミック</option>
-						<option value="9">絵本・童話</option>
-						<option value="10">格闘・アクション・冒険</option>
-						<option value="11">教養・学習</option>
-						<option value="12">推理・ミステリー</option>
-						<option value="13">料理・グルメ</option>
-						<option value="14">歴史マンガ</option>
+						<c:forEach var="cat" items="${cat}">
+							<option value="${cat.categoryId }">${cat.categoryName }</option>
+						</c:forEach>
 					</select>
 				</p>
 				<p>

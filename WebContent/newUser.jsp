@@ -77,37 +77,7 @@
 <script type="text/javascript"
 	src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
 
-<script>
-	$(function() {
-		$("#xxdate").datepicker({
-			changeYear : true, // 年選択をプルダウン化
-			changeMonth : true, // 月選択をプルダウン化
-			yearRange : "-50:+1"
-		});
-
-		// 日本語化
-		$.datepicker.regional['ja'] = {
-			closeText : '閉じる',
-			prevText : '<前',
-	    nextText: '次>',
-			currentText : '今日',
-			monthNames : [ '1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月',
-					'9月', '10月', '11月', '12月' ],
-			monthNamesShort : [ '1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月',
-					'9月', '10月', '11月', '12月' ],
-			dayNames : [ '日曜日', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日' ],
-			dayNamesShort : [ '日', '月', '火', '水', '木', '金', '土' ],
-			dayNamesMin : [ '日', '月', '火', '水', '木', '金', '土' ],
-			weekHeader : '週',
-			dateFormat : 'yy/mm/dd',
-			firstDay : 0,
-			isRTL : false,
-			showMonthAfterYear : true,
-			yearSuffix : '年'
-		};
-		$.datepicker.setDefaults($.datepicker.regional['ja']);
-	});
-</script>
+<script src="js/calendar.js"></script>
 </head>
 <body>
 	<header style="background-color: blue;">
@@ -124,27 +94,27 @@
 		<div class="login-triangle"></div>
 
 		<h2 class="login-header">新規会員登録</h2>
-		<div id="error" style="color : white;"></div>
+		<div id="error" style="color: white;"></div>
 		<form class="login-container" method="GET">
 			<p>
 				<label for="email">メールアドレス</label><input type="text" id="email"
-					placeholder="メールアドレス">
+					name="email" placeholder="メールアドレス">
 			</p>
 			<p>
 				<label for="username">ユーザーネーム</label><input type="text"
-					id="username" placeholder="ユーザーネーム">
+					name="username" id="username" placeholder="ユーザーネーム">
 			</p>
 			<p>
 				<label for="password">パスワード</label><input type="password"
-					id="password" placeholder="パスワード">
+					name="password" id="password" placeholder="パスワード">
 			</p>
 			<p>
 				<label for="rePassword">パスワード（再入力）</label><input type="password"
-					id="rePassword" placeholder="パスワード(再入力)">
+					name="rePassword" id="rePassword" placeholder="パスワード(再入力)">
 			</p>
 			<p>
-				<label for="birthday">生年月日</label><input type="text" id="xxdate"
-					placeholder="生年月日">
+				<label for="birthday">生年月日</label><input type="text" class="xdate"
+					id="xxdate" name="birthday" placeholder="生年月日">
 			</p>
 			<h2>
 				<input type="button" value="登録" onClick="disp()"
