@@ -16,7 +16,8 @@ import javax.servlet.http.HttpSession;
 public class LogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
 
@@ -24,13 +25,12 @@ public class LogoutServlet extends HttpServlet {
 
 		String userName = (String) session.getAttribute("username");
 
-		if(userName != null) {
+		if (userName != null) {
 			userName = null;
 			session.setAttribute("username", userName);
-			request.getRequestDispatcher("index.jsp").forward(request, response);
-		}else {
-			request.getRequestDispatcher("index.jsp").forward(request, response);
 		}
+
+		request.getRequestDispatcher("index.jsp").forward(request, response);
 	}
 
 }

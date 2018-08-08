@@ -97,6 +97,8 @@ public class UserDao {
 		List<User> list = new ArrayList<User>();
 
 		try (PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_NAME)) {
+			System.out.println(SQL_SELECT_NAME);
+
 			stmt.setString(1, userName);
 
 			ResultSet rs = stmt.executeQuery();

@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -33,7 +34,17 @@ public class ToAccountEditServlet extends HttpServlet {
 
 		try {
 			List<User> user = userService.authentication4(userName);
-			request.setAttribute("user", user);
+
+			String email = user.get(0).getEmail();
+			System.out.println(email);
+			Date birthday = user.get(0).getBirthday();
+			System.out.println(birthday);
+
+			request.setAttribute("email", email);
+			request.setAttribute("birthday", birthday);
+
+			request.setAttribute("username", userName);
+
 			request.getRequestDispatcher("accountEdit.jsp").forward(request, response);
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
