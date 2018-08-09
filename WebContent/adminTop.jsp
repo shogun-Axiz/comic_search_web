@@ -53,7 +53,7 @@
 
 		<h2 class="login-header">管理者メニュー</h2>
 		<div style="background-color: snow">
-			<form action="comicInfoManagement.jsp">
+			<form action="toComicInfoManagement">
 				<p>
 					<input type="submit" value="漫画情報管理ページ">
 				</p>
