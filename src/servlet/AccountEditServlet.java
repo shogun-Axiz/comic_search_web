@@ -31,7 +31,8 @@ public class AccountEditServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
 
@@ -41,7 +42,24 @@ public class AccountEditServlet extends HttpServlet {
 		String rePassword = request.getParameter("rePassword");
 		String strBirthday = request.getParameter("birthday");
 
+		HttpSession session = request.getSession();
+
 		String msg = "";
+
+		//会員ID
+		UUID userId = (UUID) session.getAttribute("userid");
+
+		UserService userService = new UserService();
+
+		List<User> user = null;
+		try {
+			user = userService.authentication4(userId);
+		} catch (SQLException e1) {
+			// TODO 自動生成された catch ブロック
+			e1.printStackTrace();
+			msg += "サーバーエラーが発生しました\r\n" +
+					"製造元に問い合わせてください<br>";
+		}
 
 		response.setContentType("text/plain; charset=UTF-8");
 		PrintWriter out = response.getWriter();
@@ -57,12 +75,6 @@ public class AccountEditServlet extends HttpServlet {
 		}
 		if (userName != null && userName.length() > 50) {
 			msg += "ユーザーネームは50字までです<br>";
-		}
-		if (password != null && password.length() > 20) {
-			msg += "パスワードは20字までです<br>";
-		}
-		if (!(password.equals(rePassword))) {
-			msg += "パスワードが一致していません<br>";
 		}
 		if ((strBirthday == null) || (strBirthday.equals(""))) {
 			msg += "生年月日を入力してください<br>";
@@ -85,7 +97,19 @@ public class AccountEditServlet extends HttpServlet {
 		} catch (ParseException e) {
 			msg += "生年月日をyyyy/mm/dd形式で入力してください<br>";
 		}
-
+		//パスワード（再入力含む）が空の場合はログインしているユーザーのパスワードを取得する
+		if (((password == null) && (rePassword == null)) || ((password.equals("") && rePassword.equals("")))) {
+			password = user.get(0).getPassword();
+		}
+		if (password != null && password.length() > 20) {
+			msg += "パスワードは20字までです<br>";
+		}
+		if (((password != null) && (rePassword == null)) || ((!(password.equals("")) && rePassword.equals("")))) {
+			msg += "パスワード（再入力）を入力してください<br>";
+		}
+		if (((password != null) && (rePassword != null)) && (!(password.equals(rePassword)))) {
+			msg += "パスワードが一致していません<br>";
+		}
 		if (msg == "") {
 			msg += "success";
 
@@ -95,28 +119,14 @@ public class AccountEditServlet extends HttpServlet {
 			try {
 				java.util.Date day = sdf.parse(strBirthday);
 				birthday = new java.sql.Date(day.getTime());
+				System.out.println(birthday);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 
-			HttpSession session = request.getSession();
-
-			//4項目以外の情報を取得(not null制約でない変数についてはnullに設定)
-			//会員ID
-			UUID userId = (UUID) session.getAttribute("userid");
-
-			UserService userService = new UserService();
-
-			List<User> user = null;
-			try {
-				user = userService.authentication4(userId);
-			} catch (SQLException e1) {
-				// TODO 自動生成された catch ブロック
-				e1.printStackTrace();
-			}
-
 			//入会日
 			Date joinDate = user.get(0).getJoinDate();
+			System.out.println(joinDate);
 
 			//退会日
 			Date withdrawalDate = null;
@@ -132,7 +142,6 @@ public class AccountEditServlet extends HttpServlet {
 
 			User updateData = new User(userId, email, userName, password, birthday, joinDate, withdrawalDate, adminFlg,
 					modifiedUser, modifiedDate);
-
 
 			try {
 				userService.update(updateData);

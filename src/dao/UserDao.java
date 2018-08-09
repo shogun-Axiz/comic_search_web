@@ -118,6 +118,15 @@ public class UserDao {
 	public int update(User updateData) {
 		try (PreparedStatement stmt = conn.prepareStatement(SQL_UPDATE_ALL)){
 			stmt.setString(1, updateData.getEmail());
+			stmt.setString(2, updateData.getUserName());
+			stmt.setString(3, updateData.getPassword());
+			stmt.setDate(4, updateData.getBirthday());
+			stmt.setDate(5, updateData.getJoinDate());
+			stmt.setDate(6, updateData.getWithdrawalDate());
+			stmt.setBoolean(7, updateData.isAdminFlg());
+			stmt.setString(8, updateData.getModifiedUser());
+			stmt.setDate(9, updateData.getModifiedDate());
+			stmt.setObject(10, updateData.getUserId());
 
 			return stmt.executeUpdate();
 

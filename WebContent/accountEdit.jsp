@@ -18,58 +18,56 @@
 <script src="js/bootstrap.min.js"></script>
 <script type="text/javascript">
 
-function disp() {
+	function disp() {
 
-	// 「OK」時の処理開始 ＋ 確認ダイアログの表示
-	if (window.confirm('この内容でよろしいですか？')) {
+		// 「OK」時の処理開始 ＋ 確認ダイアログの表示
+		if (window.confirm('この内容でよろしいですか？')) {
 
-		var url = "/comic_search_web/accountEdit";
+			var url = "/comic_search_web/accountEdit";
 
-		var request = {
-				email : document.getElementById("email").value,
-				username : document.getElementById("username").value,
-				password : document.getElementById("password").value,
-				rePassword : document.getElementById("rePassword").value,
-				birthday : document.getElementById("xxdate").value
-		};
-		var result = $.ajax({
-			type : 'GET',
-			url : url,
-			data :request,
-			dataType : 'text',
-			async : false,
-			success : function(data) {
-				//取得成功したら実行する処理
-				alert(data);
-				if(data =='success'){
-					alert("会員情報を編集しました！");
-					location.href = "/comic_search_web/toUserTop?username="+document.getElementById("username").value;
-				}else{
-					$('#error').text(data);
+			var request = {
+					email : document.getElementById("email").value,
+					username : document.getElementById("username").value,
+					password : document.getElementById("password").value,
+					rePassword : document.getElementById("rePassword").value,
+					birthday : document.getElementById("xxdate").value
+			};
+			var result = $.ajax({
+				type : 'GET',
+				url : url,
+				data :request,
+				dataType : 'text',
+				async : false,
+				success : function(data) {
+					//取得成功したら実行する処理
+					alert(data);
+					if(data =='success'){
+						alert("会員情報を編集しました！");
+						location.href = "/comic_search_web/toUserTop?username="+document.getElementById("username").value;
+					}else{
+						$('#error').text(data);
+					}
+
+				},
+				error : function() {
+					//取得失敗時に実行する処理
+					console.log("サーバーエラーで失敗しました");
 				}
+			});
 
-			},
-			error : function() {
-				//取得失敗時に実行する処理
-				console.log("サーバーエラーで失敗しました");
-			}
-		});
+		}
+		// 「OK」時の処理終了
 
-	}
-	// 「OK」時の処理終了
+		// 「キャンセル」時の処理開始
+		else {
 
-	// 「キャンセル」時の処理開始
-	else {
+			alert('キャンセルされました'); // 警告ダイアログを表示k
 
-		alert('キャンセルされました'); // 警告ダイアログを表示k
+		}
+		// 「キャンセル」時の処理終了
 
 	}
-	// 「キャンセル」時の処理終了
-
-}
-var result = disp();.href = "index.html";
-	}
-
+	var result = disp();
 </script>
 <link rel="stylesheet" href="themes/base/jquery.ui.all.css" />
 <script type="text/javascript" src="jquery-1.4.2.js"></script>
