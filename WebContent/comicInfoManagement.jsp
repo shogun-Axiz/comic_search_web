@@ -112,7 +112,7 @@
 						</h2>
 			</form>
 		</div>
-		<form action="comicInfoRegistration.html">
+		<form action="toComicInfoRegistration">
 			<h2>
 				<p>
 					<input type="submit" value="漫画情報登録"
