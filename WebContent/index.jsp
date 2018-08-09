@@ -46,7 +46,7 @@
 				<input type="submit" value="ログイン">
 			</p>
 		</form>
-		<form method="GET" action="newUser.jsp">
+		<form method="GET" action="accountEdit">
 			<p>
 				<input type="submit" value="新規会員登録">
 			</p>

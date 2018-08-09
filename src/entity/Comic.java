@@ -6,7 +6,6 @@ import java.util.UUID;
 public class Comic {
 	private UUID comicId;
 	private String title;
-	private Integer categoryId;
 	private String categoryName;
 	private Integer price;
 	private String publisher;

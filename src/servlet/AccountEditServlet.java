@@ -24,7 +24,7 @@ import service.UserService;
 /**
  * Servlet implementation class AccountEditServlet
  */
-@WebServlet("/AccountEditServlet")
+@WebServlet("/accountEditComfirm")
 public class AccountEditServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -43,6 +43,12 @@ public class AccountEditServlet extends HttpServlet {
 		String strBirthday = request.getParameter("birthday");
 
 		HttpSession session = request.getSession();
+
+		System.out.println(email);
+		System.out.println(userName);
+		System.out.println(password);
+		System.out.println(rePassword);
+		System.out.println(strBirthday);
 
 		String msg = "";
 

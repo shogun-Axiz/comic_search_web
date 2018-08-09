@@ -17,34 +17,33 @@
 <!-- BootstrapのJS読み込み -->
 <script src="js/bootstrap.min.js"></script>
 <script type="text/javascript">
-
 	function disp() {
 
 		// 「OK」時の処理開始 ＋ 確認ダイアログの表示
 		if (window.confirm('この内容でよろしいですか？')) {
 
-			var url = "/comic_search_web/accountEdit";
+			var url = "/comic_search_web/accountEditConfirm";
 
 			var request = {
-					email : document.getElementById("email").value,
-					username : document.getElementById("username").value,
-					password : document.getElementById("password").value,
-					rePassword : document.getElementById("rePassword").value,
-					birthday : document.getElementById("xxdate").value
+				email : document.getElementById("email").value,
+				username : document.getElementById("username").value,
+				password : document.getElementById("password").value,
+				rePassword : document.getElementById("rePassword").value,
+				birthday : document.getElementById("xxdate").value
 			};
 			var result = $.ajax({
 				type : 'GET',
 				url : url,
-				data :request,
+				data : request,
 				dataType : 'text',
 				async : false,
 				success : function(data) {
 					//取得成功したら実行する処理
 					alert(data);
-					if(data =='success'){
+					if (data == 'success') {
 						alert("会員情報を編集しました！");
 						location.href = "/comic_search_web/toUserTop?username="+document.getElementById("username").value;
-					}else{
+					} else {
 						$('#error').text(data);
 					}
 
@@ -67,7 +66,6 @@
 		// 「キャンセル」時の処理終了
 
 	}
-	var result = disp();
 </script>
 <link rel="stylesheet" href="themes/base/jquery.ui.all.css" />
 <script type="text/javascript" src="jquery-1.4.2.js"></script>
@@ -91,34 +89,33 @@
 		<div class="login-triangle"></div>
 
 		<h2 class="login-header">会員情報編集</h2>
-
-		<form class="login-container">
+		<div id="error" style="color: white;"></div>
+		<form class="login-container" method="GET">
 
 			<p>
-				<label for="email">メールアドレス</label><input type="text" name="email"
-					value="${email}">
+				<label for="email">メールアドレス</label><input type="text"
+					id="email" value="${email}" placeholder="メールアドレス">
 			</p>
 			<p>
 				<label for="username">ユーザーネーム</label><input type="text"
-					name="username" value="${username}">
+					id="username" value="${username}"
+					placeholder="ユーザーネーム">
 			</p>
 			<p>
 				<label for="password">パスワード</label><input type="password"
-					name="password" placeholder="パスワード">
+					id="password" placeholder="パスワード">
 			</p>
 			<p>
 				<label for="rePassword">パスワード（再入力）</label><input type="password"
-					name="rePassword" placeholder="パスワード">
+					id="rePassword" placeholder="パスワード(再入力)">
 			</p>
 			<p>
 				<label for="birthday">生年月日</label><input type="text" class="xdate"
-					id="xxdate" name="birthday" value="${birthday}">
+					id="xxdate" value="${birthday}">
 			</p>
 			<h2>
-				<p>
-					<input type="button" value="編集適用" onClick="disp()"
-						style="background-color: #28d; color: white;">
-				</p>
+				<input type="button" value="編集適用" onClick="disp()"
+					style="background-color: #28d; color: white;">
 			</h2>
 
 		</form>

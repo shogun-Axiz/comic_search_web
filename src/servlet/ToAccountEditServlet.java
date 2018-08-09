@@ -29,7 +29,6 @@ public class ToAccountEditServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 
 		UUID userId = (UUID) session.getAttribute("userid");
-		System.out.println(userId);
 
 		UserService userService = new UserService();
 

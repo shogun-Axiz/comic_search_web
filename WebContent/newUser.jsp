@@ -66,7 +66,6 @@
 		// 「キャンセル」時の処理終了
 
 	}
-	var result = disp();
 </script>
 <link rel="stylesheet" href="themes/base/jquery.ui.all.css" />
 <script type="text/javascript" src="jquery-1.4.2.js"></script>
