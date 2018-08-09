@@ -116,14 +116,12 @@ public class AccountEditServlet extends HttpServlet {
 			try {
 				java.util.Date day = sdf.parse(strBirthday);
 				birthday = new java.sql.Date(day.getTime());
-				System.out.println(birthday);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 
 			//入会日
 			Date joinDate = user.get(0).getJoinDate();
-			System.out.println(joinDate);
 
 			//退会日
 			Date withdrawalDate = null;
