@@ -24,7 +24,7 @@ import service.UserService;
 /**
  * Servlet implementation class AccountEditServlet
  */
-@WebServlet("/accountEditComfirm")
+@WebServlet("/accountEditConfirm")
 public class AccountEditServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -43,12 +43,6 @@ public class AccountEditServlet extends HttpServlet {
 		String strBirthday = request.getParameter("birthday");
 
 		HttpSession session = request.getSession();
-
-		System.out.println(email);
-		System.out.println(userName);
-		System.out.println(password);
-		System.out.println(rePassword);
-		System.out.println(strBirthday);
 
 		String msg = "";
 
@@ -106,14 +100,11 @@ public class AccountEditServlet extends HttpServlet {
 		//パスワード（再入力含む）が空の場合はログインしているユーザーのパスワードを取得する
 		if (((password == null) && (rePassword == null)) || ((password.equals("") && rePassword.equals("")))) {
 			password = user.get(0).getPassword();
-		}
-		if (password != null && password.length() > 20) {
+		}else if (password.length() > 20) {
 			msg += "パスワードは20字までです<br>";
-		}
-		if (((password != null) && (rePassword == null)) || ((!(password.equals("")) && rePassword.equals("")))) {
+		}else if (((rePassword == null)) || (rePassword.equals(""))) {
 			msg += "パスワード（再入力）を入力してください<br>";
-		}
-		if (((password != null) && (rePassword != null)) && (!(password.equals(rePassword)))) {
+		}else if ((!(password.equals(rePassword)))) {
 			msg += "パスワードが一致していません<br>";
 		}
 		if (msg == "") {

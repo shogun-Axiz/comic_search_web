@@ -3,6 +3,8 @@ package servlet;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,7 +39,17 @@ public class ToAccountEditServlet extends HttpServlet {
 
 			String userName = user.get(0).getUserName();
 			String email = user.get(0).getEmail();
-			Date birthday = user.get(0).getBirthday();
+			String strBirthday = user.get(0).getBirthday().toString();
+
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+			Date birthday = null;
+			try {
+				java.util.Date day = sdf.parse(strBirthday);
+				birthday = new java.sql.Date(day.getTime());
+				System.out.println(birthday);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 
 			request.setAttribute("username", userName);
 			request.setAttribute("email", email);
