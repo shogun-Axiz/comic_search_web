@@ -39,7 +39,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 
 		String title = request.getParameter("title");
-		String strCategoryId = request.getParameter("category");
+		String strCategoryId = request.getParameter("categoryid");
 		String authorName = request.getParameter("authorName");
 		String strPrice = request.getParameter("price");
 		String strReleaseDate = request.getParameter("releaseDate");
@@ -47,6 +47,16 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 		String synopsis = request.getParameter("synopsis");
 		String link = request.getParameter("link");
 		String pic = request.getParameter("pic");
+
+		System.out.println(title);
+		System.out.println(strCategoryId);
+		System.out.println(authorName);
+		System.out.println(strPrice);
+		System.out.println(strReleaseDate);
+		System.out.println(publisher);
+		System.out.println(synopsis);
+		System.out.println(link);
+		System.out.println(pic);
 
 		String msg = "";
 
@@ -132,7 +142,9 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 				if (position != -1) {
 					extension = pic.substring(position + 1);
 				}
-				targetPath = Paths.get("img/" + spa + comicId + spa + extension);
+				targetPath = Paths.get("img/" + spa + comicId + "." + extension);
+				System.out.println(sourcePath.toString());
+				System.out.println(targetPath.toString());
 				Files.move(sourcePath, targetPath);
 			} catch (IOException e) {
 				e.printStackTrace();

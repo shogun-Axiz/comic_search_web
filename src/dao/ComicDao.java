@@ -16,8 +16,8 @@ public class ComicDao {
 			+ "releasedate, synopsis, link, image, createuser, createdate,"
 			+ "modifieduser, modifieddate FROM comic INNER JOIN category ON comic.categoryid = category.categoryid";
 	private static final String LATE = " ORDER BY releasedate;";
-	private static final String INSERT_ALL = "INSERT INTO users (comicid, title, categoryid, price, publisher,"
-			+ " auhtorname, releasename, synopsis, link, image, createuser, createdate, modifieduser, modifieddate) "
+	private static final String INSERT_ALL = "INSERT INTO comic (comicid, title, categoryid, price, publisher,"
+			+ " authorname, releasedate, synopsis, link, image, createuser, createdate, modifieduser, modifieddate) "
 			+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	private Connection conn;
