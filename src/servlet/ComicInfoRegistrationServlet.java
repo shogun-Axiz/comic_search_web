@@ -127,7 +127,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 						"製造元に問い合わせてください";
 			}
 
-			//漫画ID作成
+			//漫画ID
 			UUID comicId = UUID.randomUUID();
 
 			String spa = FileSystems.getDefault().getSeparator();
