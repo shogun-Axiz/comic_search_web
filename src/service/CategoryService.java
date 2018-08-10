@@ -24,4 +24,21 @@ public class CategoryService {
 
 		return null;
 	}
+
+	public Category authentication2(Integer categoryId) throws SQLException {
+		Connection conn = DbUtil.getConnection();
+		try{
+			CategoryDao categoryDao = new CategoryDao(conn);
+			Category category = categoryDao.findById(categoryId);
+
+			return category;
+		}catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+            // コネクションの解放
+            conn.close();
+        }
+
+		return null;
+	}
 }

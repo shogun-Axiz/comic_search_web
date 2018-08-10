@@ -11,6 +11,7 @@ import entity.Category;
 
 public class CategoryDao {
 	private static final String SQL_SELECT_CATEGORYID = "SELECT categoryid,categoryname FROM category";
+	private static final String SQL_SELECT_CATEGORYID_ID = "SELECT categoryid,categoryname FROM category WHERE categoryid = ?";
 
 	private Connection conn;
 
@@ -33,6 +34,22 @@ public class CategoryDao {
 			throw new RuntimeException(e);
 		}
 		return list;
+	}
+
+	public Category findById(Integer categoryId) {
+		try (PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_CATEGORYID_ID)) {
+			stmt.setInt(1, categoryId);
+
+			ResultSet rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				return new Category(rs.getInt("categoryid"), rs.getString("categoryname"));
+			} else {
+				return null;
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

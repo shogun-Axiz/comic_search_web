@@ -45,4 +45,19 @@ public class ComicService {
 		return null;
 	}
 
+	public int registration(Comic regist) throws SQLException {
+		Connection conn = DbUtil.getConnection();
+		try  {
+			ComicDao comicDao = new ComicDao(conn);
+			return comicDao.registration(regist);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+            // コネクションの解放
+            conn.close();
+        }
+
+		return 0;
+	}
+
 }

@@ -6,6 +6,7 @@ import java.util.UUID;
 public class Comic {
 	private UUID comicId;
 	private String title;
+	private Integer categoryId;
 	private String categoryName;
 	private Integer price;
 	private String publisher;
@@ -42,6 +43,26 @@ public class Comic {
 		this.modifiedDate = modifiedDate;
 	}
 
+	public Comic(UUID comicId, String title, Integer categoryId, Integer price, String publisher, String authorName,
+			Date releaseDate, String synopsis, String link, String image, String createdUser, Date createdDate,
+			String modifiedUser, Date modifiedDate) {
+		this.comicId = comicId;
+		this.title = title;
+		this.categoryId = categoryId;
+		this.price = price;
+		this.publisher = publisher;
+		this.authorName = authorName;
+		this.releaseDate = releaseDate;
+		this.synopsis = synopsis;
+		this.link = link;
+		this.image = image;
+		this.createdUser = createdUser;
+		this.createdDate = createdDate;
+		this.modifiedUser = modifiedUser;
+		this.modifiedDate = modifiedDate;
+	}
+
+
 	public UUID getComicId() {
 		return comicId;
 	}
@@ -56,6 +77,14 @@ public class Comic {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public Integer getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(Integer categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	public String getCategoryName() {
