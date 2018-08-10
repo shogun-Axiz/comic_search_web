@@ -42,7 +42,7 @@
 				publisher : document.getElementById("publisher").value,
 				synopsis : document.getElementById("synopsis").value,
 				link : document.getElementById("link").value,
-				pic : document.getElementById("pic").value
+				pic : document.getElementById("loadFile").value
 			};
 			var result = $.ajax({
 				type : 'GET',
@@ -132,7 +132,7 @@
 						placeholder="詳細リンク">
 				</p>
 				<p>
-					<label for="pic">表紙画像</label><input type="file" id="pic">
+					<label for="pic">表紙画像</label><input id="loadFile" type="file">
 				</p>
 				<h2>
 					<p>
@@ -151,6 +151,17 @@
 <script>
 	$(function() {
 		$("#catSel").val("${strCategoryId}");
+	});
+
+	$(function loadFile_changeHandler(e){
+	    var files = e.target.files;
+	    var fileData = "";
+	    var fileVal = files;
+	    $('#info').innerHTML = fileData;
+	});
+
+	$(function $(id) {
+	    return document.querySelector(id);
 	});
 </script>
 </html>
