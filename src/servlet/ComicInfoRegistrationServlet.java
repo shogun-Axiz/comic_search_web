@@ -117,11 +117,8 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 
 		try {
 		    Path sourcePath = Paths.get("img/" + spa + pic);
-		    Path targetPath = Paths.get("img/" + spa + comicId + spa + ".png");
+		    Path targetPath = Paths.get("img/" + spa + comicId + spa + ".jpg");
 		    Files.move(sourcePath, targetPath);
-
-		    System.out.println("移動が成功しました");
-
 		} catch (IOException e) {
 		    e.printStackTrace();
 		    msg += "サーバーエラーが発生しました\r\n" +
