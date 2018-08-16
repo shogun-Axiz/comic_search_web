@@ -19,23 +19,17 @@
 <!-- BootstrapのJS読み込み -->
 <script src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="jquery-1.4.2.js"></script>
-<script type="text/javascript" src="ui/jquery.ui.core.js"></script>
-<script type="text/javascript" src="ui/jquery.ui.datepicker.js"></script>
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript"
 	src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
 <style type="text/css">@import url(css/plupload.queue.css);</style>
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
-<script type="text/javascript">
-google.load("jquery", "1.3");
-</script>
 <!-- Thirdparty intialization scripts, needed for the Google Gears and BrowserPlus runtimes -->
-<script type="text/javascript" src="/plupload/js/gears_init.js"></script>
 <script type="text/javascript" src="http://bp.yahooapis.com/2.3.6/browserplus-min.js"></script>
 <!-- Load plupload and all it's runtimes and finally the jQuery queue widget -->
-<script type="text/javascript" src="/plupload/js/plupload.full.min.js"></script>
-<script type="text/javascript" src="/plupload/js/jquery.plupload.queue.min.js"></script>
+<script type="text/javascript" src="/plupload-2.3.6/js/plupload.full.min.js"></script>
+<script type="text/javascript" src="/plupload-2.3.6/js/jquery.plupload.queue/jquery.plupload.queue.min.js"></script>
 <script type="text/javascript">
 	function manage() {
 		// 「OK」時の処理開始 ＋ 確認ダイアログの表示
@@ -161,17 +155,6 @@ google.load("jquery", "1.3");
 <script>
 	$(function() {
 		$("#catSel").val("${strCategoryId}");
-	});
-
-	$(function loadFile_changeHandler(e){
-	    var files = e.target.files;
-	    var fileData = "";
-	    var fileVal = files;
-	    $('#info').innerHTML = fileData;
-	});
-
-	$(function $(id) {
-	    return document.querySelector(id);
 	});
 
 	$(function() {
