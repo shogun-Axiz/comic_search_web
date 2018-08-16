@@ -41,7 +41,7 @@
 				publisher : document.getElementById("publisher").value,
 				synopsis : document.getElementById("synopsis").value,
 				link : document.getElementById("link").value,
-				pic : document.getElementById("file").value
+				pic : $('#file')[0].files[0].name
 			};
 			var result = $
 					.ajax({
@@ -74,7 +74,6 @@
 		else {
 
 			alert('キャンセルされました'); // 警告ダイアログを表示k
-
 		}
 		// 「キャンセル」時の処理終了
 
@@ -155,5 +154,8 @@
 	$(function() {
 		$("#catSel").val("${strCategoryId}");
 	});
+
+	var file = $('#file')[0].files[0];
+    var fileValue = file.name;
 </script>
 </html>
