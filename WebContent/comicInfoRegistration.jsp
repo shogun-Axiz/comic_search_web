@@ -78,8 +78,6 @@
 		// 「キャンセル」時の処理終了
 
 	}
-
-	var fileValue = $('#file')[0].files[0].name
 </script>
 <script src="js/calendar.js"></script>
 </head>
@@ -154,8 +152,5 @@
 	$(function() {
 		$("#catSel").val("${strCategoryId}");
 	});
-
-	var file = $('#file')[0].files[0];
-    var fileValue = file.name;
 </script>
 </html>
