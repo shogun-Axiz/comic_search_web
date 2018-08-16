@@ -23,13 +23,20 @@
 	src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript"
 	src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
-<style type="text/css">@import url(css/plupload.queue.css);</style>
+<style type="text/css">
+@import url(css/plupload.queue.css);
+</style>
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
 <!-- Thirdparty intialization scripts, needed for the Google Gears and BrowserPlus runtimes -->
-<script type="text/javascript" src="http://bp.yahooapis.com/2.3.6/browserplus-min.js"></script>
+<script type="text/javascript"
+	src="http://bp.yahooapis.com/2.3.6/browserplus-min.js"></script>
 <!-- Load plupload and all it's runtimes and finally the jQuery queue widget -->
-<script type="text/javascript" src="/plupload-2.3.6/js/plupload.full.min.js"></script>
-<script type="text/javascript" src="/plupload-2.3.6/js/jquery.plupload.queue/jquery.plupload.queue.min.js"></script>
+<script type="text/javascript"
+	src="plupload-2.3.6/js/plupload.full.min.js"></script>
+<script type="text/javascript"
+	src="plupload-2.3.6/js/jquery.plupload.queue/jquery.plupload.queue.min.js"></script>
+<script type="text/javascript"
+	src="plupload-2.3.6/js/jquery.ui.plupload/jquery.ui.plupload.min.js"></script>
 <script type="text/javascript">
 	function manage() {
 		// 「OK」時の処理開始 ＋ 確認ダイアログの表示
@@ -46,30 +53,31 @@
 				publisher : document.getElementById("publisher").value,
 				synopsis : document.getElementById("synopsis").value,
 				link : document.getElementById("link").value,
-				pic : document.getElementById("loadFile").value
+				pic : document.getElementById("uploader").value
 			};
-			var result = $.ajax({
-				type : 'GET',
-				url : url,
-				data : request,
-				dataType : 'text',
-				async : false,
-				success : function(data) {
-					//取得成功したら実行する処理
-					alert(data);
-					if (data == 'success') {
-						alert("登録が完了しました！");
-						location.href = "/comic_search_web/comicInfoManagement";
-					} else {
-						$('#error').text(data);
-					}
+			var result = $
+					.ajax({
+						type : 'GET',
+						url : url,
+						data : request,
+						dataType : 'text',
+						async : false,
+						success : function(data) {
+							//取得成功したら実行する処理
+							alert(data);
+							if (data == 'success') {
+								alert("登録が完了しました！");
+								location.href = "/comic_search_web/comicInfoManagement";
+							} else {
+								$('#error').text(data);
+							}
 
-				},
-				error : function() {
-					//取得失敗時に実行する処理
-					console.log("サーバーエラーで失敗しました");
-				}
-			});
+						},
+						error : function() {
+							//取得失敗時に実行する処理
+							console.log("サーバーエラーで失敗しました");
+						}
+					});
 
 		}
 		// 「OK」時の処理終了
@@ -136,7 +144,11 @@
 						placeholder="詳細リンク">
 				</p>
 				<p>
-					<label for="pic">表紙画像</label><input id="uploader" type="file">
+					<label for="pic">表紙画像</label>
+				<div id="uploader" style="font-size : 11px;">
+					<p>You browser doesn't have Flash, Silverlight, Gears,
+						BrowserPlus or HTML5 support.</p>
+				</div>
 				</p>
 				<h2>
 					<p>
@@ -158,52 +170,53 @@
 	});
 
 	$(function() {
-	    $("#uploader").plupload({
-	        // General settings
-	        runtimes : 'html5,flash,silverlight,html4',
-	        url : "/examples/upload",
+		$("#uploader").plupload({
+			// General settings
+			runtimes : 'html5,flash,silverlight,html4',
+			url : "/WebContent/img",
 
-	        // Maximum file size
-	        max_file_size : '2mb',
+			// Maximum file size
+			max_file_size : '2mb',
 
-	        chunk_size: '1mb',
+			chunk_size : '1mb',
 
-	        // Resize images on clientside if we can
-	        resize : {
-	            width : 200,
-	            height : 200,
-	            quality : 90,
-	            crop: true // crop to exact dimensions
-	        },
+			// Resize images on clientside if we can
+			resize : {
+				width : 200,
+				height : 200,
+				quality : 90,
+				crop : true
+			// crop to exact dimensions
+			},
 
-	        // Specify what files to browse for
-	        filters : [
-	            {title : "Image files", extensions : "jpg,gif,png"},
-	            {title : "Zip files", extensions : "zip,avi"}
-	        ],
+			// Specify what files to browse for
+			filters : [ {
+				title : "Image files",
+				extensions : "jpg,gif,png"
+			}, ],
 
-	        // Rename files by clicking on their titles
-	        rename: true,
+			// Rename files by clicking on their titles
+			rename : true,
 
-	        // Sort files
-	        sortable: true,
+			// Sort files
+			sortable : true,
 
-	        // Enable ability to drag'n'drop files onto the widget (currently only HTML5 supports that)
-	        dragdrop: true,
+			// Enable ability to drag'n'drop files onto the widget (currently only HTML5 supports that)
+			dragdrop : true,
 
-	        // Views to activate
-	        views: {
-	            list: true,
-	            thumbs: true, // Show thumbs
-	            active: 'thumbs'
-	        },
+			// Views to activate
+			views : {
+				list : true,
+				thumbs : true, // Show thumbs
+				active : 'thumbs'
+			},
 
-	        // Flash settings
-	        flash_swf_url : '/plupload/js/Moxie.swf',
+			// Flash settings
+			flash_swf_url : '/plupload/js/Moxie.swf',
 
-	        // Silverlight settings
-	        silverlight_xap_url : '/plupload/js/Moxie.xap'
-	    });
+			// Silverlight settings
+			silverlight_xap_url : '/plupload/js/Moxie.xap'
+		});
 	});
 </script>
 </html>
