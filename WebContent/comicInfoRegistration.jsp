@@ -41,7 +41,7 @@
 				publisher : document.getElementById("publisher").value,
 				synopsis : document.getElementById("synopsis").value,
 				link : document.getElementById("link").value,
-				pic : $('#file')[0].files[0].name
+				pic : $('#file')[0].files[0]
 			};
 			var result = $
 					.ajax({
@@ -132,7 +132,7 @@
 				</p>
 				<p>
 					<label for="pic">表紙画像</label>
-				<input type="file" id="file" value="">
+				<input type="file" id="file">
 				</p>
 				<h2>
 					<p>

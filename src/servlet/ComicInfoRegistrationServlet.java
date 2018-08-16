@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import entity.Comic;
 import service.ComicService;
@@ -47,6 +48,16 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 		String synopsis = request.getParameter("synopsis");
 		String link = request.getParameter("link");
 		String pic = request.getParameter("pic");
+
+		//パート取得
+		Part part = request.getPart("pic");
+
+		//ファイル名取得
+		String name = part.getName(); //文字化け
+
+		System.out.println(name);
+		//ファイル書き込み
+		part.write("img/" + name);
 
 		System.out.println(title);
 		System.out.println(strCategoryId);
@@ -166,7 +177,8 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 
 			ComicService comicService = new ComicService();
 
-			Comic regist = new Comic(comicId, title, categoryId, price, publisher, authorName, releaseDate, synopsis, link, pic, createUser, createDate, modifiedUser, modifiedDate);
+			Comic regist = new Comic(comicId, title, categoryId, price, publisher, authorName, releaseDate, synopsis,
+					link, pic, createUser, createDate, modifiedUser, modifiedDate);
 
 			try {
 				comicService.registration(regist);
