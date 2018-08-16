@@ -25,7 +25,18 @@
 	src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript"
 	src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
-
+<style type="text/css">@import url(css/plupload.queue.css);</style>
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript">
+google.load("jquery", "1.3");
+</script>
+<!-- Thirdparty intialization scripts, needed for the Google Gears and BrowserPlus runtimes -->
+<script type="text/javascript" src="/plupload/js/gears_init.js"></script>
+<script type="text/javascript" src="http://bp.yahooapis.com/2.3.6/browserplus-min.js"></script>
+<!-- Load plupload and all it's runtimes and finally the jQuery queue widget -->
+<script type="text/javascript" src="/plupload/js/plupload.full.min.js"></script>
+<script type="text/javascript" src="/plupload/js/jquery.plupload.queue.min.js"></script>
+<script type="text/javascript">
 <script type="text/javascript">
 	function manage() {
 		// 「OK」時の処理開始 ＋ 確認ダイアログの表示
@@ -77,6 +88,55 @@
 
 		}
 		// 「キャンセル」時の処理終了
+
+		$(function() {
+		    $("#uploader").plupload({
+		        // General settings
+		        runtimes : 'html5,flash,silverlight,html4',
+		        url : "/examples/upload",
+
+		        // Maximum file size
+		        max_file_size : '2mb',
+
+		        chunk_size: '1mb',
+
+		        // Resize images on clientside if we can
+		        resize : {
+		            width : 200,
+		            height : 200,
+		            quality : 90,
+		            crop: true // crop to exact dimensions
+		        },
+
+		        // Specify what files to browse for
+		        filters : [
+		            {title : "Image files", extensions : "jpg,gif,png"},
+		            {title : "Zip files", extensions : "zip,avi"}
+		        ],
+
+		        // Rename files by clicking on their titles
+		        rename: true,
+
+		        // Sort files
+		        sortable: true,
+
+		        // Enable ability to drag'n'drop files onto the widget (currently only HTML5 supports that)
+		        dragdrop: true,
+
+		        // Views to activate
+		        views: {
+		            list: true,
+		            thumbs: true, // Show thumbs
+		            active: 'thumbs'
+		        },
+
+		        // Flash settings
+		        flash_swf_url : '/plupload/js/Moxie.swf',
+
+		        // Silverlight settings
+		        silverlight_xap_url : '/plupload/js/Moxie.xap'
+		    });
+		});
 
 	}
 </script>
@@ -132,7 +192,7 @@
 						placeholder="詳細リンク">
 				</p>
 				<p>
-					<label for="pic">表紙画像</label><input id="loadFile" type="file">
+					<label for="pic">表紙画像</label><input id="uploader" type="file">
 				</p>
 				<h2>
 					<p>
