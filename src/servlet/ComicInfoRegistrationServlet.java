@@ -44,7 +44,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 		String link = request.getParameter("link");
 		//String pic = request.getParameter("pic");
 
-		String pic = null;
+		String pic = "";
 /*
 		//パート取得
 		Part part = request.getPart("pic");
@@ -104,6 +104,8 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 		if ((link == null) || (link.equals(""))) {
 			msg += "詳細リンクを入力してください";
 		}
+
+		System.out.println("this1");
 
 		Integer categoryId = Integer.parseInt(strCategoryId);
 		Integer price = Integer.parseInt(strPrice);
@@ -165,6 +167,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 
 			pic = targetPath.toString();
 */
+			System.out.println("this2");
 			HttpSession session = request.getSession();
 
 			String createUser = (String) session.getAttribute("username");
@@ -180,6 +183,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 			Comic regist = new Comic(comicId, title, categoryId, price, publisher, authorName, releaseDate, synopsis,
 					link, pic, createUser, createDate, modifiedUser, modifiedDate);
 
+			System.out.println("this3");
 			try {
 				comicService.registration(regist);
 			} catch (SQLException e) {
@@ -188,6 +192,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 				msg += "サーバーエラーが発生しました\r\n" +
 						"製造元に問い合わせてください";
 			}
+			msg += "success";
 		}
 
 		out.print(msg);

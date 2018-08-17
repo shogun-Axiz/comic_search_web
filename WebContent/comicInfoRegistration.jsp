@@ -54,7 +54,7 @@
 							alert(data);
 							if (data == 'success') {
 								alert("登録が完了しました！");
-								location.href = "/comic_search_web/comicInfoManagement";
+								location.href = "/comic_search_web/toComicInfoManagement";
 							} else {
 								$('#error').text(data);
 							}
