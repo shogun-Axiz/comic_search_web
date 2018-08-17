@@ -1,6 +1,9 @@
 package servlet;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.sql.Date;
@@ -8,7 +11,11 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -26,7 +33,7 @@ import service.ComicService;
  * Servlet implementation class ComicInfoRegistrationServlet
  */
 @WebServlet("/comicInfoRegistration")
-@MultipartConfig(location = "/img", maxFileSize = 209715200)
+@MultipartConfig(maxFileSize = 209715200)
 public class ComicInfoRegistrationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -36,32 +43,54 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		System.out.println("partx");
 
-		String title = request.getParameter("title");
-		String strCategoryId = request.getParameter("categoryid");
-		String authorName = request.getParameter("authorName");
-		String strPrice = request.getParameter("price");
-		String strReleaseDate = request.getParameter("releaseDate");
-		String publisher = request.getParameter("publisher");
-		String synopsis = request.getParameter("synopsis");
-		String link = request.getParameter("link");
+		 Collection<Part> parts = request.getParts();
+		 Map<String, String> map1 = new HashMap<String, String>();
 
-		Part part = request.getPart("picture");
-		String name = this.getFileName(part);
-		part.write(getServletContext().getRealPath("/WEB-INF/uploaded") + "/" + name);
+	        parts.stream().forEach(part -> {
+	            log("name:" + part.getName());
 
-		System.out.println(name);
-		//ファイル書き込み
-		part.write("img/" + name);
+	            String contentType = part.getContentType();
+	            log("contentType:" + contentType);
+	            if ( contentType == null) {
+	                try(InputStream inputStream = part.getInputStream()) {
+	                    BufferedReader bufReader = new BufferedReader(new InputStreamReader(inputStream));
+	                    map1.put(part.getName(),  bufReader.lines().collect(Collectors.joining()));
 
-		System.out.println(title);
-		System.out.println(strCategoryId);
-		System.out.println(authorName);
-		System.out.println(strPrice);
-		System.out.println(strReleaseDate);
-		System.out.println(publisher);
-		System.out.println(synopsis);
-		System.out.println(link);
+	                } catch (IOException e) {
+	                    throw new RuntimeException(e);
+	                }
+	            }
+	        });
+
+	        String title = map1.get("title");
+	        String strCategoryId = map1.get("categoryId");
+	        String authorName = map1.get("authorName");
+	        String strPrice = map1.get("price");
+	        String strReleaseDate = map1.get("ReleaseDate");
+	        String publisher = map1.get("publisher");
+	        String synopsis = map1.get("synopsis");
+	        String link = map1.get("link");
+	        String picture = map1.get("picture");
+
+	        System.out.println(title);
+	        System.out.println(strCategoryId);
+	        System.out.println(authorName);
+	        System.out.println(strPrice);
+	        System.out.println(strReleaseDate);
+	        System.out.println(publisher);
+	        System.out.println(synopsis);
+	        System.out.println(link);
+	        System.out.println(picture);
+
+		try {
+			Part part = request.getPart("picture");
+			String name = this.getFileName(part);
+			part.write(getServletContext().getRealPath("/img"));
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 
 		String msg = "";
 

@@ -44,7 +44,7 @@
 						placeholder="タイトル">
 				</p>
 				<p>
-					<label for="category">カテゴリー</label> <select name="catSel"
+					<label for="category">カテゴリー</label> <select id="catSel" name = "categoryId"
 						style="width: 100%;">
 						<option value="0" selected>全て</option>
 						<c:forEach var="cat" items="${cat}">
