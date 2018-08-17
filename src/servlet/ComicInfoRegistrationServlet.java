@@ -1,7 +1,8 @@
 package servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -10,11 +11,13 @@ import java.text.SimpleDateFormat;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import entity.Comic;
 import service.ComicService;
@@ -23,15 +26,15 @@ import service.ComicService;
  * Servlet implementation class ComicInfoRegistrationServlet
  */
 @WebServlet("/comicInfoRegistration")
+@MultipartConfig(location = "/img", maxFileSize = 209715200)
 public class ComicInfoRegistrationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
 
 		String title = request.getParameter("title");
@@ -42,20 +45,15 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 		String publisher = request.getParameter("publisher");
 		String synopsis = request.getParameter("synopsis");
 		String link = request.getParameter("link");
-		//String pic = request.getParameter("pic");
 
-		String pic = "";
-/*
-		//パート取得
-		Part part = request.getPart("pic");
-
-		//ファイル名取得
-		String name = part.getName(); //文字化け
+		Part part = request.getPart("picture");
+		String name = this.getFileName(part);
+		part.write(getServletContext().getRealPath("/WEB-INF/uploaded") + "/" + name);
 
 		System.out.println(name);
 		//ファイル書き込み
 		part.write("img/" + name);
-*/
+
 		System.out.println(title);
 		System.out.println(strCategoryId);
 		System.out.println(authorName);
@@ -64,12 +62,8 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 		System.out.println(publisher);
 		System.out.println(synopsis);
 		System.out.println(link);
-		//System.out.println(pic);
 
 		String msg = "";
-
-		response.setContentType("text/plain; charset=UTF-8");
-		PrintWriter out = response.getWriter();
 
 		if ((title == null) || (title.equals(""))) {
 			msg += "タイトルを入力してください";
@@ -139,15 +133,12 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 
 			//漫画ID
 			UUID comicId = UUID.randomUUID();
-/*
+
 			String spa = FileSystems.getDefault().getSeparator();
-
-
 
 			String extension = null;
 			Path sourcePath = null;
 			Path targetPath = null;
-*/
 /*
 			try {
 				sourcePath = Paths.get(pic);
@@ -180,12 +171,15 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 
 			ComicService comicService = new ComicService();
 
+			String pic = null;
+
 			Comic regist = new Comic(comicId, title, categoryId, price, publisher, authorName, releaseDate, synopsis,
 					link, pic, createUser, createDate, modifiedUser, modifiedDate);
 
 			System.out.println("this3");
 			try {
 				comicService.registration(regist);
+
 			} catch (SQLException e) {
 				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
@@ -195,8 +189,24 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 			msg += "success";
 		}
 
-		out.print(msg);
+		if (msg == "success") {
+			request.getRequestDispatcher("./toComicInfoManagement").forward(request, response);
+		} else {
+			request.setAttribute("msg", msg);
+			request.getRequestDispatcher("comicInfoRegistration").forward(request, response);
+		}
+	}
 
+	private String getFileName(Part part) {
+		String name = null;
+        for (String dispotion : part.getHeader("Content-Disposition").split(";")) {
+            if (dispotion.trim().startsWith("filename")) {
+                name = dispotion.substring(dispotion.indexOf("=") + 1).replace("\"", "").trim();
+                name = name.substring(name.lastIndexOf("\\") + 1);
+                break;
+            }
+        }
+        return name;
 	}
 
 }

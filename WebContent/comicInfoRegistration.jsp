@@ -25,59 +25,6 @@
 	src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript"
 	src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
-<script type="text/javascript">
-	function manage() {
-		// 「OK」時の処理開始 ＋ 確認ダイアログの表示
-		if (window.confirm('この内容でよろしいですか？')) {
-
-			var url = "/comic_search_web/comicInfoRegistration";
-
-			var request = {
-				title : document.getElementById("title").value,
-				categoryid : document.getElementById("catSel").value,
-				authorName : document.getElementById("authorName").value,
-				price : document.getElementById("price").value,
-				releaseDate : document.getElementById("xxdate1").value,
-				publisher : document.getElementById("publisher").value,
-				synopsis : document.getElementById("synopsis").value,
-				link : document.getElementById("link").value,
-			};
-			var result = $
-					.ajax({
-						type : 'GET',
-						url : url,
-						data : request,
-						dataType : 'text',
-						async : false,
-						success : function(data) {
-							//取得成功したら実行する処理
-							alert(data);
-							if (data == 'success') {
-								alert("登録が完了しました！");
-								location.href = "/comic_search_web/toComicInfoManagement";
-							} else {
-								$('#error').text(data);
-							}
-
-						},
-						error : function() {
-							//取得失敗時に実行する処理
-							console.log("サーバーエラーで失敗しました");
-						}
-					});
-
-		}
-		// 「OK」時の処理終了
-
-		// 「キャンセル」時の処理開始
-		else {
-
-			alert('キャンセルされました'); // 警告ダイアログを表示k
-		}
-		// 「キャンセル」時の処理終了
-
-	}
-</script>
 <script src="js/calendar.js"></script>
 </head>
 <body>
@@ -90,13 +37,14 @@
 
 		<h2 class="login-header">漫画情報登録</h2>
 		<div style="background-color: snow">
-			<form class="login-container">
+			<form class="login-container" method="post"
+				enctype="multipart/form-data" action="comicInfoRegistration">
 				<p>
-					<label for="title">タイトル</label><input type="text" id="title"
+					<label for="title">タイトル</label><input type="text" name="title"
 						placeholder="タイトル">
 				</p>
 				<p>
-					<label for="category">カテゴリー</label> <select id="catSel"
+					<label for="category">カテゴリー</label> <select name="catSel"
 						style="width: 100%;">
 						<option value="0" selected>全て</option>
 						<c:forEach var="cat" items="${cat}">
@@ -106,43 +54,42 @@
 				</p>
 				<p>
 					<label for="authorName">原作者名</label><input type="text"
-						id="authorName" placeholder="原作者名">
+						name="authorName" placeholder="原作者名">
 				</p>
 				<p>
-					<label for="price">値段</label><input type="text" id="price"
+					<label for="price">値段</label><input type="text" name="price"
 						placeholder="値段">
 				</p>
 				<p>
-					<label for="releaseDate">発売日</label><input type="text" id="xxdate1"
-						class="xdate" placeholder="発売日" />
+					<label for="releaseDate">発売日</label><input type="text"
+						name="releaseDate" class="xdate" placeholder="発売日" />
 				</p>
 				<p>
-					<label for="publisher">出版社</label><input type="text" id="publisher"
-						placeholder="出版社">
+					<label for="publisher">出版社</label><input type="text"
+						name="publisher" placeholder="出版社">
 				</p>
 				<p>
 					<label for="synopsis">紹介文</label>
-					<textarea id="synopsis" rows="16" cols="50"
+					<textarea name="synopsis" rows="16" cols="50"
 						style="width: 100%; height: 400px;" placeholder="紹介文"></textarea>
 				</p>
 				<p>
-					<label for="link">詳細リンク</label><input type="text" id="link"
+					<label for="link">詳細リンク</label><input type="text" name="link"
 						placeholder="詳細リンク">
 				</p>
-
+				<p>
+					<label for="pic">表紙画像</label> <input type="file" name="picture">
+				</p>
 				<h2>
 					<p>
-						<input type="button" value="登録" onClick="manage()"
+						<input type="submit" value="登録"
 							style="background-color: #28d; color: white;">
 					</p>
 				</h2>
 			</form>
 		</div>
 	</div>
-	<footer class="footer2" style="background-color: blue;">
-		<p style="text-align: center; color: white;">(C) Copyright 2018
-			CyberTech corporation All Rights Reserved.</p>
-	</footer>
+	<jsp:include page="include/footer2.jsp" flush="true" />
 </body>
 <script>
 	$(function() {
