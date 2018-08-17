@@ -41,7 +41,6 @@
 				publisher : document.getElementById("publisher").value,
 				synopsis : document.getElementById("synopsis").value,
 				link : document.getElementById("link").value,
-				pic : $('#file')[0].files[0]
 			};
 			var result = $
 					.ajax({
@@ -130,10 +129,7 @@
 					<label for="link">詳細リンク</label><input type="text" id="link"
 						placeholder="詳細リンク">
 				</p>
-				<p>
-					<label for="pic">表紙画像</label>
-				<input type="file" id="file">
-				</p>
+
 				<h2>
 					<p>
 						<input type="button" value="登録" onClick="manage()"

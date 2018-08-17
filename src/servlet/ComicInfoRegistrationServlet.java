@@ -2,10 +2,6 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -19,7 +15,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
 
 import entity.Comic;
 import service.ComicService;
@@ -47,8 +42,10 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 		String publisher = request.getParameter("publisher");
 		String synopsis = request.getParameter("synopsis");
 		String link = request.getParameter("link");
-		String pic = request.getParameter("pic");
+		//String pic = request.getParameter("pic");
 
+		String pic = null;
+/*
 		//パート取得
 		Part part = request.getPart("pic");
 
@@ -58,7 +55,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 		System.out.println(name);
 		//ファイル書き込み
 		part.write("img/" + name);
-
+*/
 		System.out.println(title);
 		System.out.println(strCategoryId);
 		System.out.println(authorName);
@@ -67,7 +64,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 		System.out.println(publisher);
 		System.out.println(synopsis);
 		System.out.println(link);
-		System.out.println(pic);
+		//System.out.println(pic);
 
 		String msg = "";
 
@@ -140,13 +137,16 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 
 			//漫画ID
 			UUID comicId = UUID.randomUUID();
-
+/*
 			String spa = FileSystems.getDefault().getSeparator();
+
+
 
 			String extension = null;
 			Path sourcePath = null;
 			Path targetPath = null;
-
+*/
+/*
 			try {
 				sourcePath = Paths.get(pic);
 				int position = pic.lastIndexOf(".");
@@ -164,7 +164,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 			}
 
 			pic = targetPath.toString();
-
+*/
 			HttpSession session = request.getSession();
 
 			String createUser = (String) session.getAttribute("username");

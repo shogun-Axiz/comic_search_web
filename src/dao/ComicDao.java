@@ -56,6 +56,7 @@ public class ComicDao {
 						list.add(u);
 					}
 				} catch (SQLException e) {
+					e.printStackTrace();
 					throw new RuntimeException(e);
 				}
 			} else {
@@ -166,6 +167,7 @@ public class ComicDao {
 			return stmt.executeUpdate();
 
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 	}
