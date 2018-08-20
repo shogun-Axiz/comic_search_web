@@ -60,4 +60,19 @@ public class ComicService {
 		return 0;
 	}
 
+	public int update(Comic update) throws SQLException {
+		Connection conn = DbUtil.getConnection();
+		try  {
+			ComicDao comicDao = new ComicDao(conn);
+			return comicDao.update(update);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+            // コネクションの解放
+            conn.close();
+        }
+
+		return 0;
+	}
+
 }

@@ -40,7 +40,8 @@
 
 		<h2 class="login-header">漫画情報更新</h2>
 		<div style="background-color: snow">
-			<form class="login-container">
+			<form class="login-container" method="post"
+				enctype="multipart/form-data" action="comicInfoUpdate">
 				<c:forEach var="list" items="${list}">
 					<p>
 						<label for="title">タイトル</label><input type="text" name="title"
@@ -88,7 +89,7 @@
 				</c:forEach>
 				<h2>
 					<p>
-						<input type="button" value="更新"
+						<input type="submit" value="更新"
 							style="background-color: #28d; color: white;">
 					</p>
 				</h2>

@@ -19,6 +19,9 @@ public class ComicDao {
 	private static final String INSERT_ALL = "INSERT INTO comic (comicid, title, categoryid, price, publisher,"
 			+ " authorname, releasedate, synopsis, link, image, createuser, createdate, modifieduser, modifieddate) "
 			+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String UPDATE_ALL = "UPDATE comic SET comicid = ?, title = ?, categoryid = ?, price = ?,"
+			+ " publisher = ?, authorname = ?, releasedate = ?, synopsis = ?, link = ?, image = ?, createuser = ?,"
+			+ " createdate = ?, modifieduser = ?, modifieddate = ?";
 
 	private Connection conn;
 
@@ -163,6 +166,31 @@ public class ComicDao {
 			stmt.setDate(12, regist.getCreatedDate());
 			stmt.setString(13, regist.getModifiedUser());
 			stmt.setDate(14, regist.getModifiedDate());
+
+			return stmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}
+
+	public int update(Comic update) {
+		try (PreparedStatement stmt = conn.prepareStatement(UPDATE_ALL)) {
+			stmt.setObject(1, update.getComicId());
+			stmt.setString(2, update.getTitle());
+			stmt.setInt(3, update.getCategoryId());
+			stmt.setInt(4, update.getPrice());
+			stmt.setString(5, update.getPublisher());
+			stmt.setString(6, update.getAuthorName());
+			stmt.setDate(7, update.getReleaseDate());
+			stmt.setString(8, update.getSynopsis());
+			stmt.setString(9, update.getLink());
+			stmt.setString(10, update.getImage());
+			stmt.setString(11, update.getCreatedUser());
+			stmt.setDate(12, update.getCreatedDate());
+			stmt.setString(13, update.getModifiedUser());
+			stmt.setDate(14, update.getModifiedDate());
 
 			return stmt.executeUpdate();
 

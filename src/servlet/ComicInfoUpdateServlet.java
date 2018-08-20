@@ -16,6 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -33,13 +34,16 @@ import entity.Comic;
 import service.ComicService;
 
 /**
- * Servlet implementation class ComicInfoRegistrationServlet
+ * Servlet implementation class ComicInfoUpdateServlet
  */
-@WebServlet("/comicInfoRegistration")
+@WebServlet("/comicInfoUpdate")
 @MultipartConfig(maxFileSize = 209715200)
-public class ComicInfoRegistrationServlet extends HttpServlet {
+public class ComicInfoUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
@@ -63,15 +67,36 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 		});
 
 		String title = map1.get("title");
-		String strCategoryId = map1.get("categoryId");
+		String strCategoryId = map1.get("catSel");
 		String authorName = map1.get("authorName");
 		String strPrice = map1.get("price");
 		String strReleaseDate = map1.get("releaseDate");
 		String publisher = map1.get("publisher");
 		String synopsis = map1.get("synopsis");
 		String link = map1.get("link");
+		String strImageDelete = map1.get("imageDelete");
+
+		HttpSession session = request.getSession();
+
+		UUID comicId = (UUID)session.getAttribute("comicId");
+
+		System.out.println(title);
+		System.out.println(strCategoryId);
+		System.out.println(authorName);
+		System.out.println(strPrice);
+		System.out.println(strReleaseDate);
+		System.out.println(publisher);
+		System.out.println(synopsis);
+		System.out.println(link);
+		System.out.println(strImageDelete);
+		System.out.println(comicId);
 
 		String msg = "";
+
+		boolean imageDelete = true;
+		if(strImageDelete == null) {
+			imageDelete = false;
+		}
 
 		String fileName = null;
 
@@ -149,16 +174,11 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 						"製造元に問い合わせてください";
 			}
 
-			//漫画ID
-			UUID comicId = UUID.randomUUID();
-
 			String spa = FileSystems.getDefault().getSeparator();
 
 			String extension = null;
 			Path sourcePath = null;
 			Path targetPath = null;
-
-			String pic = null;
 
 			try {
 				sourcePath = Paths.get("C:\\tmp\\" + fileName);
@@ -166,34 +186,50 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 				if (position != -1) {
 					extension = fileName.substring(position + 1);
 				}
-				File file = new File("../workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/comic_search_web/img");
-		        String Path = file.getAbsolutePath();
-				targetPath = Paths.get(Path+ spa + comicId + "." + extension);
+				File file = new File(
+						"../workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/comic_search_web/img");
+				String Path = file.getAbsolutePath();
+				targetPath = Paths.get(Path + spa + comicId + "." + extension);
 				Files.move(sourcePath, targetPath);
-				pic = "img/" + comicId + "." + extension;
 			} catch (IOException e) {
 				e.printStackTrace();
 				msg += "サーバーエラーが発生しました\r\n" +
 						"製造元に問い合わせてください";
 			}
 
-			HttpSession session = request.getSession();
-
-			String createUser = (String) session.getAttribute("username");
-
-			Date createDate = new Date(System.currentTimeMillis());
-
-			String modifiedUser = null;
-
-			Date modifiedDate = null;
-
 			ComicService comicService = new ComicService();
 
-			Comic regist = new Comic(comicId, title, categoryId, price, publisher, authorName, releaseDate, synopsis,
+			List<Comic> comic = null;
+
+			try {
+				comic = comicService.select(comicId);
+			} catch (SQLException e1) {
+				// TODO 自動生成された catch ブロック
+				e1.printStackTrace();
+				msg += "サーバーエラーが発生しました\r\n" +
+						"製造元に問い合わせてください";
+			}
+
+			String createUser = comic.get(0).getCreatedUser();
+
+			Date createDate = comic.get(0).getCreatedDate();
+
+			String modifiedUser =  (String) session.getAttribute("username");
+
+			Date modifiedDate = new Date(System.currentTimeMillis());
+
+
+
+			String pic = "img/" + fileName.toString();
+			if(imageDelete == true) {
+				 pic = null;
+			}
+
+			Comic update = new Comic(comicId, title, categoryId, price, publisher, authorName, releaseDate, synopsis,
 					link, pic, createUser, createDate, modifiedUser, modifiedDate);
 
 			try {
-				comicService.registration(regist);
+				comicService.update(update);
 
 			} catch (SQLException e) {
 				// TODO 自動生成された catch ブロック
@@ -208,7 +244,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 			request.getRequestDispatcher("toComicInfoManagement").forward(request, response);
 		} else {
 			request.setAttribute("msg", msg);
-			request.getRequestDispatcher("toComicInfoRegistration").forward(request, response);
+			request.getRequestDispatcher("toComicInfoUpdate").forward(request, response);
 		}
 	}
 

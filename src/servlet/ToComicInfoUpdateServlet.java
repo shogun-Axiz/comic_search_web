@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import entity.Category;
 import entity.Comic;
@@ -31,7 +32,11 @@ public class ToComicInfoUpdateServlet extends HttpServlet {
 
 		String strComicId = request.getParameter("comicId");
 
+		HttpSession session = request.getSession();
+
 		UUID comicId = UUID.fromString(strComicId);
+
+		session.setAttribute("comicId", comicId);
 
 		ComicService comicService = new ComicService();
 
