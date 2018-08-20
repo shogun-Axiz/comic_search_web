@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -28,7 +29,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import entity.Category;
 import entity.Comic;
+import service.CategoryService;
 import service.ComicService;
 
 /**
@@ -38,6 +41,11 @@ import service.ComicService;
 @MultipartConfig(maxFileSize = 209715200)
 public class ComicInfoRegistrationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
+	public void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException, ServletException {
+		doPost(req, resp);
+	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -170,12 +178,13 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 			Path targetPath = null;
 
 			try {
-				sourcePath = Paths.get(fileName);
+				sourcePath = Paths.get("C:\\tmp\\" + fileName);
 				int position = fileName.lastIndexOf(".");
 				if (position != -1) {
 					extension = fileName.substring(position + 1);
 				}
-				targetPath = Paths.get("img/" + spa + comicId + "." + extension);
+				targetPath = Paths.get("C:/img/"
+						+ spa + comicId + "." + extension);
 				System.out.println(sourcePath.toString());
 				System.out.println(targetPath.toString());
 				Files.move(sourcePath, targetPath);
@@ -218,8 +227,21 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 			msg += "success";
 		}
 
+		System.out.println(msg);
+
 		if (msg == "success") {
-			request.getRequestDispatcher("toComicInfoManagement").forward(request, response);
+			CategoryService categoryService = new CategoryService();
+			try {
+				List<Category> cat = categoryService.authentication();
+				boolean isSuccess = cat.size() != 0;
+				if (isSuccess == true) {
+					request.setAttribute("cat", cat);
+					request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
+				}
+			} catch (SQLException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+			}
 		} else {
 			request.setAttribute("msg", msg);
 			request.getRequestDispatcher("toComicInfoRegistration").forward(request, response);
