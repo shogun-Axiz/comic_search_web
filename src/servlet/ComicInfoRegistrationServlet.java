@@ -46,10 +46,9 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 		 Map<String, String> map1 = new HashMap<String, String>();
 
 	        parts.stream().forEach(part -> {
-	            log("name:" + part.getName());
-
+	            System.out.println("name:" + part.getName());
 	            String contentType = part.getContentType();
-	            log("contentType:" + contentType);
+	            System.out.println("contentType:" + contentType);
 	            if ( contentType == null) {
 	                try(InputStream inputStream = part.getInputStream()) {
 	                    BufferedReader bufReader = new BufferedReader(new InputStreamReader(inputStream));
@@ -65,7 +64,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 	        String strCategoryId = map1.get("categoryId");
 	        String authorName = map1.get("authorName");
 	        String strPrice = map1.get("price");
-	        String strReleaseDate = map1.get("ReleaseDate");
+	        String strReleaseDate = map1.get("releaseDate");
 	        String publisher = map1.get("publisher");
 	        String synopsis = map1.get("synopsis");
 	        String link = map1.get("link");

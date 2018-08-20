@@ -72,7 +72,7 @@
 							style="width: 100%;">
 							<option value="0">全て</option>
 							<c:forEach var="cat" items="${cat}">
-								<option value="${cat.categoryId }" selected>${cat.categoryName}</option>
+								<option value="${cat.categoryId}" selected>${cat.categoryName}</option>
 							</c:forEach>
 						</select>
 					</p>
@@ -82,30 +82,30 @@
 					</p>
 					<p>
 						<label for="price">値段（円）</label><input type="text" name="price"
-							value="432">
+							value="${list.price}">
 					</p>
 					<p>
 						<label for="releaseDate">発売日</label><input type="text"
-							id="xxdate1" name="releaseDate1" value="1995/01/18" />
+							id="xxdate1" name="releaseDate1" value="${list.releaseDate}" />
 					</p>
 					<p>
 						<label for="publisher">出版社</label><input type="text"
-							name="publisher" value="小学館">
+							name="publisher" value="${list.publisher}">
 					</p>
 					<p>
 						<label for="synopsis">紹介文</label><br>
 						<textarea name="synopsis" rows="16" cols="56"
-							style="width: 100%; height: 400px;">父親のようなプロ野球選手になることを夢見て、日夜トレーニングに励む5歳の野球少年・吾郎！！友達の寿也君とリトルリーグに挑戦！？</textarea>
+							style="width: 100%; height: 400px;">${list.synopsis}</textarea>
 					</p>
 					<p>
 						<label for="link">詳細リンク</label><input type="text" name="link"
-							value="https://play.google.com/store/books/details/%E6%BA%80%E7%94%B0%E6%8B%93%E4%B9%9F_MAJOR_%EF%BC%91?id=UefyCgAAQBAJ">
+							value="${list.link}">
 					</p>
 					<p>
 						<label for="image">表紙画像</label>&emsp;<input type="checkbox"
 							name="imageDelete" style="width: 5%;">画像削除<br> <input
 							type="file" name="pic"><br> <img
-							src="img/UefyCgAAQBAJ.jpg">
+							src="${list.image}">
 					</p>
 				</c:forEach>
 				<h2>
@@ -119,4 +119,9 @@
 	</div>
 	<jsp:include page="include/footer2.jsp" flush="true" />
 </body>
+<script>
+	$(function() {
+		$("#catSel").val("${strCategoryId}");
+	});
+</script>
 </html>

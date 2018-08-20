@@ -165,7 +165,7 @@
 							<td class="releaseDate">${fn:escapeXml(list.releaseDate)}</td>
 							<td class="publisher">${fn:escapeXml(list.publisher)}</td>
 							<td><button type="button" class="btn btn-primary"
-									onClick="location.href='./comicInfoUpdate?comicId=${list.comicId}'">更新</button>
+									onClick="location.href='./toComicInfoUpdate?comicId=${list.comicId}'">更新</button>
 								<button type="button" class="btn btn-danger"
 									onClick="location.href='./comicInfoDelete?comicId=${list.comicId}'">削除</button></td>
 						</tr>

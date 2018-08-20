@@ -11,13 +11,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import entity.Category;
 import entity.Comic;
+import service.CategoryService;
 import service.ComicService;
 
 /**
  * Servlet implementation class ComicInfoUpdateServlet
  */
-@WebServlet("/comicInfoUpdate")
+@WebServlet("/toComicInfoUpdate")
 public class ToComicInfoUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -36,7 +38,26 @@ public class ToComicInfoUpdateServlet extends HttpServlet {
 		try {
 			List<Comic> target = comicService.select(comicId);
 			request.setAttribute("list", target);
-			request.getRequestDispatcher("comicInfoUpdate.jsp").forward(request, response);
+
+			CategoryService categoryService = new CategoryService();
+			try {
+				List<Category> cat = categoryService.authentication();
+				boolean isSuccess = cat.size() != 0;
+				if(isSuccess == true) {
+					request.setAttribute("cat", cat);
+					request.getRequestDispatcher("comicInfoUpdate.jsp").forward(request, response);
+				}
+			} catch (SQLException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+
+				// メッセージ設定
+				request.setAttribute("msg", "サーバーエラーが発生しました\r\n" +
+						"製造元に問い合わせてください");
+
+				// 次画面指定
+				request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 
@@ -45,7 +66,7 @@ public class ToComicInfoUpdateServlet extends HttpServlet {
 					"製造元に問い合わせてください");
 
 			// 次画面指定
-			request.getRequestDispatcher("book.jsp").forward(request, response);
+			request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
 		}
 	}
 
