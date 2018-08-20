@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -163,8 +164,9 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 				if (position != -1) {
 					extension = fileName.substring(position + 1);
 				}
-				targetPath = Paths.get("C:/img/"
-						+ spa + comicId + "." + extension);
+				File file = new File(".../img");
+		        String Path = file.getAbsolutePath();
+		        targetPath = Paths.get(Path);
 				System.out.println(sourcePath.toString());
 				System.out.println(targetPath.toString());
 				Files.move(sourcePath, targetPath);

@@ -27,28 +27,7 @@
 <script type="text/javascript"
 	src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
 
-<script type="text/javascript">
-	function manage() {
 
-		// 「OK」時の処理開始 ＋ 確認ダイアログの表示
-		if (window.confirm('この内容でよろしいですか？')) {
-
-			alert("更新が完了しました！");
-			window.location.href = 'comicInfoManagement.html';
-
-		}
-		// 「OK」時の処理終了
-
-		// 「キャンセル」時の処理開始
-		else {
-
-			alert('キャンセルされました'); // 警告ダイアログを表示
-
-		}
-		// 「キャンセル」時の処理終了
-
-	}
-</script>
 <script src="js/calendar.js"></script>
 </head>
 <body>
@@ -62,13 +41,13 @@
 		<h2 class="login-header">漫画情報更新</h2>
 		<div style="background-color: snow">
 			<form class="login-container">
-				<c:forEach  var="list" items="${list}">
+				<c:forEach var="list" items="${list}">
 					<p>
-						<label for="title">タイトル</label><input type="text" id="title"
+						<label for="title">タイトル</label><input type="text" name="title"
 							value="${list.title}">
 					</p>
 					<p>
-						<label for="category">カテゴリー</label> <select id="catSel"
+						<label for="category">カテゴリー</label> <select name="catSel"
 							style="width: 100%;">
 							<option value="0">全て</option>
 							<c:forEach var="cat" items="${cat}">
@@ -86,7 +65,7 @@
 					</p>
 					<p>
 						<label for="releaseDate">発売日</label><input type="text"
-							id="xxdate1" name="releaseDate1" value="${list.releaseDate}" />
+							class="xdate" name="releaseDate" value="${list.releaseDate}" />
 					</p>
 					<p>
 						<label for="publisher">出版社</label><input type="text"
@@ -104,13 +83,12 @@
 					<p>
 						<label for="image">表紙画像</label>&emsp;<input type="checkbox"
 							name="imageDelete" style="width: 5%;">画像削除<br> <input
-							type="file" name="pic"><br> <img
-							src="${list.image}">
+							type="file" name="pic"><br> <img src="${list.image}">
 					</p>
 				</c:forEach>
 				<h2>
 					<p>
-						<input type="button" value="更新" onClick="manage()"
+						<input type="button" value="更新"
 							style="background-color: #28d; color: white;">
 					</p>
 				</h2>
@@ -121,7 +99,7 @@
 </body>
 <script>
 	$(function() {
-		$("#catSel").val("${strCategoryId}");
+		$("#catSel").val("${catId}");
 	});
 </script>
 </html>

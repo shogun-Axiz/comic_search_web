@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import entity.Category;
 import entity.Comic;
 import service.CategoryService;
 import service.ComicService;
@@ -36,18 +37,21 @@ public class ToComicInfoUpdateServlet extends HttpServlet {
 
 		try {
 			List<Comic> target = comicService.select(comicId);
-			request.setAttribute("list", target);
-
 			String categoryName = target.get(0).getCategoryName();
+			request.setAttribute("categoryName", categoryName);
+			request.setAttribute("list", target);
 
 			CategoryService categoryService = new CategoryService();
 			try {
-
-
-
-					//request.setAttribute("cat", cat);
+				List<Category> cat = categoryService.authentication();
+				boolean isSuccess = cat.size() != 0;
+				if(isSuccess == true) {
+					request.setAttribute("cat", cat);
+					Category category = categoryService.authentication3(categoryName);
+					Integer categoryId = category.getCategoryId();
+					request.setAttribute("catId", categoryId);
 					request.getRequestDispatcher("comicInfoUpdate.jsp").forward(request, response);
-
+				}
 			} catch (SQLException e) {
 				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
