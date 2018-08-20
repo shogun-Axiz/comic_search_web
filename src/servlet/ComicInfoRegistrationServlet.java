@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -40,55 +42,57 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		System.out.println("partx");
 
-		 Collection<Part> parts = request.getParts();
-		 Map<String, String> map1 = new HashMap<String, String>();
+		Collection<Part> parts = request.getParts();
+		Map<String, String> map1 = new HashMap<String, String>();
 
-	        parts.stream().forEach(part -> {
-	            System.out.println("name:" + part.getName());
-	            String contentType = part.getContentType();
-	            System.out.println("contentType:" + contentType);
-	            if ( contentType == null) {
-	                try(InputStream inputStream = part.getInputStream()) {
-	                    BufferedReader bufReader = new BufferedReader(new InputStreamReader(inputStream));
-	                    map1.put(part.getName(),  bufReader.lines().collect(Collectors.joining()));
+		parts.stream().forEach(part -> {
+			//System.out.println("name:" + part.getName());
+			String contentType = part.getContentType();
+			//System.out.println("contentType:" + contentType);
+			if (contentType == null) {
+				try (InputStream inputStream = part.getInputStream()) {
+					BufferedReader bufReader = new BufferedReader(new InputStreamReader(inputStream));
+					map1.put(part.getName(), bufReader.lines().collect(Collectors.joining()));
 
-	                } catch (IOException e) {
-	                    throw new RuntimeException(e);
-	                }
-	            }
-	        });
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			}
+		});
 
-	        String title = map1.get("title");
-	        String strCategoryId = map1.get("categoryId");
-	        String authorName = map1.get("authorName");
-	        String strPrice = map1.get("price");
-	        String strReleaseDate = map1.get("releaseDate");
-	        String publisher = map1.get("publisher");
-	        String synopsis = map1.get("synopsis");
-	        String link = map1.get("link");
-	        String picture = map1.get("picture");
+		String title = map1.get("title");
+		String strCategoryId = map1.get("categoryId");
+		String authorName = map1.get("authorName");
+		String strPrice = map1.get("price");
+		String strReleaseDate = map1.get("releaseDate");
+		String publisher = map1.get("publisher");
+		String synopsis = map1.get("synopsis");
+		String link = map1.get("link");
 
-	        System.out.println(title);
-	        System.out.println(strCategoryId);
-	        System.out.println(authorName);
-	        System.out.println(strPrice);
-	        System.out.println(strReleaseDate);
-	        System.out.println(publisher);
-	        System.out.println(synopsis);
-	        System.out.println(link);
-	        System.out.println(picture);
+		System.out.println(title);
+		System.out.println(strCategoryId);
+		System.out.println(authorName);
+		System.out.println(strPrice);
+		System.out.println(strReleaseDate);
+		System.out.println(publisher);
+		System.out.println(synopsis);
+		System.out.println(link);
+
+		String msg = "";
+
+		String fileName = null;
 
 		try {
 			Part part = request.getPart("picture");
-			String name = this.getFileName(part);
-			part.write(getServletContext().getRealPath("/img"));
-		}catch(Exception e) {
-			e.printStackTrace();
+			fileName = extractFileName(part);
+			System.out.println(fileName);
+			part.write("C:\\tmp\\" + fileName);
+		} catch (Exception e) {
+			//e.printStackTrace();
+			msg += "サーバーエラーが発生しました\r\n" +
+					"製造元に問い合わせてください";
 		}
-
-		String msg = "";
 
 		if ((title == null) || (title.equals(""))) {
 			msg += "タイトルを入力してください";
@@ -164,12 +168,12 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 			String extension = null;
 			Path sourcePath = null;
 			Path targetPath = null;
-/*
+
 			try {
-				sourcePath = Paths.get(pic);
-				int position = pic.lastIndexOf(".");
+				sourcePath = Paths.get(fileName);
+				int position = fileName.lastIndexOf(".");
 				if (position != -1) {
-					extension = pic.substring(position + 1);
+					extension = fileName.substring(position + 1);
 				}
 				targetPath = Paths.get("img/" + spa + comicId + "." + extension);
 				System.out.println(sourcePath.toString());
@@ -181,8 +185,8 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 						"製造元に問い合わせてください";
 			}
 
-			pic = targetPath.toString();
-*/
+			fileName = targetPath.toString();
+
 			System.out.println("this2");
 			HttpSession session = request.getSession();
 
@@ -215,23 +219,23 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 		}
 
 		if (msg == "success") {
-			request.getRequestDispatcher("./toComicInfoManagement").forward(request, response);
+			request.getRequestDispatcher("toComicInfoManagement").forward(request, response);
 		} else {
 			request.setAttribute("msg", msg);
-			request.getRequestDispatcher("comicInfoRegistration").forward(request, response);
+			request.getRequestDispatcher("toComicInfoRegistration").forward(request, response);
 		}
 	}
 
-	private String getFileName(Part part) {
-		String name = null;
-        for (String dispotion : part.getHeader("Content-Disposition").split(";")) {
-            if (dispotion.trim().startsWith("filename")) {
-                name = dispotion.substring(dispotion.indexOf("=") + 1).replace("\"", "").trim();
-                name = name.substring(name.lastIndexOf("\\") + 1);
-                break;
-            }
-        }
-        return name;
+	private String extractFileName(Part part) {
+		String[] splitedHeader = part.getHeader("Content-Disposition").split(";");
+
+		String fileName = null;
+		for (String item : splitedHeader) {
+			if (item.trim().startsWith("filename")) {
+				fileName = item.substring(item.indexOf('"')).replaceAll("\"", "");
+			}
+		}
+		return fileName;
 	}
 
 }
