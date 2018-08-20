@@ -15,7 +15,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -29,9 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
-import entity.Category;
 import entity.Comic;
-import service.CategoryService;
 import service.ComicService;
 
 /**
@@ -41,11 +38,6 @@ import service.ComicService;
 @MultipartConfig(maxFileSize = 209715200)
 public class ComicInfoRegistrationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	public void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException, ServletException {
-		doPost(req, resp);
-	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -78,15 +70,6 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 		String synopsis = map1.get("synopsis");
 		String link = map1.get("link");
 
-		System.out.println(title);
-		System.out.println(strCategoryId);
-		System.out.println(authorName);
-		System.out.println(strPrice);
-		System.out.println(strReleaseDate);
-		System.out.println(publisher);
-		System.out.println(synopsis);
-		System.out.println(link);
-
 		String msg = "";
 
 		String fileName = null;
@@ -94,7 +77,6 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 		try {
 			Part part = request.getPart("picture");
 			fileName = extractFileName(part);
-			System.out.println(fileName);
 			part.write("C:\\tmp\\" + fileName);
 		} catch (Exception e) {
 			//e.printStackTrace();
@@ -135,8 +117,6 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 		if ((link == null) || (link.equals(""))) {
 			msg += "詳細リンクを入力してください";
 		}
-
-		System.out.println("this1");
 
 		Integer categoryId = Integer.parseInt(strCategoryId);
 		Integer price = Integer.parseInt(strPrice);
@@ -194,9 +174,6 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 						"製造元に問い合わせてください";
 			}
 
-			fileName = targetPath.toString();
-
-			System.out.println("this2");
 			HttpSession session = request.getSession();
 
 			String createUser = (String) session.getAttribute("username");
@@ -209,12 +186,11 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 
 			ComicService comicService = new ComicService();
 
-			String pic = null;
+			String pic = targetPath.toString();
 
 			Comic regist = new Comic(comicId, title, categoryId, price, publisher, authorName, releaseDate, synopsis,
 					link, pic, createUser, createDate, modifiedUser, modifiedDate);
 
-			System.out.println("this3");
 			try {
 				comicService.registration(regist);
 
@@ -227,21 +203,8 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 			msg += "success";
 		}
 
-		System.out.println(msg);
-
-		if (msg == "success") {
-			CategoryService categoryService = new CategoryService();
-			try {
-				List<Category> cat = categoryService.authentication();
-				boolean isSuccess = cat.size() != 0;
-				if (isSuccess == true) {
-					request.setAttribute("cat", cat);
-					request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
-				}
-			} catch (SQLException e) {
-				// TODO 自動生成された catch ブロック
-				e.printStackTrace();
-			}
+		if (msg.equals("success")) {
+			request.getRequestDispatcher("toComicInfoManagement").forward(request, response);
 		} else {
 			request.setAttribute("msg", msg);
 			request.getRequestDispatcher("toComicInfoRegistration").forward(request, response);
