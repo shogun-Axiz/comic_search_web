@@ -164,11 +164,9 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 				if (position != -1) {
 					extension = fileName.substring(position + 1);
 				}
-				File file = new File(".../img");
+				File file = new File("../workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/comic_search_web/img");
 		        String Path = file.getAbsolutePath();
-		        targetPath = Paths.get(Path);
-				System.out.println(sourcePath.toString());
-				System.out.println(targetPath.toString());
+				targetPath = Paths.get(Path+ spa + comicId + "." + extension);
 				Files.move(sourcePath, targetPath);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -188,7 +186,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 
 			ComicService comicService = new ComicService();
 
-			String pic = targetPath.toString();
+			String pic = "img/" + fileName.toString();
 
 			Comic regist = new Comic(comicId, title, categoryId, price, publisher, authorName, releaseDate, synopsis,
 					link, pic, createUser, createDate, modifiedUser, modifiedDate);
