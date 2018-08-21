@@ -9,6 +9,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -102,7 +103,9 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 		try {
 			Part part = request.getPart("picture");
 			fileName = extractFileName(part);
-			part.write("C:\\tmp\\" + fileName);
+			File file = new File("C:\\tmp\\img\\" + fileName);
+            file.delete();
+			part.write("C:\\tmp\\img\\" + fileName);
 		} catch (Exception e) {
 			e.printStackTrace();
 			msg += "0.サーバーエラーが発生しました\r\n" +
@@ -182,8 +185,10 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 			Path sourcePath = null;
 			Path targetPath = null;
 
+			String pic = null;
+
 			try {
-				sourcePath = Paths.get("C:\\tmp\\" + fileName);
+				sourcePath = Paths.get("C:\\tmp\\img\\" + fileName);
 				int position = fileName.lastIndexOf(".");
 				if (position != -1) {
 					extension = fileName.substring(position + 1);
@@ -192,7 +197,11 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 						"../workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/comic_search_web/img");
 				String Path = file.getAbsolutePath();
 				targetPath = Paths.get(Path + spa + comicId + "." + extension);
-				Files.move(sourcePath, targetPath);
+				Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
+				pic = "img/" + comicId + "." + extension;
+				if (imageDelete) {
+					pic = null;
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 				msg += "2.サーバーエラーが発生しました\r\n" +
@@ -222,10 +231,7 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 
 			Date modifiedDate = new Date(System.currentTimeMillis());
 
-			String pic = "img/" + fileName.toString();
-			if (imageDelete) {
-				pic = null;
-			}
+
 
 			System.out.println("this4");
 

@@ -78,7 +78,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 		try {
 			Part part = request.getPart("picture");
 			fileName = extractFileName(part);
-			part.write("C:\\tmp\\" + fileName);
+			part.write("C:\\tmp\\img\\" + fileName);
 		} catch (Exception e) {
 			e.printStackTrace();
 			msg += "サーバーエラーが発生しました\r\n" +
@@ -161,7 +161,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 			String pic = null;
 
 			try {
-				sourcePath = Paths.get("C:\\tmp\\" + fileName);
+				sourcePath = Paths.get("C:\\tmp\\img\\" + fileName);
 				int position = fileName.lastIndexOf(".");
 				if (position != -1) {
 					extension = fileName.substring(position + 1);
