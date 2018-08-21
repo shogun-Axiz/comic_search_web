@@ -102,9 +102,11 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 
 		try {
 			Part part = request.getPart("picture");
+			System.out.println(part.toString());
 			fileName = extractFileName(part);
+			System.out.println(fileName);
 			File file = new File("C:\\tmp\\img\\" + fileName);
-            file.delete();
+            System.out.println(file.delete());
 			part.write("C:\\tmp\\img\\" + fileName);
 		} catch (Exception e) {
 			e.printStackTrace();
