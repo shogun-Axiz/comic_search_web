@@ -32,9 +32,13 @@ public class ToComicInfoUpdateServlet extends HttpServlet {
 
 		String strComicId = request.getParameter("comicId");
 
+		System.out.println(strComicId);
+
 		HttpSession session = request.getSession();
 
 		UUID comicId = UUID.fromString(strComicId);
+
+		System.out.println(comicId);
 
 		session.setAttribute("comicId", comicId);
 
@@ -78,6 +82,13 @@ public class ToComicInfoUpdateServlet extends HttpServlet {
 			// 次画面指定
 			request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
 		}
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		request.setCharacterEncoding("UTF-8");
+
+		doGet(request, response);
 	}
 
 }

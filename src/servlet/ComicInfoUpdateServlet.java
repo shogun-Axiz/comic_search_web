@@ -78,7 +78,7 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 
 		HttpSession session = request.getSession();
 
-		UUID comicId = (UUID)session.getAttribute("comicId");
+		UUID comicId = (UUID) session.getAttribute("comicId");
 
 		System.out.println(title);
 		System.out.println(strCategoryId);
@@ -91,10 +91,12 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 		System.out.println(strImageDelete);
 		System.out.println(comicId);
 
+		System.out.println("this1");
+
 		String msg = "";
 
 		boolean imageDelete = true;
-		if(strImageDelete == null) {
+		if (strImageDelete == null) {
 			imageDelete = false;
 		}
 
@@ -144,6 +146,8 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 			msg += "詳細リンクを入力してください";
 		}
 
+		System.out.println("this2");
+
 		Integer categoryId = Integer.parseInt(strCategoryId);
 		Integer price = Integer.parseInt(strPrice);
 
@@ -160,7 +164,7 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 
 		}
 
-		if (msg == "") {
+		if ((msg == null) || (msg.equals(""))) {
 			//発売日をDate型に変換
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 			Date releaseDate = null;
@@ -197,6 +201,8 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 						"製造元に問い合わせてください";
 			}
 
+			System.out.println("this3");
+
 			ComicService comicService = new ComicService();
 
 			List<Comic> comic = null;
@@ -214,16 +220,16 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 
 			Date createDate = comic.get(0).getCreatedDate();
 
-			String modifiedUser =  (String) session.getAttribute("username");
+			String modifiedUser = (String) session.getAttribute("username");
 
 			Date modifiedDate = new Date(System.currentTimeMillis());
 
-
-
 			String pic = "img/" + fileName.toString();
-			if(imageDelete == true) {
-				 pic = null;
+			if (imageDelete == true) {
+				pic = null;
 			}
+
+			System.out.println("this4");
 
 			Comic update = new Comic(comicId, title, categoryId, price, publisher, authorName, releaseDate, synopsis,
 					link, pic, createUser, createDate, modifiedUser, modifiedDate);
@@ -239,6 +245,8 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 			}
 			msg += "success";
 		}
+
+		System.out.println("this5");
 
 		if (msg.equals("success")) {
 			request.getRequestDispatcher("toComicInfoManagement").forward(request, response);

@@ -48,7 +48,7 @@
 							value="${list.title}">
 					</p>
 					<p>
-						<label for="category">カテゴリー</label> <select name="catSel"
+						<label for="category">カテゴリー</label> <select name="catSel" id="catSel"
 							style="width: 100%;">
 							<option value="0">全て</option>
 							<c:forEach var="cat" items="${cat}">
