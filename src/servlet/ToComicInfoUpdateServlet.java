@@ -32,13 +32,9 @@ public class ToComicInfoUpdateServlet extends HttpServlet {
 
 		String strComicId = request.getParameter("comicId");
 
-		System.out.println(strComicId);
-
 		HttpSession session = request.getSession();
 
 		UUID comicId = UUID.fromString(strComicId);
-
-		System.out.println(comicId);
 
 		session.setAttribute("comicId", comicId);
 

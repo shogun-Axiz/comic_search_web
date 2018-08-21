@@ -35,6 +35,11 @@
 		<c:redirect url="index.jsp" />
 	</c:if>
 	<jsp:include page="include/header2.jsp" flush="true" />
+	<c:if test="${not empty msg}">
+		<br>
+		<p style="color: white; font-size: 24px; text-align: center;">${msg}</p>
+		<br>
+	</c:if>
 	<div class="login">
 		<div class="login-triangle"></div>
 
