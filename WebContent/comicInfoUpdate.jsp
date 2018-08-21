@@ -71,7 +71,7 @@
 					</p>
 					<p>
 						<label for="releaseDate">発売日</label><input type="text"
-							class="xdate" name="releaseDate" value="${list.releaseDate}" />
+							class="xdate" name="releaseDate" value="${releaseDate}" />
 					</p>
 					<p>
 						<label for="publisher">出版社</label><input type="text"
@@ -89,7 +89,7 @@
 					<p>
 						<label for="image">表紙画像</label>&emsp;<input type="checkbox"
 							name="imageDelete" style="width: 5%;">画像削除<br> <input
-							type="file" name="pic"><br> <img src="${list.image}">
+							type="file" name="picture"><br> <img src="${list.image}">
 					</p>
 				</c:forEach>
 				<h2>

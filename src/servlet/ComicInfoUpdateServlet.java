@@ -95,10 +95,7 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 
 		String msg = "";
 
-		boolean imageDelete = true;
-		if (strImageDelete == null) {
-			imageDelete = false;
-		}
+		boolean imageDelete = strImageDelete != null;
 
 		String fileName = null;
 
@@ -107,9 +104,9 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 			fileName = extractFileName(part);
 			part.write("C:\\tmp\\" + fileName);
 		} catch (Exception e) {
-			//e.printStackTrace();
-			msg += "サーバーエラーが発生しました\r\n" +
-					"製造元に問い合わせてください";
+			e.printStackTrace();
+			msg += "0.サーバーエラーが発生しました\r\n" +
+					"製造元に問い合わせてください<br>";
 		}
 
 		if ((title == null) || (title.equals(""))) {
@@ -159,6 +156,7 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 			try {
 				df1.parse(strReleaseDate);
 			} catch (ParseException e) {
+				e.printStackTrace();
 				msg += "生年月日をyyyy/mm/dd形式で入力してください<br>";
 			}
 
@@ -174,8 +172,8 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 				releaseDate = new java.sql.Date(day.getTime());
 			} catch (ParseException e) {
 				e.printStackTrace();
-				msg += "サーバーエラーが発生しました\r\n" +
-						"製造元に問い合わせてください";
+				msg += "1.サーバーエラーが発生しました\r\n" +
+						"製造元に問い合わせてください<br>";
 			}
 
 			String spa = FileSystems.getDefault().getSeparator();
@@ -197,8 +195,8 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 				Files.move(sourcePath, targetPath);
 			} catch (IOException e) {
 				e.printStackTrace();
-				msg += "サーバーエラーが発生しました\r\n" +
-						"製造元に問い合わせてください";
+				msg += "2.サーバーエラーが発生しました\r\n" +
+						"製造元に問い合わせてください<br>";
 			}
 
 			System.out.println("this3");
@@ -212,7 +210,7 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 			} catch (SQLException e1) {
 				// TODO 自動生成された catch ブロック
 				e1.printStackTrace();
-				msg += "サーバーエラーが発生しました\r\n" +
+				msg += "3.サーバーエラーが発生しました\r\n" +
 						"製造元に問い合わせてください";
 			}
 
@@ -225,7 +223,7 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 			Date modifiedDate = new Date(System.currentTimeMillis());
 
 			String pic = "img/" + fileName.toString();
-			if (imageDelete == true) {
+			if (imageDelete) {
 				pic = null;
 			}
 
@@ -240,7 +238,7 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 			} catch (SQLException e) {
 				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
-				msg += "サーバーエラーが発生しました\r\n" +
+				msg += "4.サーバーエラーが発生しました\r\n" +
 						"製造元に問い合わせてください";
 			}
 			msg += "success";
@@ -251,6 +249,8 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 		if (msg.equals("success")) {
 			request.getRequestDispatcher("toComicInfoManagement").forward(request, response);
 		} else {
+			String strComicId = String.valueOf(comicId);
+			session.setAttribute("comicId", strComicId);
 			request.setAttribute("msg", msg);
 			request.getRequestDispatcher("toComicInfoUpdate").forward(request, response);
 		}

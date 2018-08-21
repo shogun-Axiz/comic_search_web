@@ -80,7 +80,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 			fileName = extractFileName(part);
 			part.write("C:\\tmp\\" + fileName);
 		} catch (Exception e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 			msg += "サーバーエラーが発生しました\r\n" +
 					"製造元に問い合わせてください";
 		}

@@ -34,6 +34,10 @@ public class ToComicInfoUpdateServlet extends HttpServlet {
 
 		HttpSession session = request.getSession();
 
+		if((strComicId == null) || (strComicId.equals(""))){
+			strComicId = (String) session.getAttribute("comicId");
+		}
+
 		UUID comicId = UUID.fromString(strComicId);
 
 		session.setAttribute("comicId", comicId);
@@ -43,7 +47,9 @@ public class ToComicInfoUpdateServlet extends HttpServlet {
 		try {
 			List<Comic> target = comicService.select(comicId);
 			String categoryName = target.get(0).getCategoryName();
+			String strReleaseDate = target.get(0).getReleaseDate().toString().replace("-", "/");
 			request.setAttribute("categoryName", categoryName);
+			request.setAttribute("releaseDate", strReleaseDate);
 			request.setAttribute("list", target);
 
 			CategoryService categoryService = new CategoryService();
