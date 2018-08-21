@@ -167,7 +167,7 @@
 							<td><button type="button" class="btn btn-primary"
 									onClick="location.href='./toComicInfoUpdate?comicId=${list.comicId}'">更新</button>
 								<button type="button" class="btn btn-danger"
-									onClick="location.href='./comicInfoDelete?comicId=${list.comicId}'">削除</button></td>
+									onClick="location.href='./toComicInfoDelete?comicId=${list.comicId}'">削除</button></td>
 						</tr>
 					</c:forEach>
 				</tbody>
