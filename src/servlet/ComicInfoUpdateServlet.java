@@ -53,9 +53,7 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 		Map<String, String> map1 = new HashMap<String, String>();
 
 		parts.stream().forEach(part -> {
-			//System.out.println("name:" + part.getName());
 			String contentType = part.getContentType();
-			//System.out.println("contentType:" + contentType);
 			if (contentType == null) {
 				try (InputStream inputStream = part.getInputStream()) {
 					BufferedReader bufReader = new BufferedReader(new InputStreamReader(inputStream));
@@ -81,19 +79,6 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 
 		UUID comicId = (UUID) session.getAttribute("comicId");
 
-		System.out.println(title);
-		System.out.println(strCategoryId);
-		System.out.println(authorName);
-		System.out.println(strPrice);
-		System.out.println(strReleaseDate);
-		System.out.println(publisher);
-		System.out.println(synopsis);
-		System.out.println(link);
-		System.out.println(strImageDelete);
-		System.out.println(comicId);
-
-		System.out.println("this1");
-
 		String msg = "";
 
 		boolean imageDelete = strImageDelete != null;
@@ -102,17 +87,14 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 
 		try {
 			Part part = request.getPart("picture");
-			System.out.println(part.toString());
 			fileName = extractFileName(part);
-			System.out.println(fileName);
 			File file = new File("C:\\tmp\\img\\" + fileName);
-            System.out.println(file.delete());
 			if(!(fileName.isEmpty())) {
 				part.write("C:\\tmp\\img\\" + fileName);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			msg += "0.サーバーエラーが発生しました\r\n" +
+			msg += "サーバーエラーが発生しました\r\n" +
 					"製造元に問い合わせてください<br>";
 		}
 
@@ -150,8 +132,6 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 			msg += "詳細リンクを入力してください";
 		}
 
-		System.out.println("this2");
-
 		Integer categoryId = Integer.parseInt(strCategoryId);
 		Integer price = Integer.parseInt(strPrice);
 
@@ -179,7 +159,7 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 				releaseDate = new java.sql.Date(day.getTime());
 			} catch (ParseException e) {
 				e.printStackTrace();
-				msg += "1.サーバーエラーが発生しました\r\n" +
+				msg += "サーバーエラーが発生しました\r\n" +
 						"製造元に問い合わせてください<br>";
 			}
 
@@ -209,7 +189,7 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
-					msg += "2.サーバーエラーが発生しました\r\n" +
+					msg += "サーバーエラーが発生しました\r\n" +
 							"製造元に問い合わせてください<br>";
 				}
 			}
@@ -231,11 +211,9 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
-				msg += "2.サーバーエラーが発生しました\r\n" +
+				msg += "サーバーエラーが発生しました\r\n" +
 						"製造元に問い合わせてください<br>";
 			}
-
-			System.out.println("this3");
 
 			ComicService comicService = new ComicService();
 
@@ -246,7 +224,7 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 			} catch (SQLException e1) {
 				// TODO 自動生成された catch ブロック
 				e1.printStackTrace();
-				msg += "3.サーバーエラーが発生しました\r\n" +
+				msg += "サーバーエラーが発生しました\r\n" +
 						"製造元に問い合わせてください";
 			}
 
@@ -265,10 +243,6 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 
 			Date modifiedDate = new Date(System.currentTimeMillis());
 
-
-
-			System.out.println("this4");
-
 			Comic update = new Comic(comicId, title, categoryId, price, publisher, authorName, releaseDate, synopsis,
 					link, pic, createUser, createDate, modifiedUser, modifiedDate);
 
@@ -278,13 +252,11 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 			} catch (SQLException e) {
 				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
-				msg += "4.サーバーエラーが発生しました\r\n" +
+				msg += "サーバーエラーが発生しました\r\n" +
 						"製造元に問い合わせてください";
 			}
 			msg += "success";
 		}
-
-		System.out.println("this5");
 
 		if (msg.equals("success")) {
 			request.getRequestDispatcher("toComicInfoManagement").forward(request, response);
@@ -301,7 +273,6 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 
 		String fileName = null;
 		for (String item : splitedHeader) {
-			System.out.println(item);
 			if (item.trim().startsWith("filename")) {
 				fileName = item.substring(item.indexOf('"')).replaceAll("\"", "");
 			}

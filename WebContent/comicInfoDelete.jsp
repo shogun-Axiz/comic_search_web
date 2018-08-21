@@ -47,10 +47,10 @@
 					</p>
 					<p>
 						<label for="category">カテゴリー</label> <select name="catSel"
-							id="catSel" style="width: 100%;">
+							id="catSel" style="width: 100%;" disabled>
 							<option value="0">全て</option>
 							<c:forEach var="cat" items="${cat}">
-								<option value="${cat.categoryId}" selected>${cat.categoryName}</option>
+								<option value="${cat.categoryId}" selected >${cat.categoryName}</option>
 							</c:forEach>
 						</select>
 					</p>
@@ -80,7 +80,7 @@
 							value="${list.link}" disabled>
 					</p>
 					<p>
-						<label for="image">表紙画像</label><br> <img src="${list.image}">
+						<label for="image">表紙画像</label><br> <img src="${list.image}" name = "picture" disabled>
 					</p>
 					<h2>
 						<p>
