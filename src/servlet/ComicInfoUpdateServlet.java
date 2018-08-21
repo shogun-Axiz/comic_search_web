@@ -107,7 +107,9 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 			System.out.println(fileName);
 			File file = new File("C:\\tmp\\img\\" + fileName);
             System.out.println(file.delete());
-			part.write("C:\\tmp\\img\\" + fileName);
+			if(!(fileName.isEmpty())) {
+				part.write("C:\\tmp\\img\\" + fileName);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			msg += "0.サーバーエラーが発生しました\r\n" +
@@ -189,6 +191,29 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 
 			String pic = null;
 
+			if(!(fileName.isEmpty())) {
+				try {
+					sourcePath = Paths.get("C:\\tmp\\img\\" + fileName);
+					int position = fileName.lastIndexOf(".");
+					if (position != -1) {
+						extension = fileName.substring(position + 1);
+					}
+					File file = new File(
+							"../workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/comic_search_web/img");
+					String Path = file.getAbsolutePath();
+					targetPath = Paths.get(Path + spa + comicId + "." + extension);
+					Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
+					pic = "img/" + comicId + "." + extension;
+					if (imageDelete) {
+						pic = null;
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+					msg += "2.サーバーエラーが発生しました\r\n" +
+							"製造元に問い合わせてください<br>";
+				}
+			}
+
 			try {
 				sourcePath = Paths.get("C:\\tmp\\img\\" + fileName);
 				int position = fileName.lastIndexOf(".");
@@ -223,6 +248,13 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 				e1.printStackTrace();
 				msg += "3.サーバーエラーが発生しました\r\n" +
 						"製造元に問い合わせてください";
+			}
+
+			if(fileName.isEmpty()) {
+				pic = comic.get(0).getImage();
+				if (imageDelete) {
+					pic = null;
+				}
 			}
 
 			String createUser = comic.get(0).getCreatedUser();
@@ -269,6 +301,7 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 
 		String fileName = null;
 		for (String item : splitedHeader) {
+			System.out.println(item);
 			if (item.trim().startsWith("filename")) {
 				fileName = item.substring(item.indexOf('"')).replaceAll("\"", "");
 			}
