@@ -38,7 +38,8 @@
 
 		<h2 class="login-header">漫画情報削除</h2>
 		<div style="background-color: snow">
-			<form class="login-container">
+			<form class="login-container" method="post"
+				enctype="multipart/form-data" action="comicInfoDelete">
 				<c:forEach var="list" items="${list}">
 					<p>
 						<label for="title">タイトル</label><input type="text" name="title"
