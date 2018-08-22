@@ -56,7 +56,7 @@
 					<input type="submit" value="漫画検索">
 				</p>
 			</form>
-			<form action="accountEdit">
+			<form method="GET" action="accountEdit">
 				<p>
 					<input type="submit" value="アカウント編集">
 				</p>

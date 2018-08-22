@@ -48,7 +48,7 @@ public class ComicInfoDeleteServlet extends HttpServlet {
 		} catch (SQLException e1) {
 			// TODO 自動生成された catch ブロック
 			e1.printStackTrace();
-			msg += "0.サーバーエラーが発生しました\r\n" +
+			msg += "サーバーエラーが発生しました\r\n" +
 					"製造元に問い合わせてください<br>";
 		}
 
@@ -71,24 +71,21 @@ public class ComicInfoDeleteServlet extends HttpServlet {
 			Files.deleteIfExists(targetPath);
 		} catch (IOException e) {
 			e.printStackTrace();
-			msg += "3.サーバーエラーが発生しました\r\n" +
+			msg += "サーバーエラーが発生しました\r\n" +
 					"製造元に問い合わせてください<br>";
 		}
 
 		try {
 			comicService.delete(comicId);
-
+			msg += "success";
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
-			msg += "4.サーバーエラーが発生しました\r\n" +
+			msg += "サーバーエラーが発生しました\r\n" +
 					"製造元に問い合わせてください";
 		}
-		msg += "success";
 
-		if (msg.equals("success"))
-
-		{
+		if (msg.equals("success")){
 			request.getRequestDispatcher("toComicInfoManagement").forward(request, response);
 		} else {
 			String strComicId = String.valueOf(comicId);

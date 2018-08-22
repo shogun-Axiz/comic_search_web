@@ -188,7 +188,7 @@ public class UserDao {
 
 				String DATA = String.join(" AND ", strList);
 
-				String data = TABLE_NAME + "AND " + DATA + LATE;
+				String data = TABLE_NAME + " AND " + DATA + LATE;
 
 				try (PreparedStatement stmt = conn.prepareStatement(data)) {
 
@@ -217,6 +217,26 @@ public class UserDao {
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	public int forcedWithdrawal(User forcedWithdrawal) {
+		try (PreparedStatement stmt = conn.prepareStatement(SQL_UPDATE_ALL)) {
+			stmt.setString(1, forcedWithdrawal.getEmail());
+			stmt.setString(2, forcedWithdrawal.getUserName());
+			stmt.setString(3, forcedWithdrawal.getPassword());
+			stmt.setDate(4, forcedWithdrawal.getBirthday());
+			stmt.setDate(5, forcedWithdrawal.getJoinDate());
+			stmt.setDate(6, forcedWithdrawal.getWithdrawalDate());
+			stmt.setBoolean(7, forcedWithdrawal.isAdminFlg());
+			stmt.setString(8, forcedWithdrawal.getModifiedUser());
+			stmt.setDate(9, forcedWithdrawal.getModifiedDate());
+			stmt.setObject(10, forcedWithdrawal.getUserId());
+
+			return stmt.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

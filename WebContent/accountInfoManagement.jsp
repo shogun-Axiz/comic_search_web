@@ -99,7 +99,7 @@
 							<td class="birthday">${list.birthday}</td>
 							<td class="joindate">${list.joinDate}</td>
 							<td><button type="submit" class="btn btn-danger btn-lg"
-									onClick="location.href='./userDelete?userId=${list.userId}'">強制退会</button></td>
+									onClick="location.href='./forcedWithdrawal?userId=${list.userId}'">強制退会</button></td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -112,7 +112,7 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
 <script>
 	var options = {
-		valueNames : [ 'email', 'username', 'birthday', 'joindate', ]
+		valueNames : [ 'email', 'username', 'birthday', 'joindate']
 	};
 	var comicList = new List('user', options);
 </script>

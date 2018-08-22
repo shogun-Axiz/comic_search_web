@@ -122,4 +122,19 @@ public class UserService {
 		return Collections.emptyList();
 	}
 
+	public int forcedWithdrawal(User forcedWithdrawal) throws SQLException {
+		Connection conn = DbUtil.getConnection();
+		try  {
+			UserDao userDao = new UserDao(conn);
+			return userDao.forcedWithdrawal(forcedWithdrawal);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+            // コネクションの解放
+            conn.close();
+        }
+
+		return 0;
+	}
+
 }

@@ -130,7 +130,7 @@ public class ComicSearchServlet extends HttpServlet {
 					boolean isSuccess2 = cat.size() != 0;
 					if(isSuccess2 == true) {
 						request.setAttribute("cat", cat);
-						request.getRequestDispatcher("comicSearch.jsp").forward(request, response);
+						request.getRequestDispatcher("toComicSearch").forward(request, response);
 					}
 				} catch (SQLException e) {
 					// TODO 自動生成された catch ブロック
@@ -142,7 +142,7 @@ public class ComicSearchServlet extends HttpServlet {
 				request.setAttribute("msg", "入力した条件に一致するデータが見つかりませんでした");
 
 				// 次画面指定
-				request.getRequestDispatcher("comicSearch.jsp").forward(request, response);
+				request.getRequestDispatcher("toComicSearch").forward(request, response);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
