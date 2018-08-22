@@ -21,7 +21,6 @@ public class UserDao {
 	private static final String TABLE_NAME = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE adminflg = 'f'";
 	private static final String LATE = " ORDER BY joindate";
 
-
 	private Connection conn;
 
 	public UserDao(Connection conn) {
@@ -152,11 +151,9 @@ public class UserDao {
 		List<User> list = new ArrayList<User>();
 
 		try {
-			if(((email == null) || (email.equals(""))) && ((userName == null) || (userName.equals("")))
+			if (((email == null) || (email.equals(""))) && ((userName == null) || (userName.equals("")))
 					&& ((birthday == null) || (birthday.equals(""))) && ((joinDate == null) || (joinDate.equals("")))) {
 				String data = TABLE_NAME + LATE;
-
-				System.out.println(data);
 
 				try (PreparedStatement stmt = conn.prepareStatement(data)) {
 
@@ -173,29 +170,34 @@ public class UserDao {
 					e1.printStackTrace();
 					throw new RuntimeException(e1);
 				}
-			}else {
+			} else {
 				ArrayList<String> strList = new ArrayList<String>();
 
-				if((email != null) || (!(email.equals("")))){
+				if ((email != null) && (!(email.equals("")))) {
 					strList.add("email LIKE '%" + email + "%'");
 				}
-				if((userName != null) || (!(userName.equals("")))) {
+				if ((userName != null) && (!(userName.equals("")))) {
 					strList.add("username LIKE '%" + userName + "%'");
 				}
-				if((birthday != null) || (!(birthday.equals("")))) {
+				if ((birthday != null) && (!(birthday.equals("")))) {
 					strList.add("birthday = ?");
 				}
-				if((joinDate != null) || (!(joinDate.equals("")))) {
+				if ((joinDate != null) && (!(joinDate.equals("")))) {
 					strList.add("joinDate = ?");
 				}
 
 				String DATA = String.join(" AND ", strList);
 
-				String data = TABLE_NAME + "AND" + DATA + LATE;
-
-				System.out.println(data);
+				String data = TABLE_NAME + "AND " + DATA + LATE;
 
 				try (PreparedStatement stmt = conn.prepareStatement(data)) {
+
+					if ((birthday != null) && (!(birthday.equals("")))) {
+						stmt.setDate(1, birthday);
+					}
+					if ((joinDate != null) && (!(joinDate.equals("")))) {
+						stmt.setDate(1, joinDate);
+					}
 
 					ResultSet rs = stmt.executeQuery();
 

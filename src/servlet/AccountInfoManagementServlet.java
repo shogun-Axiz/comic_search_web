@@ -40,11 +40,6 @@ public class AccountInfoManagementServlet extends HttpServlet {
 		String strBirthday = request.getParameter("birthday");
 		String strJoinDate = request.getParameter("joinDate");
 
-		System.out.println(email);
-		System.out.println(userName);
-		System.out.println(strBirthday);
-		System.out.println(strJoinDate);
-
 		// 日付の書式を指定する(誕生日)
 		Date birthday = null;
 		if (!(strBirthday.equals(""))) {

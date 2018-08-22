@@ -13,10 +13,14 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
 <!-- jQuery読み込み -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="jquery-1.4.2.js"></script>
 <script type="text/javascript" src="ui/jquery.ui.core.js"></script>
 <script type="text/javascript" src="ui/jquery.ui.datepicker.js"></script>
+<link type="text/css" rel="stylesheet"
+	href="http://code.jquery.com/ui/1.10.3/themes/cupertino/jquery-ui.min.css" />
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript"
@@ -45,11 +49,11 @@
 			</p>
 			<p>
 				<label for="birthday">生年月日</label><input type="text" class="xdate"
-					name="birthday" placeholder="生年月日">
+					id="xxdate1" name="birthday" placeholder="生年月日">
 			</p>
 			<p>
 				<label for="joinDate">入会日</label><input type="text" class="xdate"
-					name="joinDate" placeholder="入会日">
+					id="xxdate2" name="joinDate" placeholder="入会日">
 			</p>
 			<h2>
 				<p>
@@ -71,25 +75,29 @@
 		<p style="text-align: center; color: white;">各項目名をクリックすると並び替えができます（asc
 			: 昇順 desc : 降順）</p>
 		<br>
-		<div id = "user">
+		<div id="user">
 			<table border="1" align="center"
 				style="width: 80%; background-color: white; font-size: 24px;">
 				<thead>
 					<tr align="center">
-						<th class = "sort" data-sort = "email" style="background-color: #CCFFFF;">メールアドレス</th>
-						<th class = "sort" data-sort = "username" style="background-color: #CCFFFF;">ユーザーネーム</th>
-						<th class = "sort" data-sort = "birthday" style="background-color: #CCFFFF;">生年月日</th>
-						<th class = "sort" data-sort = "joindate" style="background-color: #CCFFFF;">入会日</th>
+						<th class="sort" data-sort="email"
+							style="background-color: #CCFFFF;">メールアドレス</th>
+						<th class="sort" data-sort="username"
+							style="background-color: #CCFFFF;">ユーザーネーム</th>
+						<th class="sort" data-sort="birthday"
+							style="background-color: #CCFFFF;">生年月日</th>
+						<th class="sort" data-sort="joindate"
+							style="background-color: #CCFFFF;">入会日</th>
 						<th style="background-color: #CCFFFF;"></th>
 					</tr>
 				</thead>
-				<tbody class = "list">
+				<tbody class="list">
 					<c:forEach var="list" items="${list}">
 						<tr align="center">
-							<td class = "email">${list.email}</td>
-							<td class = "username">${list.userName}</td>
-							<td class = "birthday">${list.birthday}</td>
-							<td class = "joindate">${list.joinDate}</td>
+							<td class="email">${list.email}</td>
+							<td class="username">${list.userName}</td>
+							<td class="birthday">${list.birthday}</td>
+							<td class="joindate">${list.joinDate}</td>
 							<td><button type="submit" class="btn btn-danger btn-lg"
 									onClick="location.href='./userDelete?userId=${list.userId}'">強制退会</button></td>
 						</tr>
