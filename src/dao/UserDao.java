@@ -187,7 +187,7 @@ public class UserDao {
 				}
 
 				String DATA = String.join(" AND ", strList);
-//boy
+
 				String data = TABLE_NAME + " AND " + DATA + LATE;
 
 				try (PreparedStatement stmt = conn.prepareStatement(data)) {
