@@ -85,7 +85,6 @@ public class ComicInfoManagementServlet extends HttpServlet {
 		}
 
 		// 日付の書式を指定する(発売日・右)
-		//boy
 		Date releaseDate2 = null;
 		if ((!(strReleaseDate2.equals("")))) {
 			DateFormat df2 = new SimpleDateFormat("yyyy/MM/dd");

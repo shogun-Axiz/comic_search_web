@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import entity.User;
 import service.UserService;
@@ -20,7 +21,7 @@ import service.UserService;
 /**
  * Servlet implementation class AccountInfoManagementServlet
  */
-@WebServlet("/AccountInfoManagementServlet")
+@WebServlet("/accountInfoManagement")
 public class AccountInfoManagementServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -30,11 +31,19 @@ public class AccountInfoManagementServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		boolean isSuccess = false;
+
+		HttpSession session = request.getSession();
 
 		String email = request.getParameter("email");
 		String userName = request.getParameter("username");
 		String strBirthday = request.getParameter("birthday");
-		String strJoinDate = request.getParameter("joindate");
+		String strJoinDate = request.getParameter("joinDate");
+
+		System.out.println(email);
+		System.out.println(userName);
+		System.out.println(strBirthday);
+		System.out.println(strJoinDate);
 
 		// 日付の書式を指定する(誕生日)
 		Date birthday = null;
@@ -63,7 +72,6 @@ public class AccountInfoManagementServlet extends HttpServlet {
 		}
 
 		// 日付の書式を指定する(入会日)
-		//boy
 		Date joinDate = null;
 		if ((!(strJoinDate.equals("")))) {
 			DateFormat df2 = new SimpleDateFormat("yyyy/MM/dd");
@@ -91,11 +99,29 @@ public class AccountInfoManagementServlet extends HttpServlet {
 
 		UserService userService = new UserService();
 
-		List<User> list;
+		List<User> list = null;
 		try {
 			list = userService.search(email, userName, birthday, joinDate);
 		}catch(SQLException e) {
 			e.printStackTrace();
+		}
+
+		session.setAttribute("list", list);
+
+		if (list.size() != 0) {
+			isSuccess = true;
+		}
+		if (isSuccess == true) {
+
+			request.setAttribute("isSuccess", isSuccess);
+			request.getRequestDispatcher("accountInfoManagement.jsp").forward(request, response);
+
+		} else {
+			// メッセージ設定
+			request.setAttribute("msg", "入力した条件に一致するデータが見つかりませんでした");
+
+			// 次画面指定
+			request.getRequestDispatcher("accountInfoManagement.jsp").forward(request, response);
 		}
 	}
 

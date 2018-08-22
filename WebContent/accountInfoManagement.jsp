@@ -13,15 +13,14 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
 <!-- jQuery読み込み -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<!-- BootstrapのJS読み込み -->
 <script src="js/bootstrap.min.js"></script>
-<script type="text/javascript">
-
-</script>
-<link rel="stylesheet" href="themes/base/jquery.ui.all.css" />
 <script type="text/javascript" src="jquery-1.4.2.js"></script>
+<script type="text/javascript" src="ui/jquery.ui.core.js"></script>
+<script type="text/javascript" src="ui/jquery.ui.datepicker.js"></script>
+<script type="text/javascript"
+	src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript"
+	src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
 <script src="js/calendar.js"></script>
 </head>
 <body>
@@ -69,6 +68,9 @@
 			<p style="text-align: center; color: white;">[検索結果]</p>
 		</h2>
 		<br>
+		<p style="text-align: center; color: white;">各項目名をクリックすると並び替えができます（asc
+			: 昇順 desc : 降順）</p>
+		<br>
 		<div id = "user">
 			<table border="1" align="center"
 				style="width: 80%; background-color: white; font-size: 24px;">
@@ -85,9 +87,9 @@
 					<c:forEach var="list" items="${list}">
 						<tr align="center">
 							<td class = "email">${list.email}</td>
-							<td class = "username">${list.username}</td>
+							<td class = "username">${list.userName}</td>
 							<td class = "birthday">${list.birthday}</td>
-							<td class = "joindate">${list.joindate}</td>
+							<td class = "joindate">${list.joinDate}</td>
 							<td><button type="submit" class="btn btn-danger btn-lg"
 									onClick="location.href='./userDelete?userId=${list.userId}'">強制退会</button></td>
 						</tr>

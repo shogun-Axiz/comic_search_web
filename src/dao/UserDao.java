@@ -18,8 +18,8 @@ public class UserDao {
 	private static final String SQL_SELECT_ID = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE userid = ?";
 	private static final String SQL_INSERT_ALL = "INSERT INTO users (userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String SQL_UPDATE_ALL = "UPDATE  users SET email = ?, username = ?, password = ?, birthday = ?, joindate = ?, withdrawaldate = ?, adminflg = ?, modifieduser = ?, modifieddate = ? WHERE userid = ?";
-	private static final String TABLE_NAME = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users";
-	private static final String LATE = "ORDER BY joindate";
+	private static final String TABLE_NAME = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE adminflg = 'f'";
+	private static final String LATE = " ORDER BY joindate";
 
 
 	private Connection conn;
@@ -152,11 +152,11 @@ public class UserDao {
 		List<User> list = new ArrayList<User>();
 
 		try {
-
-		} catch (Exception e) {
 			if(((email == null) || (email.equals(""))) && ((userName == null) || (userName.equals("")))
 					&& ((birthday == null) || (birthday.equals(""))) && ((joinDate == null) || (joinDate.equals("")))) {
 				String data = TABLE_NAME + LATE;
+
+				System.out.println(data);
 
 				try (PreparedStatement stmt = conn.prepareStatement(data)) {
 
@@ -173,9 +173,47 @@ public class UserDao {
 					e1.printStackTrace();
 					throw new RuntimeException(e1);
 				}
-			}
-		}
+			}else {
+				ArrayList<String> strList = new ArrayList<String>();
 
+				if((email != null) || (!(email.equals("")))){
+					strList.add("email LIKE '%" + email + "%'");
+				}
+				if((userName != null) || (!(userName.equals("")))) {
+					strList.add("username LIKE '%" + userName + "%'");
+				}
+				if((birthday != null) || (!(birthday.equals("")))) {
+					strList.add("birthday = ?");
+				}
+				if((joinDate != null) || (!(joinDate.equals("")))) {
+					strList.add("joinDate = ?");
+				}
+
+				String DATA = String.join(" AND ", strList);
+
+				String data = TABLE_NAME + "AND" + DATA + LATE;
+
+				System.out.println(data);
+
+				try (PreparedStatement stmt = conn.prepareStatement(data)) {
+
+					ResultSet rs = stmt.executeQuery();
+
+					while (rs.next()) {
+						User u = new User((UUID.fromString(rs.getString("userid"))), rs.getString("email"),
+								rs.getString("username"), rs.getString("password"), rs.getDate("birthday"),
+								rs.getDate("joindate"), rs.getDate("withdrawaldate"), rs.getBoolean("adminflg"),
+								rs.getString("modifieduser"), rs.getDate("modifieddate"));
+						list.add(u);
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+					throw new RuntimeException(e);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return list;
 	}
 
