@@ -70,7 +70,7 @@ public class ComicSearchServlet extends HttpServlet {
 				request.getRequestDispatcher("comicSearch.jsp").forward(request, response);
 				return;
 			}
-//boy
+
 			//発売日・左をDate型に変換
 			SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd");
 
