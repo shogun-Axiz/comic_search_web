@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,6 +18,9 @@ public class UserDao {
 	private static final String SQL_SELECT_ID = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE userid = ?";
 	private static final String SQL_INSERT_ALL = "INSERT INTO users (userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String SQL_UPDATE_ALL = "UPDATE  users SET email = ?, username = ?, password = ?, birthday = ?, joindate = ?, withdrawaldate = ?, adminflg = ?, modifieduser = ?, modifieddate = ? WHERE userid = ?";
+	private static final String TABLE_NAME = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users";
+	private static final String LATE = "ORDER BY joindate";
+
 
 	private Connection conn;
 
@@ -32,7 +36,10 @@ public class UserDao {
 			ResultSet rs = stmt.executeQuery();
 
 			if (rs.next()) {
-				return new User( (UUID.fromString(rs.getString("userid"))), rs.getString("email"), rs.getString("username"), rs.getString("password"), rs.getDate("birthday"), rs.getDate("joindate"), rs.getDate("withdrawaldate"), rs.getBoolean("adminflg"), rs.getString("modifieduser"), rs.getDate("modifieddate"));
+				return new User((UUID.fromString(rs.getString("userid"))), rs.getString("email"),
+						rs.getString("username"), rs.getString("password"), rs.getDate("birthday"),
+						rs.getDate("joindate"), rs.getDate("withdrawaldate"), rs.getBoolean("adminflg"),
+						rs.getString("modifieduser"), rs.getDate("modifieddate"));
 			} else {
 				return null;
 			}
@@ -48,7 +55,10 @@ public class UserDao {
 			ResultSet rs = stmt.executeQuery();
 
 			if (rs.next()) {
-				return new User( (UUID.fromString(rs.getString("userid"))), rs.getString("email"), rs.getString("username"), rs.getString("password"), rs.getDate("birthday"), rs.getDate("joindate"), rs.getDate("withdrawaldate"), rs.getBoolean("adminflg"), rs.getString("modifieduser"), rs.getDate("modifieddate"));
+				return new User((UUID.fromString(rs.getString("userid"))), rs.getString("email"),
+						rs.getString("username"), rs.getString("password"), rs.getDate("birthday"),
+						rs.getDate("joindate"), rs.getDate("withdrawaldate"), rs.getBoolean("adminflg"),
+						rs.getString("modifieduser"), rs.getDate("modifieddate"));
 			} else {
 				return null;
 			}
@@ -64,7 +74,10 @@ public class UserDao {
 			ResultSet rs = stmt.executeQuery();
 
 			if (rs.next()) {
-				return new User( (UUID.fromString(rs.getString("userid"))), rs.getString("email"), rs.getString("username"), rs.getString("password"), rs.getDate("birthday"), rs.getDate("joindate"), rs.getDate("withdrawaldate"), rs.getBoolean("adminflg"), rs.getString("modifieduser"), rs.getDate("modifieddate"));
+				return new User((UUID.fromString(rs.getString("userid"))), rs.getString("email"),
+						rs.getString("username"), rs.getString("password"), rs.getDate("birthday"),
+						rs.getDate("joindate"), rs.getDate("withdrawaldate"), rs.getBoolean("adminflg"),
+						rs.getString("modifieduser"), rs.getDate("modifieddate"));
 			} else {
 				return null;
 			}
@@ -74,7 +87,7 @@ public class UserDao {
 	}
 
 	public int registration(User regist) {
-		try (PreparedStatement stmt = conn.prepareStatement(SQL_INSERT_ALL)){
+		try (PreparedStatement stmt = conn.prepareStatement(SQL_INSERT_ALL)) {
 			stmt.setObject(1, regist.getUserId());
 			stmt.setString(2, regist.getEmail());
 			stmt.setString(3, regist.getUserName());
@@ -88,7 +101,7 @@ public class UserDao {
 
 			return stmt.executeUpdate();
 
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -102,8 +115,8 @@ public class UserDao {
 
 			ResultSet rs = stmt.executeQuery();
 
-			while(rs.next()) {
-				User u = new User( (UUID.fromString(rs.getString("userid"))), rs.getString("email"),
+			while (rs.next()) {
+				User u = new User((UUID.fromString(rs.getString("userid"))), rs.getString("email"),
 						rs.getString("username"), rs.getString("password"), rs.getDate("birthday"),
 						rs.getDate("joindate"), rs.getDate("withdrawaldate"), rs.getBoolean("adminflg"),
 						rs.getString("modifieduser"), rs.getDate("modifieddate"));
@@ -116,7 +129,7 @@ public class UserDao {
 	}
 
 	public int update(User updateData) {
-		try (PreparedStatement stmt = conn.prepareStatement(SQL_UPDATE_ALL)){
+		try (PreparedStatement stmt = conn.prepareStatement(SQL_UPDATE_ALL)) {
 			stmt.setString(1, updateData.getEmail());
 			stmt.setString(2, updateData.getUserName());
 			stmt.setString(3, updateData.getPassword());
@@ -130,10 +143,40 @@ public class UserDao {
 
 			return stmt.executeUpdate();
 
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
+	public List<User> find(String email, String userName, Date birthday, Date joinDate) {
+		List<User> list = new ArrayList<User>();
+
+		try {
+
+		} catch (Exception e) {
+			if(((email == null) || (email.equals(""))) && ((userName == null) || (userName.equals("")))
+					&& ((birthday == null) || (birthday.equals(""))) && ((joinDate == null) || (joinDate.equals("")))) {
+				String data = TABLE_NAME + LATE;
+
+				try (PreparedStatement stmt = conn.prepareStatement(data)) {
+
+					ResultSet rs = stmt.executeQuery();
+
+					while (rs.next()) {
+						User u = new User((UUID.fromString(rs.getString("userid"))), rs.getString("email"),
+								rs.getString("username"), rs.getString("password"), rs.getDate("birthday"),
+								rs.getDate("joindate"), rs.getDate("withdrawaldate"), rs.getBoolean("adminflg"),
+								rs.getString("modifieduser"), rs.getDate("modifieddate"));
+						list.add(u);
+					}
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+					throw new RuntimeException(e1);
+				}
+			}
+		}
+
+		return list;
+	}
 
 }

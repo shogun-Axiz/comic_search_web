@@ -1,7 +1,9 @@
 package service;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -104,6 +106,20 @@ public class UserService {
         }
 
 		return 0;
+	}
+
+	public List<User> search(String email, String userName, Date birthday, Date joinDate) throws SQLException {
+		Connection conn = DbUtil.getConnection();
+		try{
+			UserDao userDao = new UserDao(conn);
+			return userDao.find(email, userName, birthday, joinDate);
+		}catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+            // コネクションの解放
+            conn.close();
+        }
+		return Collections.emptyList();
 	}
 
 }
