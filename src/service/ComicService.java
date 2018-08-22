@@ -75,4 +75,18 @@ public class ComicService {
 		return 0;
 	}
 
+	public int delete(UUID comicId) throws SQLException {
+		Connection conn = DbUtil.getConnection();
+		try {
+			ComicDao charDao = new ComicDao(conn);
+			return charDao.delete(comicId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			conn.close();
+		}
+
+		return 0;
+	}
+
 }

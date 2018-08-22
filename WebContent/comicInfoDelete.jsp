@@ -80,11 +80,11 @@
 							value="${list.link}" disabled>
 					</p>
 					<p>
-						<label for="image">表紙画像</label><br> <img src="${list.image}" name = "picture" disabled>
+						<label for="image">表紙画像</label><br> <img src="${list.image}" name = "picture">
 					</p>
 					<h2>
 						<p>
-							<input type="button" value="削除" onClick="manage()"
+							<input type="submit" value="削除"
 								style="background-color: #28d; color: white;">
 						</p>
 					</h2>

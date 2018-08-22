@@ -22,6 +22,7 @@ public class ComicDao {
 	private static final String UPDATE_ALL = "UPDATE comic SET title = ?, categoryid = ?, price = ?,"
 			+ " publisher = ?, authorname = ?, releasedate = ?, synopsis = ?, link = ?, image = ?, createuser = ?,"
 			+ " createdate = ?, modifieduser = ?, modifieddate = ? WHERE comicid = ?";
+	private static final String DELETE_ALL = "DELETE FROM comic WHERE comicid = ?";
 
 	private Connection conn;
 
@@ -196,6 +197,16 @@ public class ComicDao {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}
+
+	public int delete(UUID comicId) {
+		try(PreparedStatement stmt = conn.prepareStatement(DELETE_ALL)){
+			stmt.setObject(1, comicId);
+
+			return stmt.executeUpdate();
+		}catch(SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
