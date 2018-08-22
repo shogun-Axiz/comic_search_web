@@ -29,6 +29,9 @@
 	<c:if test="${empty username}">
 		<c:redirect url="index.jsp" />
 	</c:if>
+	<c:if test="${!empty withdrawalDate}">
+		<c:redirect url="index.jsp" />
+	</c:if>
 	<header style="background-color: blue;">
 		<div style="text-align: right;">
 			<div style="text-align: left;">

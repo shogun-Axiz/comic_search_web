@@ -72,6 +72,7 @@ public class LoginServlet extends HttpServlet {
 
 				session.setAttribute("userid", userId);
 				session.setAttribute("username", userName);
+				session.setAttribute("withdrawalDate", withdrawaldate);
 				if (adminFlg == true) {
 					request.getRequestDispatcher("adminTop.jsp").forward(request, response);
 				} else {
