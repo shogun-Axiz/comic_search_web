@@ -44,7 +44,7 @@ public class BookServlet extends HttpServlet {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
-
+//boy
 		Date withdrawalDate = user.get(0).getWithdrawalDate();
 
 		session.setAttribute("withdrawalDate", withdrawalDate);
