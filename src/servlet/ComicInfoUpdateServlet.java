@@ -31,6 +31,7 @@ import javax.servlet.http.Part;
 import entity.Comic;
 import service.ComicService;
 import util.ConversionDate;
+import util.ExtractFileName;
 
 /**
  * Servlet implementation class ComicInfoUpdateServlet
@@ -85,8 +86,11 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 
 		try {
 			Part part = request.getPart("picture");
-			fileName = extractFileName(part);
-			File file = new File("C:\\tmp\\img\\" + fileName);
+
+			ExtractFileName efn = new ExtractFileName();
+
+			fileName = efn.extractFileName(part);
+
 			if (!(fileName.isEmpty())) {
 				part.write("C:\\tmp\\img\\" + fileName);
 			}
@@ -251,18 +255,6 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 			request.setAttribute("msg", msg);
 			request.getRequestDispatcher("toComicInfoUpdate").forward(request, response);
 		}
-	}
-
-	private String extractFileName(Part part) {
-		String[] splitedHeader = part.getHeader("Content-Disposition").split(";");
-
-		String fileName = null;
-		for (String item : splitedHeader) {
-			if (item.trim().startsWith("filename")) {
-				fileName = item.substring(item.indexOf('"')).replaceAll("\"", "");
-			}
-		}
-		return fileName;
 	}
 
 }

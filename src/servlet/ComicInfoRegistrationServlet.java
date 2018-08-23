@@ -29,6 +29,7 @@ import javax.servlet.http.Part;
 import entity.Comic;
 import service.ComicService;
 import util.ConversionDate;
+import util.ExtractFileName;
 
 /**
  * Servlet implementation class ComicInfoRegistrationServlet
@@ -46,9 +47,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 		Map<String, String> map1 = new HashMap<String, String>();
 
 		parts.stream().forEach(part -> {
-			//System.out.println("name:" + part.getName());
 			String contentType = part.getContentType();
-			//System.out.println("contentType:" + contentType);
 			if (contentType == null) {
 				try (InputStream inputStream = part.getInputStream()) {
 					BufferedReader bufReader = new BufferedReader(new InputStreamReader(inputStream));
@@ -75,7 +74,10 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 
 		try {
 			Part part = request.getPart("picture");
-			fileName = extractFileName(part);
+
+			ExtractFileName efn = new ExtractFileName();
+
+			fileName = efn.extractFileName(part);
 			part.write("C:\\tmp\\img\\" + fileName);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -197,18 +199,6 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 			request.setAttribute("msg", msg);
 			request.getRequestDispatcher("toComicInfoRegistration").forward(request, response);
 		}
-	}
-
-	private String extractFileName(Part part) {
-		String[] splitedHeader = part.getHeader("Content-Disposition").split(";");
-
-		String fileName = null;
-		for (String item : splitedHeader) {
-			if (item.trim().startsWith("filename")) {
-				fileName = item.substring(item.indexOf('"')).replaceAll("\"", "");
-			}
-		}
-		return fileName;
 	}
 
 }
