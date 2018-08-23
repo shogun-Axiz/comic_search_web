@@ -82,7 +82,7 @@ public class AccountEditServlet extends HttpServlet {
 
 		//退会チェック
 		Date withdrawalDate = user.get(0).getWithdrawalDate();
-		if((withdrawalDate != null) || (!(withdrawalDate.equals("")))) {
+		if ((withdrawalDate != null) || (!(withdrawalDate.equals("")))) {
 			msg += "withdrawal";
 		}
 
@@ -94,6 +94,16 @@ public class AccountEditServlet extends HttpServlet {
 			msg += "メールアドレスの形式が正しくありません<br>";
 		}
 
+		//パスワード（再入力含む）が空の場合はログインしているユーザーのパスワードを取得する
+		if (((password == null) && (rePassword == null)) || ((password.equals("") && rePassword.equals("")))) {
+			password = user.get(0).getPassword();
+		} else if (password.length() > 20) {
+			msg += "パスワードは20字までです<br>";
+		} else if (((rePassword == null)) || (rePassword.equals(""))) {
+			msg += "パスワード（再入力）を入力してください<br>";
+		} else if ((!(password.equals(rePassword)))) {
+			msg += "パスワードが一致していません<br>";
+		}
 		// 日付の書式を指定する
 		DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 		// 日付解析を厳密に行う設定にする
@@ -102,16 +112,6 @@ public class AccountEditServlet extends HttpServlet {
 			df.parse(strBirthday);
 		} catch (ParseException e) {
 			msg += "生年月日をyyyy/mm/dd形式で入力してください<br>";
-		}
-		//パスワード（再入力含む）が空の場合はログインしているユーザーのパスワードを取得する
-		if (((password == null) && (rePassword == null)) || ((password.equals("") && rePassword.equals("")))) {
-			password = user.get(0).getPassword();
-		}else if (password.length() > 20) {
-			msg += "パスワードは20字までです<br>";
-		}else if (((rePassword == null)) || (rePassword.equals(""))) {
-			msg += "パスワード（再入力）を入力してください<br>";
-		}else if ((!(password.equals(rePassword)))) {
-			msg += "パスワードが一致していません<br>";
 		}
 		if (msg == "") {
 			msg += "success";

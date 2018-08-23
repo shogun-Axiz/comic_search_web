@@ -3,9 +3,6 @@ package servlet;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -19,6 +16,7 @@ import entity.Category;
 import entity.Comic;
 import service.CategoryService;
 import service.ComicService;
+import util.ConversionDate;
 
 /**
  * Servlet implementation class ComicInfoManagementServlet
@@ -58,56 +56,21 @@ public class ComicInfoManagementServlet extends HttpServlet {
 		Integer price1 = Integer.parseInt(strPrice1);
 		Integer price2 = Integer.parseInt(strPrice2);
 
-		// 日付の書式を指定する(発売日・左)
+		ConversionDate cond = new ConversionDate();
+
 		Date releaseDate1 = null;
-		if (!(strReleaseDate1.equals(""))) {
-			DateFormat df1 = new SimpleDateFormat("yyyy/MM/dd");
-			// 日付解析を厳密に行う設定にする
-			df1.setLenient(false);
-			try {
-				df1.parse(strReleaseDate1);
-			} catch (ParseException e) {
-				request.setAttribute("msg", "発売日をyyyy/mm/dd形式で入力してください<br>");
-				// 次画面指定
-				request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
-				return;
-			}
-
-			//発売日・左をDate型に変換
-			SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd");
-
-			try {
-				java.util.Date day1 = sdf1.parse(strReleaseDate1);
-				releaseDate1 = new java.sql.Date(day1.getTime());
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-		}
-
-		// 日付の書式を指定する(発売日・右)
 		Date releaseDate2 = null;
-		if ((!(strReleaseDate2.equals("")))) {
-			DateFormat df2 = new SimpleDateFormat("yyyy/MM/dd");
-			// 日付解析を厳密に行う設定にする
-			df2.setLenient(false);
-			try {
-				df2.parse(strReleaseDate2);
-			} catch (ParseException e) {
-				request.setAttribute("msg", "発売日をyyyy/mm/dd形式で入力してください<br>");
-				// 次画面指定
-				request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
-				return;
-			}
 
-			//発売日・をDate型に変換
-			SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy/MM/dd");
+		try {
+			// 日付の書式を指定する(発売日・左)
+			releaseDate1 = cond.conversion(strReleaseDate1);
 
-			try {
-				java.util.Date day2 = sdf2.parse(strReleaseDate2);
-				releaseDate2 = new java.sql.Date(day2.getTime());
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+			// 日付の書式を指定する(発売日・右)
+			releaseDate2 = cond.conversion(strReleaseDate2);
+		}catch(Exception e) {
+			request.setAttribute("msg", "発売日をyyyy/mm/dd形式で入力してください<br>");
+			// 次画面指定
+			request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
 		}
 
 		ComicService comicService = new ComicService();
