@@ -26,20 +26,13 @@ public class ToUserTopServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-
-		String userName = request.getParameter("username");
 
 		HttpSession session = request.getSession();
 
-		UUID userId = (UUID)session.getAttribute("userid");
-
-		if(userId == null) {
-			System.out.println("none id");
-		}else {
-			System.out.println(userId);
-		}
+		UUID userId = (UUID) session.getAttribute("userid");
 
 		UserService userService = new UserService();
 
@@ -54,17 +47,14 @@ public class ToUserTopServlet extends HttpServlet {
 
 		Date withdrawalDate = user.get(0).getWithdrawalDate();
 
-		System.out.println(withdrawalDate);
-
 		session.setAttribute("withdrawalDate", withdrawalDate);
 
-		session.setAttribute("username", userName);
-
-		if(withdrawalDate != null) {
+		if (withdrawalDate != null) {
 			request.getRequestDispatcher("index.jsp").forward(request, response);
-		}else {
+		} else {
 			request.getRequestDispatcher("userTop.jsp").forward(request, response);
 		}
+
 	}
 
 }
