@@ -11,9 +11,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +28,7 @@ import javax.servlet.http.Part;
 
 import entity.Comic;
 import service.ComicService;
+import util.ConversionDate;
 
 /**
  * Servlet implementation class ComicInfoRegistrationServlet
@@ -122,32 +120,21 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 		Integer categoryId = Integer.parseInt(strCategoryId);
 		Integer price = Integer.parseInt(strPrice);
 
-		// 日付の書式を指定する(発売日)
-		if (!(strReleaseDate.equals(""))) {
-			DateFormat df1 = new SimpleDateFormat("yyyy/MM/dd");
-			// 日付解析を厳密に行う設定にする
-			df1.setLenient(false);
-			try {
-				df1.parse(strReleaseDate);
-			} catch (ParseException e) {
-				msg += "生年月日をyyyy/mm/dd形式で入力してください<br>";
-			}
+		ConversionDate cond = new ConversionDate();
 
+		Date releaseDate = null;
+
+		try {
+			releaseDate = cond.conversion(strReleaseDate);
+		} catch (Exception e) {
+			request.setAttribute("msg", "誕生日をyyyy/mm/dd形式で入力してください<br>");
+			// 次画面指定
+			request.getRequestDispatcher("accountInfoManagement.jsp").forward(request, response);
+			return;
 		}
 
 		if (msg == "") {
-			//発売日をDate型に変換
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-			Date releaseDate = null;
 
-			try {
-				java.util.Date day = sdf.parse(strReleaseDate);
-				releaseDate = new java.sql.Date(day.getTime());
-			} catch (ParseException e) {
-				e.printStackTrace();
-				msg += "サーバーエラーが発生しました\r\n" +
-						"製造元に問い合わせてください";
-			}
 
 			//漫画ID
 			UUID comicId = UUID.randomUUID();

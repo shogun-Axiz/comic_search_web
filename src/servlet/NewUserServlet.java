@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -18,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import entity.User;
 import service.UserService;
+import util.ConversionDate;
 
 /**
  * Servlet implementation class NewUser
@@ -77,28 +75,18 @@ public class NewUserServlet extends HttpServlet {
 			msg += "メールアドレスの形式が正しくありません<br>";
 		}
 
-		// 日付の書式を指定する
-		DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-		// 日付解析を厳密に行う設定にする
-		df.setLenient(false);
+		ConversionDate cond = new ConversionDate();
+
+		// 日付の書式を指定する(誕生日)
+		Date birthday = null;
 		try {
-			df.parse(strBirthday);
-		} catch (ParseException e) {
-			msg += "生年月日をyyyy/mm/dd形式で入力してください<br>";
+			birthday = cond.conversion(strBirthday);
+		}catch(Exception e) {
+			msg += "誕生日をyyyy/mm/dd形式で入力してください<br>";
 		}
 
 		if (msg == "") {
 			msg += "success";
-
-			//生年月日をDate型に変換
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-			Date birthday = null;
-			try {
-				java.util.Date day = sdf.parse(strBirthday);
-				birthday = new java.sql.Date(day.getTime());
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
 
 			//4項目以外の情報を取得(not null制約でない変数についてはnullに設定)
 			//会員ID

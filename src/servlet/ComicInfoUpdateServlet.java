@@ -12,9 +12,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +30,7 @@ import javax.servlet.http.Part;
 
 import entity.Comic;
 import service.ComicService;
+import util.ConversionDate;
 
 /**
  * Servlet implementation class ComicInfoUpdateServlet
@@ -89,7 +87,7 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 			Part part = request.getPart("picture");
 			fileName = extractFileName(part);
 			File file = new File("C:\\tmp\\img\\" + fileName);
-			if(!(fileName.isEmpty())) {
+			if (!(fileName.isEmpty())) {
 				part.write("C:\\tmp\\img\\" + fileName);
 			}
 		} catch (Exception e) {
@@ -135,33 +133,20 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 		Integer categoryId = Integer.parseInt(strCategoryId);
 		Integer price = Integer.parseInt(strPrice);
 
-		// 日付の書式を指定する(発売日)
-		if (!(strReleaseDate.equals(""))) {
-			DateFormat df1 = new SimpleDateFormat("yyyy/MM/dd");
-			// 日付解析を厳密に行う設定にする
-			df1.setLenient(false);
-			try {
-				df1.parse(strReleaseDate);
-			} catch (ParseException e) {
-				e.printStackTrace();
-				msg += "生年月日をyyyy/mm/dd形式で入力してください<br>";
-			}
+		ConversionDate cond = new ConversionDate();
 
+		Date releaseDate = null;
+
+		try {
+			releaseDate = cond.conversion(strReleaseDate);
+		} catch (Exception e) {
+			request.setAttribute("msg", "誕生日をyyyy/mm/dd形式で入力してください<br>");
+			// 次画面指定
+			request.getRequestDispatcher("accountInfoManagement.jsp").forward(request, response);
+			return;
 		}
 
 		if ((msg == null) || (msg.equals(""))) {
-			//発売日をDate型に変換
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-			Date releaseDate = null;
-
-			try {
-				java.util.Date day = sdf.parse(strReleaseDate);
-				releaseDate = new java.sql.Date(day.getTime());
-			} catch (ParseException e) {
-				e.printStackTrace();
-				msg += "サーバーエラーが発生しました\r\n" +
-						"製造元に問い合わせてください<br>";
-			}
 
 			String spa = FileSystems.getDefault().getSeparator();
 
@@ -171,7 +156,7 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 
 			String pic = null;
 
-			if(!(fileName.isEmpty())) {
+			if (!(fileName.isEmpty())) {
 				try {
 					sourcePath = Paths.get("C:\\tmp\\img\\" + fileName);
 					int position = fileName.lastIndexOf(".");
@@ -228,7 +213,7 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 						"製造元に問い合わせてください";
 			}
 
-			if(fileName.isEmpty()) {
+			if (fileName.isEmpty()) {
 				pic = comic.get(0).getImage();
 				if (imageDelete) {
 					pic = null;

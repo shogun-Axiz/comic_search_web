@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -20,6 +17,7 @@ import javax.servlet.http.HttpSession;
 
 import entity.User;
 import service.UserService;
+import util.ConversionDate;
 
 /**
  * Servlet implementation class AccountEditServlet
@@ -104,27 +102,18 @@ public class AccountEditServlet extends HttpServlet {
 		} else if ((!(password.equals(rePassword)))) {
 			msg += "パスワードが一致していません<br>";
 		}
-		// 日付の書式を指定する
-		DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-		// 日付解析を厳密に行う設定にする
-		df.setLenient(false);
+
+		ConversionDate cond = new ConversionDate();
+
+		Date birthday = null;
+
 		try {
-			df.parse(strBirthday);
-		} catch (ParseException e) {
-			msg += "生年月日をyyyy/mm/dd形式で入力してください<br>";
+			birthday = cond.conversion(strBirthday);
+		}catch(Exception e) {
+			msg += "誕生日をyyyy/mm/dd形式で入力してください<br>";
 		}
 		if (msg == "") {
 			msg += "success";
-
-			//生年月日をDate型に変換
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-			Date birthday = null;
-			try {
-				java.util.Date day = sdf.parse(strBirthday);
-				birthday = new java.sql.Date(day.getTime());
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
 
 			//入会日
 			Date joinDate = user.get(0).getJoinDate();
