@@ -15,9 +15,6 @@
 </script>
 </head>
 <body>
-	<c:if test="${!empty withdrawalDate}">
-		<c:redirect url="toUserTop?username=${username}" />
-	</c:if>
 	<header style="background-color: blue;">
 		<div style="text-align: right;">
 			<div style="text-align: left;">
