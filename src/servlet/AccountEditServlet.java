@@ -80,7 +80,7 @@ public class AccountEditServlet extends HttpServlet {
 
 		//退会チェック
 		Date withdrawalDate = user.get(0).getWithdrawalDate();
-		if ((withdrawalDate != null) || (!(withdrawalDate.equals("")))) {
+		if (withdrawalDate != null) {
 			msg += "withdrawal";
 		}
 
