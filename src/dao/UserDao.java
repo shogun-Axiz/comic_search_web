@@ -189,7 +189,7 @@ public class UserDao {
 					strList.add("birthday = ?");
 				}
 				if ((joinDate != null) && (!(joinDate.equals("")))) {
-					strList.add("joinDate = ?");
+					strList.add("joindate = ?");
 				}
 
 				String DATA = String.join(" AND ", strList);
@@ -203,11 +203,9 @@ public class UserDao {
 					if(((birthday != null) && (!(birthday.equals("")))) && ((joinDate != null) && (!(joinDate.equals(""))))) {
 						stmt.setDate(1, birthday);
 						stmt.setDate(2, joinDate);
-					}
-					if ((birthday != null) && (!(birthday.equals("")))) {
+					} else if ((birthday != null) && (!(birthday.equals("")))) {
 						stmt.setDate(1, birthday);
-					}
-					if ((joinDate != null) && (!(joinDate.equals("")))) {
+					} else if ((joinDate != null) && (!(joinDate.equals("")))) {
 						stmt.setDate(1, joinDate);
 					}
 
