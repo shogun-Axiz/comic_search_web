@@ -20,10 +20,8 @@ public class ToIndexServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 
 		String email = request.getParameter("email");
-		String password = request.getParameter("password");
 
 		request.setAttribute("email", email);
-		request.setAttribute("password", password);
 
 		request.getRequestDispatcher("index.jsp").forward(request, response);
 	}

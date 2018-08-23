@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
@@ -22,7 +23,8 @@ import service.UserService;
 public class ToAccountEditServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 
 		HttpSession session = request.getSession();
@@ -37,12 +39,20 @@ public class ToAccountEditServlet extends HttpServlet {
 			String userName = user.get(0).getUserName();
 			String email = user.get(0).getEmail();
 			String strBirthday = user.get(0).getBirthday().toString().replace("-", "/");
+			Date withdrawalDate = user.get(0).getWithdrawalDate();
 
-			request.setAttribute("username", userName);
-			request.setAttribute("email", email);
-			request.setAttribute("birthday", strBirthday);
+			session.setAttribute("withdrawalDate", withdrawalDate);
 
-			request.getRequestDispatcher("accountEdit.jsp").forward(request, response);
+			if (withdrawalDate != null) {
+				request.getRequestDispatcher("index.jsp").forward(request, response);
+			} else {
+				request.setAttribute("username", userName);
+				request.setAttribute("email", email);
+				request.setAttribute("birthday", strBirthday);
+
+				request.getRequestDispatcher("accountEdit.jsp").forward(request, response);
+			}
+
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();

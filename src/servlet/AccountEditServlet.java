@@ -80,6 +80,12 @@ public class AccountEditServlet extends HttpServlet {
 			msg += "生年月日を入力してください<br>";
 		}
 
+		//退会チェック
+		Date withdrawalDate = user.get(0).getWithdrawalDate();
+		if((withdrawalDate != null) || (!(withdrawalDate.equals("")))) {
+			msg += "withdrawal";
+		}
+
 		//メールアドレス判定
 		String pattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$";
 		Pattern p = Pattern.compile(pattern);
@@ -124,7 +130,7 @@ public class AccountEditServlet extends HttpServlet {
 			Date joinDate = user.get(0).getJoinDate();
 
 			//退会日
-			Date withdrawalDate = null;
+			withdrawalDate = null;
 
 			//管理者フラグ
 			boolean adminFlg = false;
@@ -146,7 +152,6 @@ public class AccountEditServlet extends HttpServlet {
 			}
 
 		}
-
 		out.print(msg);
 	}
 

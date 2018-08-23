@@ -42,8 +42,11 @@
 					alert(data);
 					if (data == 'success') {
 						alert("会員情報を編集しました！");
-						location.href = "/comic_search_web/toUserTop?username="+document.getElementById("username").value;
-					} else {
+						location.href = "/comic_search_web/toUserTop?username="
+								+ document.getElementById("username").value;
+					}else if(data == 'withdrawal'){
+						location.href = "/comic_search_web/index.jsp";
+					}else {
 						$('#error').text(data);
 					}
 
@@ -93,13 +96,12 @@
 		<form class="login-container" method="GET">
 
 			<p>
-				<label for="email">メールアドレス</label><input type="text"
-					id="email" value="${email}" placeholder="メールアドレス">
+				<label for="email">メールアドレス</label><input type="text" id="email"
+					value="${email}" placeholder="メールアドレス">
 			</p>
 			<p>
 				<label for="username">ユーザーネーム</label><input type="text"
-					id="username" value="${username}"
-					placeholder="ユーザーネーム">
+					id="username" value="${username}" placeholder="ユーザーネーム">
 			</p>
 			<p>
 				<label for="password">パスワード</label><input type="password"
