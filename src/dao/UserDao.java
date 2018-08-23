@@ -43,6 +43,7 @@ public class UserDao {
 				return null;
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 	}
@@ -62,6 +63,7 @@ public class UserDao {
 				return null;
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 	}
@@ -81,6 +83,7 @@ public class UserDao {
 				return null;
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 	}
@@ -101,6 +104,7 @@ public class UserDao {
 			return stmt.executeUpdate();
 
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 	}
@@ -122,6 +126,7 @@ public class UserDao {
 				list.add(u);
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 		return list;
@@ -143,6 +148,7 @@ public class UserDao {
 			return stmt.executeUpdate();
 
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 	}
@@ -235,6 +241,7 @@ public class UserDao {
 			return stmt.executeUpdate();
 
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 	}

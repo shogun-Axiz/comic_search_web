@@ -16,12 +16,12 @@
 </head>
 <body>
 	<c:if test="${!empty withdrawalDate}">
-		<c:redirect url="index.jsp" />
+		<c:redirect url="toUserTop?username=${username}" />
 	</c:if>
 	<header style="background-color: blue;">
 		<div style="text-align: right;">
 			<div style="text-align: left;">
-				<a href="userTop.jsp"
+				<a href="toUserTop?username=${username}"
 					style="float: left; font-size: 36px; color: white; text-decoration: none; margin-left: 30px;">
 					Comic Searcher </a>
 				<p
@@ -30,7 +30,7 @@
 			</div>
 			<div style="float: right; margin-top: 12px; margin-right: 30px;">
 				<input type="button" style="float: right;" value="トップに戻る"
-					onClick="location.href='userTop.jsp'"> <input type="button"
+					onClick="location.href='toUserTop?username=${username}'"> <input type="button"
 					style="float: right;" value="ログアウト" onClick="logout()">
 			</div>
 			<div style="clear: both;"></div>

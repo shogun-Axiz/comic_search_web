@@ -35,6 +35,12 @@ public class ToUserTopServlet extends HttpServlet {
 
 		UUID userId = (UUID)session.getAttribute("userid");
 
+		if(userId == null) {
+			System.out.println("none id");
+		}else {
+			System.out.println(userId);
+		}
+
 		UserService userService = new UserService();
 
 		List<User> user = null;
@@ -48,11 +54,17 @@ public class ToUserTopServlet extends HttpServlet {
 
 		Date withdrawalDate = user.get(0).getWithdrawalDate();
 
+		System.out.println(withdrawalDate);
+
 		session.setAttribute("withdrawalDate", withdrawalDate);
 
 		session.setAttribute("username", userName);
 
-		request.getRequestDispatcher("userTop.jsp").forward(request, response);
+		if(withdrawalDate != null) {
+			request.getRequestDispatcher("index.jsp").forward(request, response);
+		}else {
+			request.getRequestDispatcher("userTop.jsp").forward(request, response);
+		}
 	}
 
 }
