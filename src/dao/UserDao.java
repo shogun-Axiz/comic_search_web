@@ -18,7 +18,7 @@ public class UserDao {
 	private static final String SQL_SELECT_ID = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE userid = ?";
 	private static final String SQL_INSERT_ALL = "INSERT INTO users (userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String SQL_UPDATE_ALL = "UPDATE  users SET email = ?, username = ?, password = ?, birthday = ?, joindate = ?, withdrawaldate = ?, adminflg = ?, modifieduser = ?, modifieddate = ? WHERE userid = ?";
-	private static final String TABLE_NAME = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE adminflg = 'f' AND withdrawaldate IS NULL";
+	private static final String TABLE_NAME = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE (adminflg = 'f' AND withdrawaldate IS NULL)";
 	private static final String LATE = " ORDER BY joindate";
 
 	private Connection conn;
@@ -196,8 +196,14 @@ public class UserDao {
 
 				String data = TABLE_NAME + " AND " + DATA + LATE;
 
+				System.out.println(data);
+
 				try (PreparedStatement stmt = conn.prepareStatement(data)) {
 
+					if(((birthday != null) && (!(birthday.equals("")))) && ((joinDate != null) && (!(joinDate.equals(""))))) {
+						stmt.setDate(1, birthday);
+						stmt.setDate(2, joinDate);
+					}
 					if ((birthday != null) && (!(birthday.equals("")))) {
 						stmt.setDate(1, birthday);
 					}

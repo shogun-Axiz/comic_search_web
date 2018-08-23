@@ -41,19 +41,19 @@
 			action="accountInfoManagement">
 			<p>
 				<label for="email">メールアドレス</label><input type="text" name="email"
-					placeholder="メールアドレス">
+					placeholder="メールアドレス" value="${email}">
 			</p>
 			<p>
 				<label for="username">ユーザーネーム</label><input type="text"
-					name="username" placeholder="ユーザーネーム">
+					name="username" placeholder="ユーザーネーム" value="${userName}">
 			</p>
 			<p>
 				<label for="birthday">生年月日</label><input type="text" class="xdate"
-					id="xxdate1" name="birthday" placeholder="生年月日">
+					id="xxdate1" name="birthday" placeholder="生年月日" value="${birthday}">
 			</p>
 			<p>
 				<label for="joinDate">入会日</label><input type="text" class="xdate"
-					id="xxdate2" name="joinDate" placeholder="入会日">
+					id="xxdate2" name="joinDate" placeholder="入会日" value="${joinDate}">
 			</p>
 			<h2>
 				<p>

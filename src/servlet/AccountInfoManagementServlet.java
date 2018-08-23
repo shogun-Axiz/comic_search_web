@@ -37,6 +37,11 @@ public class AccountInfoManagementServlet extends HttpServlet {
 		String strBirthday = request.getParameter("birthday");
 		String strJoinDate = request.getParameter("joinDate");
 
+		request.setAttribute("email", email);
+		request.setAttribute("userName", userName);
+		request.setAttribute("birthday", strBirthday);
+		request.setAttribute("joinDate", strJoinDate);
+
 		ConversionDate cond = new ConversionDate();
 
 		// 日付の書式を指定する(誕生日)
