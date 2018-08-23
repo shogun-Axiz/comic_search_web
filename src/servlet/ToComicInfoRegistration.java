@@ -29,8 +29,7 @@ public class ToComicInfoRegistration extends HttpServlet {
 		CategoryService categoryService = new CategoryService();
 		try {
 			List<Category> cat = categoryService.authentication();
-			boolean isSuccess = cat.size() != 0;
-			if(isSuccess == true) {
+			if(cat.size() != 0) {
 				request.setAttribute("cat", cat);
 				request.getRequestDispatcher("comicInfoRegistration.jsp").forward(request, response);
 			}

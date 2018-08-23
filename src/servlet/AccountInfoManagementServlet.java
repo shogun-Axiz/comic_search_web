@@ -31,7 +31,6 @@ public class AccountInfoManagementServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		boolean isSuccess = false;
 
 		HttpSession session = request.getSession();
 
@@ -104,11 +103,8 @@ public class AccountInfoManagementServlet extends HttpServlet {
 		session.setAttribute("list", list);
 
 		if (list.size() != 0) {
-			isSuccess = true;
-		}
-		if (isSuccess == true) {
 
-			request.setAttribute("isSuccess", isSuccess);
+			request.setAttribute("isSuccess", true);
 			request.getRequestDispatcher("accountInfoManagement.jsp").forward(request, response);
 
 		} else {

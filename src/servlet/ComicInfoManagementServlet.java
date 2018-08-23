@@ -30,9 +30,9 @@ public class ComicInfoManagementServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		boolean isSuccess = false;
 
 		HttpSession session = request.getSession();
 
@@ -119,23 +119,16 @@ public class ComicInfoManagementServlet extends HttpServlet {
 			session.setAttribute("list", list);
 
 			if (list.size() != 0) {
-				isSuccess = true;
-			}
-			if (isSuccess == true) {
 
-				request.setAttribute("isSuccess", isSuccess);
+				request.setAttribute("isSuccess", true);
 
 				CategoryService categoryService = new CategoryService();
-				try {
-					List<Category> cat = categoryService.authentication();
-					boolean isSuccess2 = cat.size() != 0;
-					if(isSuccess2 == true) {
-						request.setAttribute("cat", cat);
-						request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
-					}
-				} catch (SQLException e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
+
+				List<Category> cat = categoryService.authentication();
+				boolean isSuccess2 = cat.size() != 0;
+				if (isSuccess2 == true) {
+					request.setAttribute("cat", cat);
+					request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
 				}
 
 			} else {

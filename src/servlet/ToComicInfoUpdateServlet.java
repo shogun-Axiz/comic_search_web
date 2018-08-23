@@ -27,14 +27,15 @@ public class ToComicInfoUpdateServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 
 		String strComicId = request.getParameter("comicId");
 
 		HttpSession session = request.getSession();
 
-		if((strComicId == null) || (strComicId.equals(""))){
+		if ((strComicId == null) || (strComicId.equals(""))) {
 			strComicId = (String) session.getAttribute("comicId");
 		}
 
@@ -53,27 +54,16 @@ public class ToComicInfoUpdateServlet extends HttpServlet {
 			request.setAttribute("list", target);
 
 			CategoryService categoryService = new CategoryService();
-			try {
-				List<Category> cat = categoryService.authentication();
-				boolean isSuccess = cat.size() != 0;
-				if(isSuccess == true) {
-					request.setAttribute("cat", cat);
-					Category category = categoryService.authentication3(categoryName);
-					Integer categoryId = category.getCategoryId();
-					request.setAttribute("catId", categoryId);
-					request.getRequestDispatcher("comicInfoUpdate.jsp").forward(request, response);
-				}
-			} catch (SQLException e) {
-				// TODO 自動生成された catch ブロック
-				e.printStackTrace();
 
-				// メッセージ設定
-				request.setAttribute("msg", "サーバーエラーが発生しました\r\n" +
-						"製造元に問い合わせてください");
-
-				// 次画面指定
-				request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
+			List<Category> cat = categoryService.authentication();
+			if (cat.size() != 0) {
+				request.setAttribute("cat", cat);
+				Category category = categoryService.authentication3(categoryName);
+				Integer categoryId = category.getCategoryId();
+				request.setAttribute("catId", categoryId);
+				request.getRequestDispatcher("comicInfoUpdate.jsp").forward(request, response);
 			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 
@@ -86,7 +76,8 @@ public class ToComicInfoUpdateServlet extends HttpServlet {
 		}
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
 

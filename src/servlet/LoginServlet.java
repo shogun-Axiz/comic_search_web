@@ -55,9 +55,8 @@ public class LoginServlet extends HttpServlet {
 			return;
 
 		}
-		boolean isSuccess = (user != null);
 
-		if (isSuccess) {
+		if (user != null) {
 			Date withdrawaldate = user.getWithdrawalDate();
 			if (withdrawaldate != null) {
 				request.setAttribute("msg", "入力されたアカウントは既に退会されております");
