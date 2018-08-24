@@ -63,8 +63,8 @@ public class NewUserServlet extends HttpServlet {
 						}
 					}
 				} catch (SQLException e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
+					msg += "サーバーエラーが発生しました\r\n" +
+							"製造元に問い合わせてください<br>";
 				}
 			}
 		}
@@ -129,8 +129,8 @@ public class NewUserServlet extends HttpServlet {
 			try {
 				userService.registration(regist);
 			} catch (SQLException e) {
-				// TODO 自動生成された catch ブロック
-				e.printStackTrace();
+				msg += "サーバーエラーが発生しました\r\n" +
+						"製造元に問い合わせてください<br>";
 			}
 
 		}
