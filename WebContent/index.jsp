@@ -41,7 +41,7 @@
 				<input type="email" name="email" value="${fn:escapeXml(email)}" placeholder="メールアドレス">
 			</p>
 			<p>
-				<input type="password" name="password" value="${password}" placeholder="パスワード">
+				<input type="password" name="password" placeholder="パスワード">
 			</p>
 			<p>
 				<input type="submit" value="ログイン">
