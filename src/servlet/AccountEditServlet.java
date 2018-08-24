@@ -80,17 +80,11 @@ public class AccountEditServlet extends HttpServlet {
 			if (!(p.matcher(email).find())) {
 				msg += "メールアドレスの形式が正しくありません<br>";
 			} else {
-				try {
-					User user2 = userService.authentication2(email);
-					String exEmail = user2.getEmail();
+					String exEmail = user.get(0).getEmail();
 					if (email.equals(exEmail)) {
 						msg += "このメールアドレスは既に登録済みです\r\n" +
 								"別のメールアドレスを入力してください<br>";
 					}
-				} catch (SQLException e) {
-					msg += "サーバーエラーが発生しました\r\n" +
-							"製造元に問い合わせてください<br>";
-				}
 			}
 		}
 		if ((userName == null) || (userName.equals(""))) {
@@ -98,13 +92,11 @@ public class AccountEditServlet extends HttpServlet {
 		} else if (userName != null && userName.length() > 50) {
 			msg += "ユーザーネームは50字までです<br>";
 		}
-		if ((password == null) || (password.equals(""))) {
-			msg += "パスワードを入力してください<br>";
-		} else if (password != null && password.length() > 20) {
+		if (password != null && password.length() > 20) {
 			msg += "パスワードは20字までです<br>";
-		} else if ((rePassword == null) || (rePassword.equals(""))) {
+		} else if ((password != null) && (rePassword == null) || (rePassword.equals(""))) {
 			msg += "パスワード（再入力）を入力してください<br>";
-		} else if (!(password.equals(rePassword))) {
+		} else if ((password != null) && (!(password.equals(rePassword)))) {
 			msg += "パスワードが一致していません<br>";
 		}
 
