@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -41,48 +42,61 @@ public class NewUserServlet extends HttpServlet {
 
 		if ((email == null) || (email.equals(""))) {
 			msg += "メールアドレスを入力してください<br>";
+		} else if ((email != null) && email.length() > 50) {
+			msg += "メールアドレスは50字までです<br>";
+		} else {
+			//メールアドレス判定
+			String pattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$";
+			Pattern p = Pattern.compile(pattern);
+
+			if (!(p.matcher(email).find())) {
+				msg += "メールアドレスの形式が正しくありません<br>";
+			}else {
+				UserService userService = new UserService();
+				try {
+					List<User> user = userService.find();
+					for(int i = 0; i < user.size(); i++) {
+						String exEmail = user.get(i).getEmail();
+						if(email.equals(exEmail)) {
+							msg += "このメールアドレスは既に登録済みです\r\n" +
+									"別のメールアドレスを入力してください<br>";
+						}
+					}
+				} catch (SQLException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+				}
+			}
 		}
 		if ((userName == null) || (userName.equals(""))) {
 			msg += "ユーザーネームを入力してください<br>";
+		} else if (userName != null && userName.length() > 50) {
+			msg += "ユーザーネームは50字までです<br>";
 		}
 		if ((password == null) || (password.equals(""))) {
 			msg += "パスワードを入力してください<br>";
+		} else if (password != null && password.length() > 20) {
+			msg += "パスワードは20字までです<br>";
 		}
 		if ((rePassword == null) || (rePassword.equals(""))) {
 			msg += "パスワード（再入力）を入力してください<br>";
-		}
-		if ((email != null) && email.length() > 50) {
-			msg += "メールアドレスは50字までです<br>";
-		}
-		if (userName != null && userName.length() > 50) {
-			msg += "ユーザーネームは50字までです<br>";
-		}
-		if (password != null && password.length() > 20) {
-			msg += "パスワードは20字までです<br>";
-		}
-		if (!(password.equals(rePassword))) {
+		} else if (!(password.equals(rePassword))) {
 			msg += "パスワードが一致していません<br>";
 		}
+
+		Date birthday = null;
+
 		if ((strBirthday == null) || (strBirthday.equals(""))) {
 			msg += "生年月日を入力してください<br>";
-		}
+		} else {
+			ConversionDate cond = new ConversionDate();
 
-		//メールアドレス判定
-		String pattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$";
-		Pattern p = Pattern.compile(pattern);
-
-		if (!(p.matcher(email).find())) {
-			msg += "メールアドレスの形式が正しくありません<br>";
-		}
-
-		ConversionDate cond = new ConversionDate();
-
-		// 日付の書式を指定する(誕生日)
-		Date birthday = null;
-		try {
-			birthday = cond.conversion(strBirthday);
-		}catch(Exception e) {
-			msg += "誕生日をyyyy/mm/dd形式で入力してください<br>";
+			// 日付の書式を指定する(誕生日)
+			try {
+				birthday = cond.conversion(strBirthday);
+			} catch (Exception e) {
+				msg += "誕生日をyyyy/mm/dd形式で入力してください<br>";
+			}
 		}
 
 		if (msg == "") {

@@ -12,6 +12,7 @@ import java.util.UUID;
 import entity.User;
 
 public class UserDao {
+	private static final String SQL_SELECT_ALL = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users";
 	private static final String SQL_SELECT_MAIL_AND_PASS = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE email = ? AND password = ?";
 	private static final String SQL_SELECT_MAIL = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE email = ?";
 	private static final String SQL_SELECT_PASS = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE password = ?";
@@ -25,6 +26,28 @@ public class UserDao {
 
 	public UserDao(Connection conn) {
 		this.conn = conn;
+	}
+
+	public List<User> findAll() {
+		List<User> list = new ArrayList<User>();
+
+		try (PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_ALL)) {
+
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				User u = new User((UUID.fromString(rs.getString("userid"))), rs.getString("email"),
+						rs.getString("username"), rs.getString("password"), rs.getDate("birthday"),
+						rs.getDate("joindate"), rs.getDate("withdrawaldate"), rs.getBoolean("adminflg"),
+						rs.getString("modifieduser"), rs.getDate("modifieddate"));
+				list.add(u);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+
+		return list;
 	}
 
 	public User findByEmailAndPass(String email, String password) {
