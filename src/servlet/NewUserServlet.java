@@ -50,12 +50,12 @@ public class NewUserServlet extends HttpServlet {
 
 			if (!(p.matcher(email).find())) {
 				msg += "メールアドレスの形式が正しくありません<br>";
-			}else {
+			} else {
 				UserService userService = new UserService();
 				try {
 					User user = userService.authentication2(email);
 					String exEmail = user.getEmail();
-					if(email.equals(exEmail)) {
+					if (email.equals(exEmail)) {
 						msg += "このメールアドレスは既に登録済みです\r\n" +
 								"別のメールアドレスを入力してください<br>";
 					}
@@ -74,8 +74,7 @@ public class NewUserServlet extends HttpServlet {
 			msg += "パスワードを入力してください<br>";
 		} else if (password != null && password.length() > 20) {
 			msg += "パスワードは20字までです<br>";
-		}
-		if ((rePassword == null) || (rePassword.equals(""))) {
+		} else if ((rePassword == null) || (rePassword.equals(""))) {
 			msg += "パスワード（再入力）を入力してください<br>";
 		} else if (!(password.equals(rePassword))) {
 			msg += "パスワードが一致していません<br>";
