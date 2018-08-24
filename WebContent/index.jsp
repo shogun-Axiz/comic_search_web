@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -37,7 +38,7 @@
 		</c:if>
 		<form class="login-container" method="GET" action="./login">
 			<p>
-				<input type="email" name="email" value="${email}" placeholder="メールアドレス">
+				<input type="email" name="email" value="${fn:escapeXml(email)}" placeholder="メールアドレス">
 			</p>
 			<p>
 				<input type="password" name="password" value="${password}" placeholder="パスワード">

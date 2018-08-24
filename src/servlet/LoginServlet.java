@@ -29,6 +29,8 @@ public class LoginServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 
+		request.setAttribute("email", email);
+
 		if ((email == null) || (email.equals(""))) {
 			request.setAttribute("msg", "メールアドレスを入力してください");
 
