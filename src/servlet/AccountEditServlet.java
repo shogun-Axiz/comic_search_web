@@ -59,6 +59,12 @@ public class AccountEditServlet extends HttpServlet {
 					"製造元に問い合わせてください<br>";
 		}
 
+		//退会チェック
+		Date withdrawalDate = user.get(0).getWithdrawalDate();
+		if (withdrawalDate != null) {
+			msg += "withdrawal";
+		}
+
 		response.setContentType("text/plain; charset=UTF-8");
 		PrintWriter out = response.getWriter();
 
