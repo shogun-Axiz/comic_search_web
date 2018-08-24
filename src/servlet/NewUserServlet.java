@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -54,13 +53,11 @@ public class NewUserServlet extends HttpServlet {
 			}else {
 				UserService userService = new UserService();
 				try {
-					List<User> user = userService.find();
-					for(int i = 0; i < user.size(); i++) {
-						String exEmail = user.get(i).getEmail();
-						if(email.equals(exEmail)) {
-							msg += "このメールアドレスは既に登録済みです\r\n" +
-									"別のメールアドレスを入力してください<br>";
-						}
+					User user = userService.authentication2(email);
+					String exEmail = user.getEmail();
+					if(email.equals(exEmail)) {
+						msg += "このメールアドレスは既に登録済みです\r\n" +
+								"別のメールアドレスを入力してください<br>";
 					}
 				} catch (SQLException e) {
 					msg += "サーバーエラーが発生しました\r\n" +

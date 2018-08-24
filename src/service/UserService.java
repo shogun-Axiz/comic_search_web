@@ -13,21 +13,6 @@ import util.DbUtil;
 
 public class UserService {
 
-	public List<User> find() throws SQLException {
-		Connection conn = DbUtil.getConnection();
-		try  {
-			UserDao userDao = new UserDao(conn);
-			return userDao.findAll();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-            // コネクションの解放
-            conn.close();
-        }
-
-		return Collections.emptyList();
-	}
-
 	public User authentication(String email, String password) throws SQLException {
 		Connection conn = DbUtil.getConnection();
 		try{
