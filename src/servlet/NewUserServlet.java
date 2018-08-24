@@ -91,7 +91,7 @@ public class NewUserServlet extends HttpServlet {
 			try {
 				birthday = cond.conversion(strBirthday);
 			} catch (Exception e) {
-				msg += "誕生日をyyyy/mm/dd形式で入力してください<br>";
+				msg += "生年月日をyyyy/mm/dd形式で入力してください<br>";
 			}
 		}
 
