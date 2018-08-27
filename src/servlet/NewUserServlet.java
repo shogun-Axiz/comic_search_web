@@ -36,6 +36,8 @@ public class NewUserServlet extends HttpServlet {
 
 		String msg = "";
 
+		System.out.println("this1");
+
 		response.setContentType("text/plain; charset=UTF-8");
 		PrintWriter out = response.getWriter();
 
@@ -55,6 +57,7 @@ public class NewUserServlet extends HttpServlet {
 				try {
 					User user = userService.authentication2(email);
 					String exEmail = user.getEmail();
+					System.out.println(exEmail);
 					if (email.equals(exEmail)) {
 						msg += "このメールアドレスは既に登録済みです\r\n" +
 								"別のメールアドレスを入力してください<br>";
@@ -80,6 +83,8 @@ public class NewUserServlet extends HttpServlet {
 			msg += "パスワードが一致していません<br>";
 		}
 
+		System.out.println("this2");
+
 		Date birthday = null;
 
 		if ((strBirthday == null) || (strBirthday.equals(""))) {
@@ -94,6 +99,8 @@ public class NewUserServlet extends HttpServlet {
 				msg += "生年月日をyyyy/mm/dd形式で入力してください<br>";
 			}
 		}
+
+		System.out.println("this3");
 
 		if (msg == "") {
 			msg += "success";
@@ -129,9 +136,13 @@ public class NewUserServlet extends HttpServlet {
 						"製造元に問い合わせてください<br>";
 			}
 
+			System.out.println("this4");
+
 		}
 
 		out.print(msg);
+
+		System.out.println("this5");
 
 	}
 

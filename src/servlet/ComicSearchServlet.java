@@ -63,6 +63,10 @@ public class ComicSearchServlet extends HttpServlet {
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
+			request.setAttribute("msg", "サーバーエラーが発生しました\r\n" +
+					"製造元に問い合わせてください");
+			// 次画面指定
+			request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
 		}
 
 		Date withdrawalDate = user.get(0).getWithdrawalDate();
@@ -123,6 +127,10 @@ public class ComicSearchServlet extends HttpServlet {
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
+				request.setAttribute("msg", "サーバーエラーが発生しました\r\n" +
+						"製造元に問い合わせてください");
+				// 次画面指定
+				request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
 			}
 		}
 

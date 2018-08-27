@@ -80,11 +80,12 @@ public class AccountEditServlet extends HttpServlet {
 			if (!(p.matcher(email).find())) {
 				msg += "メールアドレスの形式が正しくありません<br>";
 			} else {
-					String exEmail = user.get(0).getEmail();
-					if (email.equals(exEmail)) {
-						msg += "このメールアドレスは既に登録済みです\r\n" +
-								"別のメールアドレスを入力してください<br>";
-					}
+				String exEmail = user.get(0).getEmail();
+				System.out.println(exEmail);
+				if (email.equals(exEmail)) {
+					msg += "このメールアドレスは既に登録済みです\r\n" +
+							"別のメールアドレスを入力してください<br>";
+				}
 			}
 		}
 		if ((userName == null) || (userName.equals(""))) {
