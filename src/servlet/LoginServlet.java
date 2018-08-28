@@ -2,7 +2,6 @@ package servlet;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -47,7 +46,7 @@ public class LoginServlet extends HttpServlet {
 		User user = null;
 		try {
 			user = userService.authentication(email, password);
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 
 			request.setAttribute("msg", "サーバーエラーが発生しました\r\n" + "製造元に問い合わせてください");
