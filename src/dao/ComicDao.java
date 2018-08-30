@@ -52,7 +52,7 @@ public class ComicDao {
 					while (rs.next()) {
 						Comic u = new Comic(UUID.fromString(rs.getString("comicid")), rs.getString("title"),
 								rs.getString("categoryname"),
-								rs.getInt("price"), rs.getString("authorname"), rs.getString("publisher"),
+								rs.getInt("price"), rs.getString("publisher"), rs.getString("authorname"),
 								rs.getDate("releasedate"),
 								rs.getString("synopsis"), rs.getString("link"), rs.getString("image"),
 								rs.getString("createuser"), rs.getDate("createdate"), rs.getString("modifieduser"),
@@ -102,7 +102,7 @@ public class ComicDao {
 					while (rs.next()) {
 						Comic u = new Comic(UUID.fromString(rs.getString("comicid")), rs.getString("title"),
 								rs.getString("categoryname"),
-								rs.getInt("price"), rs.getString("authorname"), rs.getString("publisher"),
+								rs.getInt("price"), rs.getString("publisher"), rs.getString("authorname"),
 								rs.getDate("releasedate"),
 								rs.getString("synopsis"), rs.getString("link"), rs.getString("image"),
 								rs.getString("createuser"), rs.getDate("createdate"), rs.getString("modifieduser"),
@@ -138,7 +138,7 @@ public class ComicDao {
 			while (rs.next()) {
 				Comic u = new Comic(UUID.fromString(rs.getString("comicid")), rs.getString("title"),
 						rs.getString("categoryname"),
-						rs.getInt("price"), rs.getString("authorname"), rs.getString("publisher"),
+						rs.getInt("price"), rs.getString("publisher"), rs.getString("authorname"),
 						rs.getDate("releasedate"),
 						rs.getString("synopsis"), rs.getString("link"), rs.getString("image"),
 						rs.getString("createuser"), rs.getDate("createdate"), rs.getString("modifieduser"),

@@ -56,7 +56,7 @@
 					</p>
 					<p>
 						<label for="authorName">原作者名</label><input type="text"
-							name="authorName" value="${list.publisher}" disabled>
+							name="authorName" value="${list.authorName}" disabled>
 					</p>
 					<p>
 						<label for="price">値段</label><input type="text" name="price"
@@ -68,7 +68,7 @@
 					</p>
 					<p>
 						<label for="publisher">出版社</label><input type="text"
-							name="publisher" value="${list.authorName}" disabled>
+							name="publisher" value="${list.publisher}" disabled>
 					</p>
 					<p>
 						<label for="synopsis">紹介文</label><br>

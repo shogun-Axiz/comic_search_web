@@ -41,11 +41,11 @@
 					</tr>
 					<tr border="1" align="center">
 						<th>出版社</th>
-						<td>${fn:escapeXml(list.authorName)}</td>
+						<td>${fn:escapeXml(list.publisher)}</td>
 					</tr>
 					<tr border="1" align="center">
 						<th>原作者</th>
-						<td>${fn:escapeXml(list.publisher)}</td>
+						<td>${fn:escapeXml(list.authorName)}</td>
 					</tr>
 					<tr border="1" align="center">
 						<th>カテゴリー</th>

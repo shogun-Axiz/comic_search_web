@@ -62,7 +62,7 @@ public class BookServlet extends HttpServlet {
 				List<Comic> target = comicService.select(comicId);
 				request.setAttribute("list", target);
 				request.getRequestDispatcher("book.jsp").forward(request, response);
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 
 				// メッセージ設定

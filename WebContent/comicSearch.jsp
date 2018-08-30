@@ -152,10 +152,10 @@
 							<td class="title"><a href="./book?comicId=${list.comicId}"
 								target="_blank">${fn:escapeXml(list.title)}</a></td>
 							<td class="category">${fn:escapeXml(list.categoryName)}</td>
-							<td class="auhtorName">${fn:escapeXml(list.authorName)}</td>
+							<td class="publisher">${fn:escapeXml(list.publisher)}</td>
 							<td class="price">${fn:escapeXml(list.price)}</td>
 							<td class="releaseDate">${fn:escapeXml(list.releaseDate)}</td>
-							<td class="publisher">${fn:escapeXml(list.publisher)}</td>
+							<td class="authorName">${fn:escapeXml(list.authorName)}</td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -167,6 +167,8 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
 <script>
+
+
 	var options = {
 		valueNames : [ 'title', 'category', 'publisher', 'price',
 				'releaseDate', 'authorName' ]
