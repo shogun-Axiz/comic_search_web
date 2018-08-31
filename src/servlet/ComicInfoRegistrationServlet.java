@@ -54,6 +54,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 					map1.put(part.getName(), bufReader.lines().collect(Collectors.joining()));
 
 				} catch (IOException e) {
+					e.printStackTrace();
 					throw new RuntimeException(e);
 				}
 			}
@@ -129,6 +130,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 		try {
 			releaseDate = cond.conversion(strReleaseDate);
 		} catch (Exception e) {
+			e.printStackTrace();
 			request.setAttribute("msg", "誕生日をyyyy/mm/dd形式で入力してください<br>");
 			// 次画面指定
 			request.getRequestDispatcher("accountInfoManagement.jsp").forward(request, response);

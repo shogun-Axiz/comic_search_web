@@ -144,6 +144,7 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 		try {
 			releaseDate = cond.conversion(strReleaseDate);
 		} catch (Exception e) {
+			e.printStackTrace();
 			request.setAttribute("msg", "誕生日をyyyy/mm/dd形式で入力してください<br>");
 			// 次画面指定
 			request.getRequestDispatcher("accountInfoManagement.jsp").forward(request, response);

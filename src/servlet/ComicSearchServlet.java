@@ -92,6 +92,7 @@ public class ComicSearchServlet extends HttpServlet {
 				// 日付の書式を指定する(発売日・右)
 				releaseDate2 = cond.conversion(strReleaseDate2);
 			}catch(Exception e) {
+				e.printStackTrace();
 				request.setAttribute("msg", "発売日をyyyy/mm/dd形式で入力してください<br>");
 				// 次画面指定
 				request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);

@@ -57,7 +57,7 @@
 					</tr>
 					<tr border="1" align="center">
 						<th>発売日</th>
-						<td>${fn:escapeXml(list.releaseDate)}</td>
+						<td>${fn:escapeXml(releaseDate)}</td>
 					</tr>
 					<tr border="1" align="center">
 						<th>詳細リンク</th>

@@ -60,7 +60,9 @@ public class BookServlet extends HttpServlet {
 
 			try {
 				List<Comic> target = comicService.select(comicId);
+				String releaseDate = target.get(0).getReleaseDate().toString().replace("-", "/");
 				request.setAttribute("list", target);
+				request.setAttribute("releaseDate", releaseDate);
 				request.getRequestDispatcher("book.jsp").forward(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
