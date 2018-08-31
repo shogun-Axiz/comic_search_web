@@ -63,6 +63,7 @@ public class NewUserServlet extends HttpServlet {
 								"別のメールアドレスを入力してください<br>";
 					}
 				} catch (SQLException e) {
+					e.printStackTrace();
 					msg += "サーバーエラーが発生しました\r\n" +
 							"製造元に問い合わせてください<br>";
 				}
@@ -96,6 +97,7 @@ public class NewUserServlet extends HttpServlet {
 			try {
 				birthday = cond.conversion(strBirthday);
 			} catch (Exception e) {
+				e.printStackTrace();
 				msg += "生年月日をyyyy/mm/dd形式で入力してください<br>";
 			}
 		}
@@ -132,6 +134,7 @@ public class NewUserServlet extends HttpServlet {
 			try {
 				userService.registration(regist);
 			} catch (SQLException e) {
+				e.printStackTrace();
 				msg += "サーバーエラーが発生しました\r\n" +
 						"製造元に問い合わせてください<br>";
 			}
