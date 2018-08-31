@@ -112,6 +112,7 @@ public class AccountEditServlet extends HttpServlet {
 			try {
 				birthday = cond.conversion(strBirthday);
 			} catch (Exception e) {
+				e.printStackTrace();
 				msg += "生年月日をyyyy/mm/dd形式で入力してください<br>";
 			}
 		}
