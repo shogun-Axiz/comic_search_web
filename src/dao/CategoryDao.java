@@ -32,6 +32,7 @@ public class CategoryDao {
 				list.add(u);
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 		return list;
@@ -49,6 +50,7 @@ public class CategoryDao {
 				return null;
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 	}
@@ -65,6 +67,7 @@ public class CategoryDao {
 				return null;
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 	}
