@@ -18,7 +18,7 @@
 	<header style="background-color: blue;">
 		<div style="text-align: right;">
 			<div style="text-align: left;">
-				<a href="userTop.jsp"
+				<a href="adminTop.jsp"
 					style="float: left; font-size: 36px; color: white; text-decoration: none; margin-left: 30px;">
 					Comic Searcher </a>
 				<p
