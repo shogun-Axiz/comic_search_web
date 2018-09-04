@@ -3,7 +3,6 @@ package servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -36,60 +35,57 @@ public class NewUserServlet extends HttpServlet {
 
 		String msg = "";
 
-		System.out.println("this1");
+		UserService userService = new UserService();
 
 		response.setContentType("text/plain; charset=UTF-8");
 		PrintWriter out = response.getWriter();
 
 		if ((email == null) || (email.equals(""))) {
-			msg += "メールアドレスを入力してください<br>";
+			msg += "メールアドレスを入力してください\r\n";
 		} else if ((email != null) && email.length() > 50) {
-			msg += "メールアドレスは50字までです<br>";
+			msg += "メールアドレスは50字までです\r\n";
 		} else {
 			//メールアドレス判定
 			String pattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$";
 			Pattern p = Pattern.compile(pattern);
 
 			if (!(p.matcher(email).find())) {
-				msg += "メールアドレスの形式が正しくありません<br>";
+				msg += "メールアドレスの形式が正しくありません\r\n";
 			} else {
-				UserService userService = new UserService();
+				User user = null;
 				try {
-					User user = userService.authentication2(email);
-					String exEmail = user.getEmail();
-					System.out.println(exEmail);
-					if (email.equals(exEmail)) {
-						msg += "このメールアドレスは既に登録済みです\r\n" +
-								"別のメールアドレスを入力してください<br>";
-					}
-				} catch (SQLException e) {
+					user = userService.authentication2(email);
+				} catch (Exception e) {
 					e.printStackTrace();
-					msg += "サーバーエラーが発生しました\r\n" +
-							"製造元に問い合わせてください<br>";
+					msg += "サーバーエラーが発生しました" +
+							" 製造元に問い合わせてください\r\n";
+				}
+				String exEmail = user.getEmail();
+				if (email.equals(exEmail)) {
+					msg += "このメールアドレスは既に登録済みです\r" +
+							"別のメールアドレスを入力してください\r\n";
 				}
 			}
 		}
 		if ((userName == null) || (userName.equals(""))) {
-			msg += "ユーザーネームを入力してください<br>";
+			msg += "ユーザーネームを入力してください\r\n";
 		} else if (userName != null && userName.length() > 50) {
-			msg += "ユーザーネームは50字までです<br>";
+			msg += "ユーザーネームは50字までです\r\n";
 		}
 		if ((password == null) || (password.equals(""))) {
-			msg += "パスワードを入力してください<br>";
+			msg += "パスワードを入力してください\r\n";
 		} else if (password != null && password.length() > 20) {
-			msg += "パスワードは20字までです<br>";
+			msg += "パスワードは20字までです\r\n";
 		} else if ((rePassword == null) || (rePassword.equals(""))) {
-			msg += "パスワード（再入力）を入力してください<br>";
+			msg += "パスワード（再入力）を入力してください\r\n";
 		} else if (!(password.equals(rePassword))) {
-			msg += "パスワードが一致していません<br>";
+			msg += "パスワードが一致していません\r\n";
 		}
-
-		System.out.println("this2");
 
 		Date birthday = null;
 
 		if ((strBirthday == null) || (strBirthday.equals(""))) {
-			msg += "生年月日を入力してください<br>";
+			msg += "生年月日を入力してください\r\n";
 		} else {
 			ConversionDate cond = new ConversionDate();
 
@@ -98,11 +94,9 @@ public class NewUserServlet extends HttpServlet {
 				birthday = cond.conversion(strBirthday);
 			} catch (Exception e) {
 				e.printStackTrace();
-				msg += "生年月日をyyyy/mm/dd形式で入力してください<br>";
+				msg += "生年月日をyyyy/mm/dd形式で入力してください\r\n";
 			}
 		}
-
-		System.out.println("this3");
 
 		if (msg == "") {
 			msg += "success";
@@ -129,23 +123,17 @@ public class NewUserServlet extends HttpServlet {
 			User regist = new User(userId, email, userName, password, birthday, joinDate, withdrawalDate, adminFlg,
 					modifiedUser, modifiedDate);
 
-			UserService userService = new UserService();
-
 			try {
 				userService.registration(regist);
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
-				msg += "サーバーエラーが発生しました\r\n" +
-						"製造元に問い合わせてください<br>";
+				msg += "サーバーエラーが発生しました" +
+						" 製造元に問い合わせてください\r\n";
 			}
-
-			System.out.println("this4");
 
 		}
 
 		out.print(msg);
-
-		System.out.println("this5");
 
 	}
 

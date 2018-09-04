@@ -33,9 +33,7 @@
 		<div class="login-triangle"></div>
 
 		<h2 class="login-header">ログイン</h2>
-		<c:if test="${not empty msg}">
-			<pre style="color: white; font-size : 24px; white-space: pre-wrap ; margin-top: 20px;">${msg}</pre>
-		</c:if>
+		<pre style="color: white; font-size : 24px; white-space: pre-wrap ; margin-bottom: 0px;">${msg}</pre>
 		<form class="login-container" method="GET" action="./login">
 			<p>
 				<input type="email" name="email" value="${fn:escapeXml(email)}"
