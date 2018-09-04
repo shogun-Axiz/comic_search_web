@@ -39,34 +39,39 @@ public class NewUserServlet extends HttpServlet {
 
 		response.setContentType("text/plain; charset=UTF-8");
 		PrintWriter out = response.getWriter();
-
-		if ((email == null) || (email.equals(""))) {
-			msg += "メールアドレスを入力してください\r\n";
-		} else if ((email != null) && email.length() > 50) {
-			msg += "メールアドレスは50字までです\r\n";
-		} else {
-			//メールアドレス判定
-			String pattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$";
-			Pattern p = Pattern.compile(pattern);
-
-			if (!(p.matcher(email).find())) {
-				msg += "メールアドレスの形式が正しくありません\r\n";
+		try {
+			if ((email == null) || (email.equals(""))) {
+				msg += "メールアドレスを入力してください\r\n";
+			} else if ((email != null) && email.length() > 50) {
+				msg += "メールアドレスは50字までです\r\n";
 			} else {
-				User user = null;
-				try {
-					user = userService.authentication2(email);
-				} catch (Exception e) {
-					e.printStackTrace();
-					msg += "サーバーエラーが発生しました" +
-							" 製造元に問い合わせてください\r\n";
-				}
-				String exEmail = user.getEmail();
-				if (email.equals(exEmail)) {
-					msg += "このメールアドレスは既に登録済みです\r" +
-							"別のメールアドレスを入力してください\r\n";
+				//メールアドレス判定
+				String pattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$";
+				Pattern p = Pattern.compile(pattern);
+
+				if (!(p.matcher(email).find())) {
+					msg += "メールアドレスの形式が正しくありません\r\n";
+				} else {
+					User user = null;
+					try {
+						user = userService.authentication2(email);
+					} catch (Exception e) {
+						e.printStackTrace();
+						msg += "サーバーエラーが発生しました" +
+								" 製造元に問い合わせてください\r\n";
+					}
+					if (user != null) {
+						msg += "このメールアドレスは既に登録済みです\r\n" +
+								"別のメールアドレスを入力してください\r\n";
+					}
 				}
 			}
+		}catch(Exception e) {
+			e.printStackTrace();
+			msg += "サーバーエラーが発生しました" +
+					" 製造元に問い合わせてください\r\n";
 		}
+
 		if ((userName == null) || (userName.equals(""))) {
 			msg += "ユーザーネームを入力してください\r\n";
 		} else if (userName != null && userName.length() > 50) {
