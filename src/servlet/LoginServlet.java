@@ -30,13 +30,21 @@ public class LoginServlet extends HttpServlet {
 
 		request.setAttribute("email", email);
 
-		if ((email == null) || (email.equals(""))) {
-			request.setAttribute("msg", "メールアドレスを入力してください");
+		String msg = null;
 
-			request.getRequestDispatcher("index.jsp").forward(request, response);
-			return;
-		} else if ((password == null) || (password.equals(""))) {
-			request.setAttribute("msg", "パスワードを入力してください");
+		if ((email == null) || (email.equals("")) || ((password == null) || (password.equals("")))) {
+			if ((email == null) || (email.equals(""))) {
+				msg = "メールアドレスを入力してください";
+			}
+			if (((password == null) || (password.equals("")))) {
+				if (msg != null) {
+					msg = "メールアドレスを入力してください \r\nパスワードを入力してください";
+				} else {
+					msg = "パスワードを入力してください";
+				}
+			}
+
+			request.setAttribute("msg", msg);
 
 			request.getRequestDispatcher("index.jsp").forward(request, response);
 			return;

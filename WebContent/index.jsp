@@ -34,11 +34,12 @@
 
 		<h2 class="login-header">ログイン</h2>
 		<c:if test="${not empty msg}">
-			<p style="color: white;">${msg}</p>
+			<pre style="color: white; font-size : 24px; white-space: pre-wrap ; margin-top: 20px;">${msg}</pre>
 		</c:if>
 		<form class="login-container" method="GET" action="./login">
 			<p>
-				<input type="email" name="email" value="${fn:escapeXml(email)}" placeholder="メールアドレス">
+				<input type="email" name="email" value="${fn:escapeXml(email)}"
+					placeholder="メールアドレス">
 			</p>
 			<p>
 				<input type="password" name="password" placeholder="パスワード">
