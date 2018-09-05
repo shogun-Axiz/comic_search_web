@@ -84,13 +84,10 @@ public class UserService {
 		try  {
 			UserDao userDao = new UserDao(conn);
 			return userDao.findById(userId);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
+		}finally {
             // コネクションの解放
             conn.close();
         }
-		return null;
 	}
 
 	public int update(User updateData) throws SQLException {
@@ -137,18 +134,15 @@ public class UserService {
 		return 0;
 	}
 
-	public List<User> authentication5(UUID userId) throws SQLException {
+	public List<User> authentication5(UUID userId, String email) throws SQLException {
 		Connection conn = DbUtil.getConnection();
 		try  {
 			UserDao userDao = new UserDao(conn);
-			return userDao.findByIdAndEmail(userId);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
+			return userDao.findByIdAndEmail(userId, email);
+		}finally {
             // コネクションの解放
             conn.close();
         }
-		return null;
 	}
 
 }

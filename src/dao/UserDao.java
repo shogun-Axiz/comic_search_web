@@ -16,7 +16,7 @@ public class UserDao {
 	private static final String SQL_SELECT_MAIL = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE email = ?";
 	private static final String SQL_SELECT_PASS = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE password = ?";
 	private static final String SQL_SELECT_ID = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE userid = ?";
-	private static final String SQL_SELECT_ID_AND_EMAIL = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE userid not in (?) AND adminflg = 'f'";
+	private static final String SQL_SELECT_ID_AND_EMAIL = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE userid not in (?) AND adminflg = 'f' AND email = ?";
 	private static final String SQL_INSERT_ALL = "INSERT INTO users (userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String SQL_UPDATE_ALL = "UPDATE  users SET email = ?, username = ?, password = ?, birthday = ?, joindate = ?, withdrawaldate = ?, adminflg = ?, modifieduser = ?, modifieddate = ? WHERE userid = ?";
 	private static final String TABLE_NAME = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE (adminflg = 'f' AND withdrawaldate IS NULL)";
@@ -251,12 +251,13 @@ public class UserDao {
 		}
 	}
 
-	public List<User> findByIdAndEmail(UUID userId) {
+	public List<User> findByIdAndEmail(UUID userId, String email) {
 		List<User> list = new ArrayList<User>();
 
 		try (PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_ID_AND_EMAIL)) {
 
 			stmt.setObject(1, userId);
+			stmt.setString(2, email);
 
 			ResultSet rs = stmt.executeQuery();
 

@@ -57,7 +57,7 @@ public class LoginServlet extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 
-			request.setAttribute("msg", "サーバーエラーが発生しました\r\n" + " 製造元に問い合わせてください");
+			request.setAttribute("msg", "サーバーエラーが発生しました\r\n" + "製造元に問い合わせてください");
 
 			request.getRequestDispatcher("index.jsp").forward(request, response);
 

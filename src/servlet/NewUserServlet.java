@@ -133,7 +133,7 @@ public class NewUserServlet extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 				msg += "サーバーエラーが発生しました" +
-						" 製造元に問い合わせてください\r\n";
+						"製造元に問い合わせてください\r\n";
 			}
 
 		}

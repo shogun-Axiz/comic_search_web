@@ -3,7 +3,6 @@ package servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -49,14 +48,18 @@ public class AccountEditServlet extends HttpServlet {
 
 		UserService userService = new UserService();
 
+		response.setContentType("text/plain; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+
 		List<User> user = null;
 		try {
 			user = userService.authentication4(userId);
-		} catch (SQLException e1) {
+		} catch (Exception e1) {
 			// TODO 自動生成された catch ブロック
 			e1.printStackTrace();
 			msg += "サーバーエラーが発生しました\r\n" +
 					"製造元に問い合わせてください\r\n";
+			out.print(msg);
 			return;
 		}
 
@@ -65,9 +68,6 @@ public class AccountEditServlet extends HttpServlet {
 		if (withdrawalDate != null) {
 			msg += "withdrawal";
 		}
-
-		response.setContentType("text/plain; charset=UTF-8");
-		PrintWriter out = response.getWriter();
 
 		if ((email == null) || (email.equals(""))) {
 			msg += "メールアドレスを入力してください\r\n";
@@ -83,20 +83,18 @@ public class AccountEditServlet extends HttpServlet {
 			} else {
 				List<User> searchEmail = null;
 				try {
-					searchEmail = userService.authentication5(userId);
-				} catch (SQLException e) {
+					searchEmail = userService.authentication5(userId, email);
+					if (searchEmail.size() != 0) {
+						msg += "このメールアドレスは既に登録済みです\r\n" +
+								"別のメールアドレスを入力してください\r\n";
+					}
+				} catch (Exception e) {
 					// TODO 自動生成された catch ブロック
 					e.printStackTrace();
 					msg += "サーバーエラーが発生しました\r\n" +
 							"製造元に問い合わせてください\r\n";
-					return;
 				}
-				for(int i = 0; i < searchEmail.size() ; i++) {
-					if(email.equals(searchEmail.get(i).getEmail())) {
-						msg += "このメールアドレスは既に登録済みです\r\n" +
-								"別のメールアドレスを入力してください\r\n";
-					}
-				}
+
 			}
 		}
 		if ((userName == null) || (userName.equals(""))) {
@@ -105,23 +103,21 @@ public class AccountEditServlet extends HttpServlet {
 			msg += "ユーザーネームは50字までです\r\n";
 		}
 
-		if((password != null) && (!(password.equals("")))) {
+		if ((password != null) && (!(password.equals("")))) {
 			if (password.length() > 20) {
 				msg += "パスワードは20字までです\r\n";
-			}else if ((rePassword == null) || (rePassword.equals(""))) {
+			} else if ((rePassword == null) || (rePassword.equals(""))) {
 				msg += "パスワード（再入力）を入力してください\r\n";
-			}else if ((!(password.equals(rePassword)))) {
+			} else if ((!(password.equals(rePassword)))) {
 				msg += "パスワードが一致していません\r\n";
 			}
-		}else {
-			if((((rePassword != null)) && (!(rePassword.equals(""))))) {
+		} else {
+			if ((((rePassword != null)) && (!(rePassword.equals(""))))) {
 				msg += "パスワードを入力してください\r\n";
-			}else {
+			} else {
 				password = user.get(0).getPassword();
 			}
 		}
-
-
 
 		Date birthday = null;
 
@@ -136,7 +132,6 @@ public class AccountEditServlet extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 				msg += "生年月日をyyyy/mm/dd形式で入力してください\r\n";
-				return;
 			}
 		}
 		if (msg == "") {
@@ -162,12 +157,11 @@ public class AccountEditServlet extends HttpServlet {
 
 			try {
 				userService.update(updateData);
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
 				msg += "サーバーエラーが発生しました\r\n" +
 						"製造元に問い合わせてください\r\n";
-				return;
 			}
 
 		}
