@@ -137,4 +137,18 @@ public class UserService {
 		return 0;
 	}
 
+	public List<User> authentication5(UUID userId) throws SQLException {
+		Connection conn = DbUtil.getConnection();
+		try  {
+			UserDao userDao = new UserDao(conn);
+			return userDao.findByIdAndEmail(userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+            // コネクションの解放
+            conn.close();
+        }
+		return null;
+	}
+
 }

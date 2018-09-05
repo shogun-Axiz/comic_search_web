@@ -16,6 +16,7 @@ public class UserDao {
 	private static final String SQL_SELECT_MAIL = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE email = ?";
 	private static final String SQL_SELECT_PASS = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE password = ?";
 	private static final String SQL_SELECT_ID = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE userid = ?";
+	private static final String SQL_SELECT_ID_AND_EMAIL = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE userid not in (?) AND adminflg = 'f'";
 	private static final String SQL_INSERT_ALL = "INSERT INTO users (userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String SQL_UPDATE_ALL = "UPDATE  users SET email = ?, username = ?, password = ?, birthday = ?, joindate = ?, withdrawaldate = ?, adminflg = ?, modifieduser = ?, modifieddate = ? WHERE userid = ?";
 	private static final String TABLE_NAME = "SELECT userid, email, username, password, birthday, joindate, withdrawaldate, adminflg, modifieduser, modifieddate FROM users WHERE (adminflg = 'f' AND withdrawaldate IS NULL)";
@@ -248,6 +249,29 @@ public class UserDao {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
+	}
+
+	public List<User> findByIdAndEmail(UUID userId) {
+		List<User> list = new ArrayList<User>();
+
+		try (PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_ID_AND_EMAIL)) {
+
+			stmt.setObject(1, userId);
+
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				User u = new User((UUID.fromString(rs.getString("userid"))), rs.getString("email"),
+						rs.getString("username"), rs.getString("password"), rs.getDate("birthday"),
+						rs.getDate("joindate"), rs.getDate("withdrawaldate"), rs.getBoolean("adminflg"),
+						rs.getString("modifieduser"), rs.getDate("modifieddate"));
+				list.add(u);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+		return list;
 	}
 
 }
