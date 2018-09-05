@@ -42,6 +42,7 @@ public class ToComicSearchServlet extends HttpServlet {
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
+			return;
 		}
 
 		Date withdrawalDate = user.get(0).getWithdrawalDate();
@@ -62,6 +63,7 @@ public class ToComicSearchServlet extends HttpServlet {
 			} catch (SQLException e) {
 				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
+				return;
 			}
 		}
 
