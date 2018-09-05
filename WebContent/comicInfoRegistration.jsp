@@ -36,6 +36,10 @@
 		<div class="login-triangle"></div>
 
 		<h2 class="login-header">漫画情報登録</h2>
+		<c:if test="${not empty msg}">
+			<pre
+				style="color: white; font-size: 24px; white-space: pre-wrap; margin-bottom: 0px; text-align: center;">${msg}</pre>
+		</c:if>
 		<div style="background-color: snow">
 			<form class="login-container" method="post"
 				enctype="multipart/form-data" action="comicInfoRegistration">
@@ -44,8 +48,8 @@
 						placeholder="タイトル">
 				</p>
 				<p>
-					<label for="category">カテゴリー</label> <select id="catSel" name = "categoryId"
-						style="width: 100%;">
+					<label for="category">カテゴリー</label> <select id="catSel"
+						name="categoryId" style="width: 100%;">
 						<option value="0" selected>全て</option>
 						<c:forEach var="cat" items="${cat}">
 							<option value="${cat.categoryId }">${cat.categoryName }</option>

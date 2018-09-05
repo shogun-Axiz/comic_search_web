@@ -125,7 +125,8 @@
 	</div>
 	<br>
 	<c:if test="${not empty msg}">
-		<p style="color: white; font-size: 24px; text-align: center;">${msg}</p>
+		<pre
+			style="color: white; font-size: 24px; white-space: pre-wrap; margin-bottom: 0px; text-align: center;">${msg}</pre>
 	</c:if>
 	<c:if test="${isSuccess == true}">
 		<h2>

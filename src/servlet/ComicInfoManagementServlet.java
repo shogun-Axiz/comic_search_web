@@ -2,7 +2,6 @@ package servlet;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -71,7 +70,7 @@ public class ComicInfoManagementServlet extends HttpServlet {
 			e.printStackTrace();
 			request.setAttribute("msg", "発売日をyyyy/mm/dd形式で入力してください<br>");
 			// 次画面指定
-			request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
+			request.getRequestDispatcher("toComicInfoManagement").forward(request, response);
 			return;
 		}
 
@@ -93,7 +92,7 @@ public class ComicInfoManagementServlet extends HttpServlet {
 				boolean isSuccess2 = cat.size() != 0;
 				if (isSuccess2 == true) {
 					request.setAttribute("cat", cat);
-					request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
+					request.getRequestDispatcher("toComicInfoManagement").forward(request, response);
 				}
 
 			} else {
@@ -101,14 +100,15 @@ public class ComicInfoManagementServlet extends HttpServlet {
 				request.setAttribute("msg", "入力した条件に一致するデータが見つかりませんでした");
 
 				// 次画面指定
-				request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
+				request.getRequestDispatcher("toComicInfoManagement").forward(request, response);
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			request.setAttribute("msg", "サーバーエラーが発生しました\r\n" +
 					"製造元に問い合わせてください");
 			// 次画面指定
 			request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
+			return;
 		}
 	}
 

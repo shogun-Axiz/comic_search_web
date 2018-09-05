@@ -53,14 +53,13 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 					BufferedReader bufReader = new BufferedReader(new InputStreamReader(inputStream));
 					map1.put(part.getName(), bufReader.lines().collect(Collectors.joining()));
 
-				} catch (IOException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 					throw new RuntimeException(e);
 				}
 			}
 		});
 
-		String title = map1.get("title");
 		String strCategoryId = map1.get("categoryId");
 		String authorName = map1.get("authorName");
 		String strPrice = map1.get("price");
@@ -73,55 +72,60 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 
 		String fileName = null;
 
+		Integer price = null;
+
 		try {
 			Part part = request.getPart("picture");
 
 			ExtractFileName efn = new ExtractFileName();
 
 			fileName = efn.extractFileName(part);
-			part.write("C:\\tmp\\img\\" + fileName);
+			//part.write("C:\\tmp\\img\\" + fileName);
 		} catch (Exception e) {
 			e.printStackTrace();
 			msg += "サーバーエラーが発生しました\r\n" +
-					"製造元に問い合わせてください";
+					"製造元に問い合わせてください\r\n";
+			return;
 		}
 
-		if ((title == null) || (title.equals(""))) {
-			msg += "タイトルを入力してください";
-		} else if (title.length() > 100) {
-			msg += "タイトルは100字までです";
+		if ((map1.get("title") == null) || (map1.get("title").equals(""))) {
+			msg += "タイトルを入力してください\r\n";
+		} else if (map1.get("title").length() > 100) {
+			msg += "タイトルは100字までです\r\n";
 		}
 
 		if ((strCategoryId == null) || (strCategoryId.equals(""))) {
-			msg += "カテゴリーを選択してください";
+			msg += "カテゴリーを選択してください\r\n";
 		}
 
 		if ((authorName == null) || (authorName.equals(""))) {
-			msg += "原作者名を入力してください";
+			msg += "原作者名を入力してください\r\n";
 		} else if (authorName.length() > 20) {
-			msg += "原作者名は20字までです";
+			msg += "原作者名は20字までです\r\n";
 		}
 
 		if ((strPrice == null) || (strPrice.equals(""))) {
-			msg += "値段を入力してください";
+			msg += "値段を入力してください\r\n";
+		}else {
+			price = Integer.parseInt(strPrice);
 		}
 
 		if ((strReleaseDate == null) || (strReleaseDate.equals(""))) {
-			msg += "発売日を入力してください";
+			msg += "発売日を入力してください\r\n";
 		}
 
 		if ((publisher == null) || (publisher.equals(""))) {
-			msg += "出版社を入力してください";
+			msg += "出版社を入力してください\r\n";
 		} else if (publisher.length() > 10) {
-			msg += "出版社は10字までです";
+			msg += "出版社は10字までです\r\n";
 		}
 
 		if ((link == null) || (link.equals(""))) {
-			msg += "詳細リンクを入力してください";
+			msg += "詳細リンクを入力してください\r\n";
 		}
 
 		Integer categoryId = Integer.parseInt(strCategoryId);
-		Integer price = Integer.parseInt(strPrice);
+
 
 		ConversionDate cond = new ConversionDate();
 
@@ -131,9 +135,9 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 			releaseDate = cond.conversion(strReleaseDate);
 		} catch (Exception e) {
 			e.printStackTrace();
-			request.setAttribute("msg", "誕生日をyyyy/mm/dd形式で入力してください<br>");
+			request.setAttribute("msg", "発売日をyyyy/mm/dd形式で入力してください\r\n");
 			// 次画面指定
-			request.getRequestDispatcher("accountInfoManagement.jsp").forward(request, response);
+			request.getRequestDispatcher("toComicInfoManagement").forward(request, response);
 			return;
 		}
 
@@ -165,7 +169,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 			} catch (IOException e) {
 				e.printStackTrace();
 				msg += "サーバーエラーが発生しました\r\n" +
-						"製造元に問い合わせてください";
+						"製造元に問い合わせてください\r\n";
 			}
 
 			HttpSession session = request.getSession();
@@ -180,7 +184,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 
 			ComicService comicService = new ComicService();
 
-			Comic regist = new Comic(comicId, title, categoryId, price, publisher, authorName, releaseDate, synopsis,
+			Comic regist = new Comic(comicId, map1.get("title"), categoryId, price, publisher, authorName, releaseDate, synopsis,
 					link, pic, createUser, createDate, modifiedUser, modifiedDate);
 
 			try {
@@ -190,7 +194,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
 				msg += "サーバーエラーが発生しました\r\n" +
-						"製造元に問い合わせてください";
+						"製造元に問い合わせてください\r\n";
 			}
 			msg += "success";
 		}
