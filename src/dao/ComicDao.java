@@ -85,10 +85,10 @@ public class ComicDao {
 					strList.add("price <= " + price2);
 				}
 				if ((releaseDate1 != null) && (!(releaseDate1.equals("")))) {
-					strList.add("releasedate > '" + releaseDate1 + "'");
+					strList.add("releasedate >= '" + releaseDate1 + "'");
 				}
 				if ((releaseDate2 != null) && (!(releaseDate2.equals("")))) {
-					strList.add("releasedate < '" + releaseDate2 + "'");
+					strList.add("releasedate <= '" + releaseDate2 + "'");
 				}
 
 				String DATA = String.join(" AND ", strList);
