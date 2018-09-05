@@ -56,7 +56,8 @@ public class AccountEditServlet extends HttpServlet {
 			// TODO 自動生成された catch ブロック
 			e1.printStackTrace();
 			msg += "サーバーエラーが発生しました\r\n" +
-					"製造元に問い合わせてください<br>";
+					"製造元に問い合わせてください\r\n";
+			return;
 		}
 
 		//退会チェック
@@ -69,42 +70,45 @@ public class AccountEditServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 
 		if ((email == null) || (email.equals(""))) {
-			msg += "メールアドレスを入力してください<br>";
+			msg += "メールアドレスを入力してください\r\n";
 		} else if ((email != null) && email.length() > 50) {
-			msg += "メールアドレスは50字までです<br>";
+			msg += "メールアドレスは50字までです\r\n";
 		} else {
 			//メールアドレス判定
 			String pattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$";
 			Pattern p = Pattern.compile(pattern);
 
 			if (!(p.matcher(email).find())) {
-				msg += "メールアドレスの形式が正しくありません<br>";
+				msg += "メールアドレスの形式が正しくありません\r\n";
 			} else {
 				String exEmail = user.get(0).getEmail();
 				System.out.println(exEmail);
 				if (email.equals(exEmail)) {
 					msg += "このメールアドレスは既に登録済みです\r\n" +
-							"別のメールアドレスを入力してください<br>";
+							"別のメールアドレスを入力してください\r\n";
 				}
 			}
 		}
 		if ((userName == null) || (userName.equals(""))) {
-			msg += "ユーザーネームを入力してください<br>";
+			msg += "ユーザーネームを入力してください\r\n";
 		} else if (userName != null && userName.length() > 50) {
-			msg += "ユーザーネームは50字までです<br>";
+			msg += "ユーザーネームは50字までです\r\n";
 		}
-		if (password != null && password.length() > 20) {
-			msg += "パスワードは20字までです<br>";
-		} else if ((password != null) && (rePassword == null) || (rePassword.equals(""))) {
-			msg += "パスワード（再入力）を入力してください<br>";
-		} else if ((password != null) && (!(password.equals(rePassword)))) {
-			msg += "パスワードが一致していません<br>";
+
+		if(password != null) {
+			if (password.length() > 20) {
+				msg += "パスワードは20字までです\r\n";
+			}else if ((rePassword == null) || (rePassword.equals(""))) {
+				msg += "パスワード（再入力）を入力してください\r\n";
+			}else if ((!(password.equals(rePassword)))) {
+				msg += "パスワードが一致していません\r\n";
+			}
 		}
 
 		Date birthday = null;
 
 		if ((strBirthday == null) || (strBirthday.equals(""))) {
-			msg += "生年月日を入力してください<br>";
+			msg += "生年月日を入力してください\r\n";
 		} else {
 			ConversionDate cond = new ConversionDate();
 
@@ -113,7 +117,8 @@ public class AccountEditServlet extends HttpServlet {
 				birthday = cond.conversion(strBirthday);
 			} catch (Exception e) {
 				e.printStackTrace();
-				msg += "生年月日をyyyy/mm/dd形式で入力してください<br>";
+				msg += "生年月日をyyyy/mm/dd形式で入力してください\r\n";
+				return;
 			}
 		}
 		if (msg == "") {
@@ -143,7 +148,8 @@ public class AccountEditServlet extends HttpServlet {
 				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
 				msg += "サーバーエラーが発生しました\r\n" +
-						"製造元に問い合わせてください<br>";
+						"製造元に問い合わせてください\r\n";
+				return;
 			}
 
 		}

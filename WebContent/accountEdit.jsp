@@ -39,7 +39,6 @@
 				async : false,
 				success : function(data) {
 					//取得成功したら実行する処理
-					alert(data);
 					if (data == 'success') {
 						alert("会員情報を編集しました！");
 						location.href = "/comic_search_web/toUserTop?username="
@@ -92,7 +91,9 @@
 		<div class="login-triangle"></div>
 
 		<h2 class="login-header">会員情報編集</h2>
-		<div id="error" style="color: white;"></div>
+		<c:if test="${msg !='success'}">
+			<pre id="error" style="color: white; font-size : 24px; white-space: pre-wrap ; margin-bottom: 0px;"></pre>
+		</c:if>
 		<form class="login-container" method="GET">
 
 			<p>
