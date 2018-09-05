@@ -72,6 +72,7 @@ public class ComicInfoManagementServlet extends HttpServlet {
 			request.setAttribute("msg", "発売日をyyyy/mm/dd形式で入力してください<br>");
 			// 次画面指定
 			request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
+			return;
 		}
 
 		ComicService comicService = new ComicService();
@@ -104,6 +105,10 @@ public class ComicInfoManagementServlet extends HttpServlet {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			request.setAttribute("msg", "サーバーエラーが発生しました\r\n" +
+					"製造元に問い合わせてください");
+			// 次画面指定
+			request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
 		}
 	}
 

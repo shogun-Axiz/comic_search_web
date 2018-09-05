@@ -66,7 +66,7 @@ public class ComicSearchServlet extends HttpServlet {
 			request.setAttribute("msg", "サーバーエラーが発生しました\r\n" +
 					"製造元に問い合わせてください");
 			// 次画面指定
-			request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
+			request.getRequestDispatcher("toComicSearch").forward(request, response);
 		}
 
 		Date withdrawalDate = user.get(0).getWithdrawalDate();
@@ -95,7 +95,8 @@ public class ComicSearchServlet extends HttpServlet {
 				e.printStackTrace();
 				request.setAttribute("msg", "発売日をyyyy/mm/dd形式で入力してください");
 				// 次画面指定
-				request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
+				request.getRequestDispatcher("toComicSearch").forward(request, response);
+				return;
 			}
 
 			ComicService comicService = new ComicService();
@@ -126,12 +127,12 @@ public class ComicSearchServlet extends HttpServlet {
 					// 次画面指定
 					request.getRequestDispatcher("toComicSearch").forward(request, response);
 				}
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 				request.setAttribute("msg", "サーバーエラーが発生しました\r\n" +
 						"製造元に問い合わせてください");
 				// 次画面指定
-				request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
+				request.getRequestDispatcher("toComicSearch").forward(request, response);
 			}
 		}
 

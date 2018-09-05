@@ -117,7 +117,8 @@
 	</div>
 	<br>
 	<c:if test="${not empty msg}">
-		<pre style="color: white; font-size : 24px; white-space: pre-wrap ; margin-bottom: 0px;">${msg}</pre>
+		<pre
+			style="color: white; font-size: 24px; white-space: pre-wrap; margin-bottom: 0px; text-align: center;">${msg}</pre>
 	</c:if>
 	<c:if test="${isSuccess == true}">
 		<h2>
@@ -167,8 +168,6 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
 <script>
-
-
 	var options = {
 		valueNames : [ 'title', 'category', 'publisher', 'price',
 				'releaseDate', 'authorName' ]
