@@ -35,14 +35,14 @@
 		<c:redirect url="index.jsp" />
 	</c:if>
 	<jsp:include page="include/header2.jsp" flush="true" />
-	<c:if test="${not empty msg}">
-		<pre
-			style="color: white; font-size: 24px; white-space: pre-wrap; margin-bottom: 0px; text-align: center;">${msg}</pre>
-	</c:if>
 	<div class="login">
 		<div class="login-triangle"></div>
 
 		<h2 class="login-header">漫画情報更新</h2>
+		<c:if test="${not empty msg}">
+			<pre
+				style="color: white; font-size: 24px; white-space: pre-wrap; margin-bottom: 0px; text-align: center;">${msg}</pre>
+		</c:if>
 		<div style="background-color: snow">
 			<form class="login-container" method="post"
 				enctype="multipart/form-data" action="comicInfoUpdate">
@@ -52,8 +52,8 @@
 							value="${list.title}">
 					</p>
 					<p>
-						<label for="category">カテゴリー</label> <select name="catSel" id="catSel"
-							style="width: 100%;">
+						<label for="category">カテゴリー</label> <select name="catSel"
+							id="catSel" style="width: 100%;">
 							<option value="0">全て</option>
 							<c:forEach var="cat" items="${cat}">
 								<option value="${cat.categoryId}" selected>${cat.categoryName}</option>
@@ -88,7 +88,8 @@
 					<p>
 						<label for="image">表紙画像</label>&emsp;<input type="checkbox"
 							name="imageDelete" style="width: 5%;">画像削除<br> <input
-							type="file" name="picture"><br> <img src="${list.image}">
+							type="file" name="picture"><br> <img
+							src="${list.image}">
 					</p>
 				</c:forEach>
 				<h2>

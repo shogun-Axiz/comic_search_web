@@ -71,7 +71,8 @@ public class ToComicInfoUpdateServlet extends HttpServlet {
 					"製造元に問い合わせてください");
 
 			// 次画面指定
-			request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
+			request.getRequestDispatcher("comicInfoUpdate.jsp").forward(request, response);
+			return;
 		}
 	}
 

@@ -11,7 +11,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -58,7 +57,7 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 					BufferedReader bufReader = new BufferedReader(new InputStreamReader(inputStream));
 					map1.put(part.getName(), bufReader.lines().collect(Collectors.joining()));
 
-				} catch (IOException e) {
+				} catch (Exception e) {
 					throw new RuntimeException(e);
 				}
 			}
@@ -102,6 +101,11 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 			e.printStackTrace();
 			msg += "サーバーエラーが発生しました\r\n" +
 					"製造元に問い合わせてください\r\n";
+			String strComicId = String.valueOf(comicId);
+			session.setAttribute("comicId", strComicId);
+			session.setAttribute("msg", msg);
+			request.getRequestDispatcher("toComicInfoUpdate").forward(request, response);
+			return;
 		}
 
 		if ((title == null) || (title.equals(""))) {
@@ -158,9 +162,12 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 			releaseDate = cond.conversion(strReleaseDate);
 		} catch (Exception e) {
 			e.printStackTrace();
+			String strComicId = String.valueOf(comicId);
+			session.setAttribute("comicId", strComicId);
 			request.setAttribute("msg", "発売日をyyyy/mm/dd形式で入力してください\r\n");
 			// 次画面指定
 			request.getRequestDispatcher("toComicInfoUpdate").forward(request, response);
+			return;
 		}
 
 		if ((msg == null) || (msg.equals(""))) {
@@ -189,10 +196,15 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 					if (imageDelete) {
 						pic = null;
 					}
-				} catch (IOException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 					msg += "サーバーエラーが発生しました\r\n" +
 							"製造元に問い合わせてください\r\n";
+					String strComicId = String.valueOf(comicId);
+					session.setAttribute("comicId", strComicId);
+					session.setAttribute("msg", msg);
+					request.getRequestDispatcher("toComicInfoUpdate").forward(request, response);
+					return;
 				}
 			}
 
@@ -211,10 +223,15 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 				if (imageDelete) {
 					pic = null;
 				}
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 				msg += "サーバーエラーが発生しました\r\n" +
 						"製造元に問い合わせてください\r\n";
+				String strComicId = String.valueOf(comicId);
+				session.setAttribute("comicId", strComicId);
+				session.setAttribute("msg", msg);
+				request.getRequestDispatcher("toComicInfoUpdate").forward(request, response);
+				return;
 			}
 
 			ComicService comicService = new ComicService();
@@ -223,11 +240,16 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 
 			try {
 				comic = comicService.select(comicId);
-			} catch (SQLException e1) {
+			} catch (Exception e1) {
 				// TODO 自動生成された catch ブロック
 				e1.printStackTrace();
 				msg += "サーバーエラーが発生しました\r\n" +
 						"製造元に問い合わせてください\r\n";
+				String strComicId = String.valueOf(comicId);
+				session.setAttribute("comicId", strComicId);
+				session.setAttribute("msg", msg);
+				request.getRequestDispatcher("toComicInfoUpdate").forward(request, response);
+				return;
 			}
 
 			if (fileName.isEmpty()) {
@@ -251,11 +273,16 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 			try {
 				comicService.update(update);
 
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
 				msg += "サーバーエラーが発生しました\r\n" +
 						"製造元に問い合わせてください\r\n";
+				String strComicId = String.valueOf(comicId);
+				session.setAttribute("comicId", strComicId);
+				session.setAttribute("msg", msg);
+				request.getRequestDispatcher("toComicInfoUpdate").forward(request, response);
+				return;
 			}
 			msg += "success";
 		}
@@ -265,7 +292,7 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 		} else {
 			String strComicId = String.valueOf(comicId);
 			session.setAttribute("comicId", strComicId);
-			request.setAttribute("msg", msg);
+			session.setAttribute("msg", msg);
 			request.getRequestDispatcher("toComicInfoUpdate").forward(request, response);
 		}
 	}
