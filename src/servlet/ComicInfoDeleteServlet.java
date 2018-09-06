@@ -6,7 +6,6 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,11 +44,14 @@ public class ComicInfoDeleteServlet extends HttpServlet {
 		List<Comic> comic = null;
 		try {
 			comic = comicService.select(comicId);
-		} catch (SQLException e1) {
+		} catch (Exception e1) {
 			// TODO 自動生成された catch ブロック
 			e1.printStackTrace();
 			msg += "サーバーエラーが発生しました\r\n" +
-					"製造元に問い合わせてください<br>";
+					"製造元に問い合わせてください\r\n";
+			request.setAttribute("msg", msg);
+			request.getRequestDispatcher("index.jsp").forward(request, response);
+			return;
 		}
 
 		String fileName = comic.get(0).getImage();
@@ -69,20 +71,26 @@ public class ComicInfoDeleteServlet extends HttpServlet {
 			String Path = file.getAbsolutePath();
 			targetPath = Paths.get(Path + spa + comicId + "." + extension);
 			Files.deleteIfExists(targetPath);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			msg += "サーバーエラーが発生しました\r\n" +
-					"製造元に問い合わせてください<br>";
+					"製造元に問い合わせてください\r\n";
+			request.setAttribute("msg", msg);
+			request.getRequestDispatcher("index.jsp").forward(request, response);
+			return;
 		}
 
 		try {
 			comicService.delete(comicId);
 			msg += "success";
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 			msg += "サーバーエラーが発生しました\r\n" +
-					"製造元に問い合わせてください";
+					"製造元に問い合わせてください\r\n";
+			request.setAttribute("msg", msg);
+			request.getRequestDispatcher("index.jsp").forward(request, response);
+			return;
 		}
 
 		if (msg.equals("success")){
