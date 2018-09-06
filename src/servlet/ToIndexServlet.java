@@ -20,8 +20,12 @@ public class ToIndexServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 
 		String email = request.getParameter("email");
-
-		request.setAttribute("email", email);
+		try {
+			request.setAttribute("email", email);
+		}catch(Exception e) {
+			request.setAttribute("msg",  "サーバーエラーが発生しました\r\n" +
+					"製造元に問い合わせてください\r\n");
+		}
 
 		request.getRequestDispatcher("index.jsp").forward(request, response);
 	}

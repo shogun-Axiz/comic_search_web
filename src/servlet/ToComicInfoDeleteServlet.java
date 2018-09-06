@@ -1,7 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
@@ -61,16 +60,15 @@ public class ToComicInfoDeleteServlet extends HttpServlet {
 				request.getRequestDispatcher("comicInfoDelete.jsp").forward(request, response);
 			}
 
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 
 			// メッセージ設定
 			request.setAttribute("msg", "サーバーエラーが発生しました\r\n" +
 					"製造元に問い合わせてください");
-
-			// 次画面指定
-			request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
 		}
+		// 次画面指定
+		request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

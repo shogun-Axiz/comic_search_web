@@ -32,12 +32,14 @@ public class ToComicInfoManagementServlet extends HttpServlet {
 			List<Category> cat = categoryService.authentication();
 			if(cat.size() != 0) {
 				request.setAttribute("cat", cat);
-				request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
+			request.setAttribute("msg",  "サーバーエラーが発生しました\r\n" +
+					"製造元に問い合わせてください\r\n");
 		}
+		request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

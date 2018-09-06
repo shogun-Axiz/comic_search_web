@@ -1,7 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
@@ -64,7 +63,7 @@ public class ToComicInfoUpdateServlet extends HttpServlet {
 				request.getRequestDispatcher("comicInfoUpdate.jsp").forward(request, response);
 			}
 
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 
 			// メッセージ設定

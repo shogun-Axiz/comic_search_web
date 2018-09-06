@@ -81,12 +81,11 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 			ExtractFileName efn = new ExtractFileName();
 
 			fileName = efn.extractFileName(part);
-			//part.write("C:\\tmp\\img\\" + fileName);
+			part.write("C:\\tmp\\img\\" + fileName);
 		} catch (Exception e) {
 			e.printStackTrace();
 			msg += "サーバーエラーが発生しました\r\n" +
 					"製造元に問い合わせてください\r\n";
-			return;
 		}
 
 		if ((map1.get("title") == null) || (map1.get("title").equals(""))) {
@@ -177,7 +176,6 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 				e.printStackTrace();
 				msg += "サーバーエラーが発生しました\r\n" +
 						"製造元に問い合わせてください\r\n";
-				return;
 			}
 
 			HttpSession session = request.getSession();
@@ -198,15 +196,13 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 
 			try {
 				comicService.registration(regist);
-
+				msg += "success";
 			} catch (Exception e) {
 				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
 				msg += "サーバーエラーが発生しました\r\n" +
 						"製造元に問い合わせてください\r\n";
-				return;
 			}
-			msg += "success";
 		}
 
 		if (msg.equals("success")) {

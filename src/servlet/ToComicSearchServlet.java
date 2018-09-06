@@ -2,7 +2,6 @@ package servlet;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,10 +38,12 @@ public class ToComicSearchServlet extends HttpServlet {
 
 		try {
 			user = userService.authentication4(userId);
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
-			return;
+			request.setAttribute("msg",  "サーバーエラーが発生しました\r\n" +
+					"製造元に問い合わせてください\r\n");
+			request.getRequestDispatcher("comicSearch.jsp").forward(request, response);
 		}
 
 		Date withdrawalDate = user.get(0).getWithdrawalDate();
@@ -60,10 +61,12 @@ public class ToComicSearchServlet extends HttpServlet {
 					request.setAttribute("cat", cat);
 					request.getRequestDispatcher("comicSearch.jsp").forward(request, response);
 				}
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
-				return;
+				request.setAttribute("msg",  "サーバーエラーが発生しました\r\n" +
+						"製造元に問い合わせてください\r\n");
+				request.getRequestDispatcher("comicSearch.jsp").forward(request, response);
 			}
 		}
 

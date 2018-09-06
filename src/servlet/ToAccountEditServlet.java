@@ -2,7 +2,6 @@ package servlet;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,13 +49,15 @@ public class ToAccountEditServlet extends HttpServlet {
 				request.setAttribute("email", email);
 				request.setAttribute("birthday", strBirthday);
 
-				request.getRequestDispatcher("accountEdit.jsp").forward(request, response);
 			}
 
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
+			request.setAttribute("msg", "サーバーエラーが発生しました\r\n" +
+					"製造元に問い合わせてください\r\n");
 		}
+		request.getRequestDispatcher("accountEdit.jsp").forward(request, response);
 	}
 
 }
