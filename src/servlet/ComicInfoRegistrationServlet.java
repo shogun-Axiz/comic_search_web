@@ -10,7 +10,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -114,7 +113,12 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 		if ((strPrice == null) || (strPrice.equals(""))) {
 			msg += "値段を入力してください\r\n";
 		} else {
-			price = Integer.parseInt(strPrice);
+			try {
+				price = Integer.parseInt(strPrice);
+			}catch(Exception e) {
+				msg += "値段を数字で入力してください\r\n";
+			}
+
 		}
 
 		if ((strReleaseDate == null) || (strReleaseDate.equals(""))) {
@@ -141,8 +145,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 			e.printStackTrace();
 			request.setAttribute("msg", "発売日をyyyy/mm/dd形式で入力してください\r\n");
 			// 次画面指定
-			request.getRequestDispatcher("toComicInfoManagement").forward(request, response);
-			return;
+			request.getRequestDispatcher("toComicInfoRegistration").forward(request, response);
 		}
 
 		if (msg == "") {
@@ -170,10 +173,11 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 				targetPath = Paths.get(Path + spa + comicId + "." + extension);
 				Files.move(sourcePath, targetPath);
 				pic = "img/" + comicId + "." + extension;
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 				msg += "サーバーエラーが発生しました\r\n" +
 						"製造元に問い合わせてください\r\n";
+				return;
 			}
 
 			HttpSession session = request.getSession();
@@ -195,11 +199,12 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 			try {
 				comicService.registration(regist);
 
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
 				msg += "サーバーエラーが発生しました\r\n" +
 						"製造元に問い合わせてください\r\n";
+				return;
 			}
 			msg += "success";
 		}
