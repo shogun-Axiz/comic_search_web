@@ -9,7 +9,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import entity.Category;
 import entity.Comic;
@@ -30,8 +29,6 @@ public class ComicInfoManagementServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-
-		HttpSession session = request.getSession();
 
 		String title = request.getParameter("title");
 		String authorName = request.getParameter("authorName");
@@ -80,7 +77,7 @@ public class ComicInfoManagementServlet extends HttpServlet {
 		try {
 			list = comicService.authentication(title, authorName, publisher, categoryId, price1, price2,
 					releaseDate1, releaseDate2);
-			session.setAttribute("list", list);
+			request.setAttribute("list", list);
 
 			if (list.size() != 0) {
 

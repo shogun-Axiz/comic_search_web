@@ -101,10 +101,8 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 			e.printStackTrace();
 			msg += "サーバーエラーが発生しました\r\n" +
 					"製造元に問い合わせてください\r\n";
-			String strComicId = String.valueOf(comicId);
-			session.setAttribute("comicId", strComicId);
-			session.setAttribute("msg", msg);
-			request.getRequestDispatcher("toComicInfoUpdate").forward(request, response);
+			request.setAttribute("msg", msg);
+			request.getRequestDispatcher("index.jsp").forward(request, response);
 			return;
 		}
 
@@ -200,10 +198,8 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 					e.printStackTrace();
 					msg += "サーバーエラーが発生しました\r\n" +
 							"製造元に問い合わせてください\r\n";
-					String strComicId = String.valueOf(comicId);
-					session.setAttribute("comicId", strComicId);
-					session.setAttribute("msg", msg);
-					request.getRequestDispatcher("toComicInfoUpdate").forward(request, response);
+					request.setAttribute("msg", msg);
+					request.getRequestDispatcher("index.jsp").forward(request, response);
 					return;
 				}
 			}
@@ -227,10 +223,8 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 				e.printStackTrace();
 				msg += "サーバーエラーが発生しました\r\n" +
 						"製造元に問い合わせてください\r\n";
-				String strComicId = String.valueOf(comicId);
-				session.setAttribute("comicId", strComicId);
-				session.setAttribute("msg", msg);
-				request.getRequestDispatcher("toComicInfoUpdate").forward(request, response);
+				request.setAttribute("msg", msg);
+				request.getRequestDispatcher("index.jsp").forward(request, response);
 				return;
 			}
 
@@ -245,10 +239,8 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 				e1.printStackTrace();
 				msg += "サーバーエラーが発生しました\r\n" +
 						"製造元に問い合わせてください\r\n";
-				String strComicId = String.valueOf(comicId);
-				session.setAttribute("comicId", strComicId);
-				session.setAttribute("msg", msg);
-				request.getRequestDispatcher("toComicInfoUpdate").forward(request, response);
+				request.setAttribute("msg", msg);
+				request.getRequestDispatcher("index.jsp").forward(request, response);
 				return;
 			}
 
@@ -278,10 +270,8 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 				e.printStackTrace();
 				msg += "サーバーエラーが発生しました\r\n" +
 						"製造元に問い合わせてください\r\n";
-				String strComicId = String.valueOf(comicId);
-				session.setAttribute("comicId", strComicId);
-				session.setAttribute("msg", msg);
-				request.getRequestDispatcher("toComicInfoUpdate").forward(request, response);
+				request.setAttribute("msg", msg);
+				request.getRequestDispatcher("index.jsp").forward(request, response);
 				return;
 			}
 			msg += "success";
@@ -292,7 +282,7 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 		} else {
 			String strComicId = String.valueOf(comicId);
 			session.setAttribute("comicId", strComicId);
-			session.setAttribute("msg", msg);
+			request.setAttribute("msg", msg);
 			request.getRequestDispatcher("toComicInfoUpdate").forward(request, response);
 		}
 	}
