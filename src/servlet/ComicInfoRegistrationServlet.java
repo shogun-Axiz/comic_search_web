@@ -143,7 +143,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 			// 次画面指定
 			request.getRequestDispatcher("toComicInfoManagement").forward(request, response);
 			return;
-		}
+		}//boy
 
 		if (msg == "") {
 
