@@ -2,7 +2,6 @@ package servlet;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -50,7 +49,7 @@ public class AccountInfoManagementServlet extends HttpServlet {
 			birthday = cond.conversion(strBirthday);
 		}catch(Exception e) {
 			e.printStackTrace();
-			request.setAttribute("msg", "誕生日をyyyy/mm/dd形式で入力してください<br>");
+			request.setAttribute("msg", "誕生日をyyyy/mm/dd形式で入力してください\r\n");
 			// 次画面指定
 			request.getRequestDispatcher("accountInfoManagement.jsp").forward(request, response);
 			return;
@@ -62,7 +61,7 @@ public class AccountInfoManagementServlet extends HttpServlet {
 			joinDate = cond.conversion(strJoinDate);
 		}catch(Exception e) {
 			e.printStackTrace();
-			request.setAttribute("msg", "入会日をyyyy/mm/dd形式で入力してください<br>");
+			request.setAttribute("msg", "入会日をyyyy/mm/dd形式で入力してください\r\n");
 			// 次画面指定
 			request.getRequestDispatcher("accountInfoManagement.jsp").forward(request, response);
 			return;
@@ -73,8 +72,12 @@ public class AccountInfoManagementServlet extends HttpServlet {
 		List<User> list = null;
 		try {
 			list = userService.search(email, userName, birthday, joinDate);
-		}catch(SQLException e) {
+		}catch(Exception e) {
 			e.printStackTrace();
+			request.setAttribute("msg", "サーバーエラーが発生しました\r\n" + "製造元に問い合わせてください\r\n");
+			// 次画面指定
+			request.getRequestDispatcher("index.jsp").forward(request, response);
+			return;
 		}
 
 		session.setAttribute("list", list);
@@ -86,7 +89,7 @@ public class AccountInfoManagementServlet extends HttpServlet {
 
 		} else {
 			// メッセージ設定
-			request.setAttribute("msg", "入力した条件に一致するデータが見つかりませんでした");
+			request.setAttribute("msg", "入力した条件に一致するデータが見つかりませんでした\r\n");
 
 			// 次画面指定
 			request.getRequestDispatcher("accountInfoManagement.jsp").forward(request, response);
