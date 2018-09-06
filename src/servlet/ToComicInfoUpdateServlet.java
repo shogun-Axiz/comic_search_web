@@ -60,8 +60,8 @@ public class ToComicInfoUpdateServlet extends HttpServlet {
 				Category category = categoryService.authentication3(categoryName);
 				Integer categoryId = category.getCategoryId();
 				request.setAttribute("catId", categoryId);
-				request.getRequestDispatcher("comicInfoUpdate.jsp").forward(request, response);
 			}
+			request.getRequestDispatcher("comicInfoUpdate.jsp").forward(request, response);
 
 		} catch (Exception e) {
 			e.printStackTrace();

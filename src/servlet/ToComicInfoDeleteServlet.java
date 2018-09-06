@@ -57,8 +57,8 @@ public class ToComicInfoDeleteServlet extends HttpServlet {
 				Category category = categoryService.authentication3(categoryName);
 				Integer categoryId = category.getCategoryId();
 				request.setAttribute("catId", categoryId);
-				request.getRequestDispatcher("comicInfoDelete.jsp").forward(request, response);
 			}
+			request.getRequestDispatcher("comicInfoDelete.jsp").forward(request, response);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -66,9 +66,9 @@ public class ToComicInfoDeleteServlet extends HttpServlet {
 			// メッセージ設定
 			request.setAttribute("msg", "サーバーエラーが発生しました\r\n" +
 					"製造元に問い合わせてください");
+			// 次画面指定
+			request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
 		}
-		// 次画面指定
-		request.getRequestDispatcher("comicInfoManagement.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
