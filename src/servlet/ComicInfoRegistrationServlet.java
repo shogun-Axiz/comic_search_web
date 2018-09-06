@@ -56,6 +56,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 				} catch (Exception e) {
 					e.printStackTrace();
 					throw new RuntimeException(e);
+					//boy
 				}
 			}
 		});
