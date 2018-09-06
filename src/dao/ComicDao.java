@@ -46,7 +46,6 @@ public class ComicDao {
 				String data = TABLE_NAME + LATE;
 
 				try (PreparedStatement stmt = conn.prepareStatement(data)) {
-					System.out.println(stmt);
 
 					ResultSet rs = stmt.executeQuery();
 

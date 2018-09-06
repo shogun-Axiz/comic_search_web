@@ -56,7 +56,6 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 				} catch (Exception e) {
 					e.printStackTrace();
 					throw new RuntimeException(e);
-					//boy
 				}
 			}
 		});
@@ -74,6 +73,8 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 		String fileName = null;
 
 		Integer price = null;
+
+		Integer categoryId = null;
 
 		try {
 			Part part = request.getPart("picture");
@@ -97,6 +98,11 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 
 		if ((strCategoryId == null) || (strCategoryId.equals(""))) {
 			msg += "カテゴリーを選択してください\r\n";
+		} else {
+			categoryId = Integer.parseInt(strCategoryId);
+			if (categoryId == 0) {
+				msg += "カテゴリーを選択してください\r\n";
+			}
 		}
 
 		if ((authorName == null) || (authorName.equals(""))) {
@@ -107,7 +113,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 
 		if ((strPrice == null) || (strPrice.equals(""))) {
 			msg += "値段を入力してください\r\n";
-		}else {
+		} else {
 			price = Integer.parseInt(strPrice);
 		}
 
@@ -125,9 +131,6 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 			msg += "詳細リンクを入力してください\r\n";
 		}
 
-		Integer categoryId = Integer.parseInt(strCategoryId);
-
-
 		ConversionDate cond = new ConversionDate();
 
 		Date releaseDate = null;
@@ -143,7 +146,6 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 		}
 
 		if (msg == "") {
-
 
 			//漫画ID
 			UUID comicId = UUID.randomUUID();
@@ -162,9 +164,10 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 				if (position != -1) {
 					extension = fileName.substring(position + 1);
 				}
-				File file = new File("../workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/comic_search_web/img");
-		        String Path = file.getAbsolutePath();
-				targetPath = Paths.get(Path+ spa + comicId + "." + extension);
+				File file = new File(
+						"../workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/comic_search_web/img");
+				String Path = file.getAbsolutePath();
+				targetPath = Paths.get(Path + spa + comicId + "." + extension);
 				Files.move(sourcePath, targetPath);
 				pic = "img/" + comicId + "." + extension;
 			} catch (IOException e) {
@@ -185,7 +188,8 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 
 			ComicService comicService = new ComicService();
 
-			Comic regist = new Comic(comicId, map1.get("title"), categoryId, price, publisher, authorName, releaseDate, synopsis,
+			Comic regist = new Comic(comicId, map1.get("title"), categoryId, price, publisher, authorName, releaseDate,
+					synopsis,
 					link, pic, createUser, createDate, modifiedUser, modifiedDate);
 
 			try {
