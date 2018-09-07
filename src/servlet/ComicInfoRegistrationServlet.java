@@ -84,8 +84,6 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 			part.write("C:\\tmp\\img\\" + fileName);
 		} catch (Exception e) {
 			e.printStackTrace();
-			msg += "サーバーエラーが発生しました\r\n" +
-					"製造元に問い合わせてください\r\n";
 		}
 
 		if ((map1.get("title") == null) || (map1.get("title").equals(""))) {
