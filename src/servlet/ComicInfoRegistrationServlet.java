@@ -66,10 +66,6 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 		String strReleaseDate = map1.get("releaseDate");
 		String publisher = map1.get("publisher");
 		String synopsis = map1.get("synopsis");
-		String link = map1.get("link");
-
-		request.setAttribute("title", title);
-		request.setAttribute("strCategoryId", strCategoryId);
 
 		String msg = "";
 
