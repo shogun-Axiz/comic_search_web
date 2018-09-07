@@ -197,8 +197,6 @@ public class UserDao {
 
 				String data = TABLE_NAME + " AND " + DATA + LATE;
 
-				System.out.println(data);
-
 				try (PreparedStatement stmt = conn.prepareStatement(data)) {
 
 					if(((birthday != null) && (!(birthday.equals("")))) && ((joinDate != null) && (!(joinDate.equals(""))))) {

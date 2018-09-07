@@ -138,8 +138,20 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 
 		}
 
+		Date releaseDate = null;
+
+		ConversionDate cond = new ConversionDate();
+
 		if ((strReleaseDate == null) || (strReleaseDate.equals(""))) {
 			msg += "発売日を入力してください\r\n";
+		}else {
+			try {
+				releaseDate = cond.conversion(strReleaseDate);
+			} catch (Exception e) {
+				e.printStackTrace();
+				msg += "発売日をyyyy/mm/dd形式で入力してください\r\n";
+
+			}
 		}
 
 		if ((publisher == null) || (publisher.equals(""))) {
@@ -150,22 +162,8 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 
 		if ((link == null) || (link.equals(""))) {
 			msg += "詳細リンクを入力してください\r\n";
-		}
-
-		ConversionDate cond = new ConversionDate();
-
-		Date releaseDate = null;
-
-		try {
-			releaseDate = cond.conversion(strReleaseDate);
-		} catch (Exception e) {
-			e.printStackTrace();
-			String strComicId = String.valueOf(comicId);
-			session.setAttribute("comicId", strComicId);
-			request.setAttribute("msg", "発売日をyyyy/mm/dd形式で入力してください\r\n");
-			// 次画面指定
-			request.getRequestDispatcher("toComicInfoUpdate").forward(request, response);
-			return;
+		}else if(link.length() > 500) {
+			msg += "詳細リンクは500字までです\r\n";
 		}
 
 		if ((msg == null) || (msg.equals(""))) {

@@ -155,7 +155,7 @@
 							<td class="category">${fn:escapeXml(list.categoryName)}</td>
 							<td class="publisher">${fn:escapeXml(list.publisher)}</td>
 							<td class="price">${fn:escapeXml(list.price)}</td>
-							<td class="releaseDate">${fn:escapeXml(list.releaseDate)}</td>
+							<td class="releaseDate">${fn:replace(list.releaseDate, "-", "/")}</td>
 							<td class="authorName">${fn:escapeXml(list.authorName)}</td>
 						</tr>
 					</c:forEach>

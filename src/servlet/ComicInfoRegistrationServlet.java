@@ -59,6 +59,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 			}
 		});
 
+		String title = map1.get("title");
 		String strCategoryId = map1.get("categoryId");
 		String authorName = map1.get("authorName");
 		String strPrice = map1.get("price");
@@ -66,6 +67,9 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 		String publisher = map1.get("publisher");
 		String synopsis = map1.get("synopsis");
 		String link = map1.get("link");
+
+		request.setAttribute("title", title);
+		request.setAttribute("strCategoryId", strCategoryId);
 
 		String msg = "";
 
@@ -118,8 +122,20 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 
 		}
 
+		Date releaseDate = null;
+
+		ConversionDate cond = new ConversionDate();
+
 		if ((strReleaseDate == null) || (strReleaseDate.equals(""))) {
 			msg += "発売日を入力してください\r\n";
+		}else {
+			try {
+				releaseDate = cond.conversion(strReleaseDate);
+			} catch (Exception e) {
+				e.printStackTrace();
+				msg += "発売日をyyyy/mm/dd形式で入力してください\r\n";
+
+			}
 		}
 
 		if ((publisher == null) || (publisher.equals(""))) {
@@ -130,19 +146,8 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 
 		if ((link == null) || (link.equals(""))) {
 			msg += "詳細リンクを入力してください\r\n";
-		}
-
-		ConversionDate cond = new ConversionDate();
-
-		Date releaseDate = null;
-
-		try {
-			releaseDate = cond.conversion(strReleaseDate);
-		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("msg", "発売日をyyyy/mm/dd形式で入力してください\r\n");
-			// 次画面指定
-			request.getRequestDispatcher("toComicInfoRegistration").forward(request, response);
+		}else if(link.length() > 500) {
+			msg += "詳細リンクは500字までです\r\n";
 		}
 
 		if (msg == "") {
