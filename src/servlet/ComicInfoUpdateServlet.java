@@ -27,7 +27,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import entity.Category;
 import entity.Comic;
+import service.CategoryService;
 import service.ComicService;
 import util.ConversionDate;
 import util.ExtractFileName;
@@ -87,6 +89,8 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 
 		Integer price = null;
 
+		String pic = null;
+
 		try {
 			Part part = request.getPart("picture");
 
@@ -97,6 +101,8 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 			if (!(fileName.isEmpty())) {
 				part.write("C:\\tmp\\img\\" + fileName);
 			}
+
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			msg += "サーバーエラーが発生しました\r\n" +
@@ -132,7 +138,7 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 		} else {
 			try {
 				price = Integer.parseInt(strPrice);
-			}catch(Exception e) {
+			} catch (Exception e) {
 				msg += "値段を数字で入力してください\r\n";
 			}
 
@@ -144,7 +150,7 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 
 		if ((strReleaseDate == null) || (strReleaseDate.equals(""))) {
 			msg += "発売日を入力してください\r\n";
-		}else {
+		} else {
 			try {
 				releaseDate = cond.conversion(strReleaseDate);
 			} catch (Exception e) {
@@ -162,7 +168,7 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 
 		if ((link == null) || (link.equals(""))) {
 			msg += "詳細リンクを入力してください\r\n";
-		}else if(link.length() > 500) {
+		} else if (link.length() > 500) {
 			msg += "詳細リンクは500字までです\r\n";
 		}
 
@@ -173,8 +179,6 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 			String extension = null;
 			Path sourcePath = null;
 			Path targetPath = null;
-
-			String pic = null;
 
 			if (!(fileName.isEmpty())) {
 				try {
@@ -278,10 +282,38 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 		if (msg.equals("success")) {
 			request.getRequestDispatcher("toComicInfoManagement").forward(request, response);
 		} else {
-			String strComicId = String.valueOf(comicId);
-			session.setAttribute("comicId", strComicId);
+			if(fileName != null) {
+				msg += "画像をアップロードする場合には、画像を再アップロードしてください\r\n";
+			}
+
+			request.setAttribute("title", title);
+			request.setAttribute("catId", strCategoryId);
+			request.setAttribute("authorName", authorName);
+			request.setAttribute("price", strPrice);
+			request.setAttribute("releaseDate", strReleaseDate);
+			request.setAttribute("publisher", publisher);
+			request.setAttribute("synopsis", synopsis);
+			request.setAttribute("link", link);
+			request.setAttribute("imageDelete", imageDelete);
+
 			request.setAttribute("msg", msg);
-			request.getRequestDispatcher("toComicInfoUpdate").forward(request, response);
+			CategoryService categoryService = new CategoryService();
+			try {
+				List<Category> cat = categoryService.authentication();
+				if (cat.size() != 0) {
+					request.setAttribute("cat", cat);
+				}
+				request.getRequestDispatcher("comicInfoUpdate2.jsp").forward(request, response);
+			} catch (Exception e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+				request.setAttribute("msg", "サーバーエラーが発生しました\r\n" +
+						"製造元に問い合わせてください\r\n");
+
+				// 次画面指定
+				request.getRequestDispatcher("index.jsp").forward(request, response);
+				return;
+			}
 		}
 	}
 

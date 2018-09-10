@@ -87,7 +87,7 @@
 					</p>
 					<p>
 						<label for="image">表紙画像</label>&emsp;<input type="checkbox"
-							name="imageDelete" style="width: 5%;">画像削除<br> <input
+							name="imageDelete" style="width: 5%;" value="${imageDelete}">画像削除<br> <input
 							type="file" name="picture"><br> <img
 							src="${list.image}">
 					</p>

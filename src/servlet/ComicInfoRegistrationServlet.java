@@ -66,6 +66,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 		String strReleaseDate = map1.get("releaseDate");
 		String publisher = map1.get("publisher");
 		String synopsis = map1.get("synopsis");
+		String link = map1.get("link");
 
 		String msg = "";
 
@@ -189,7 +190,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 
 			ComicService comicService = new ComicService();
 
-			Comic regist = new Comic(comicId, map1.get("title"), categoryId, price, publisher, authorName, releaseDate,
+			Comic regist = new Comic(comicId, title, categoryId, price, publisher, authorName, releaseDate,
 					synopsis,
 					link, pic, createUser, createDate, modifiedUser, modifiedDate);
 
@@ -208,6 +209,16 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 			request.getRequestDispatcher("toComicInfoManagement").forward(request, response);
 		} else {
 			request.setAttribute("msg", msg);
+
+			request.setAttribute("title", title);
+			request.setAttribute("strCategoryId", strCategoryId);
+			request.setAttribute("authorName", authorName);
+			request.setAttribute("price", strPrice);
+			request.setAttribute("releaseDate", strReleaseDate);
+			request.setAttribute("publisher", publisher);
+			request.setAttribute("synopsis", synopsis);
+			request.setAttribute("link", link);
+
 			request.getRequestDispatcher("toComicInfoRegistration").forward(request, response);
 		}
 	}
