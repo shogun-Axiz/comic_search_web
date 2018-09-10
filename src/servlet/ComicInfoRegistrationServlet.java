@@ -81,7 +81,7 @@ public class ComicInfoRegistrationServlet extends HttpServlet {
 
 			ExtractFileName efn = new ExtractFileName();
 
-			fileName = efn.extractFileName(part);
+			fileName = efn.extractFileName(part).replaceAll(".*?\\\\", "");
 			part.write("C:\\tmp\\img\\" + fileName);
 		} catch (Exception e) {
 			e.printStackTrace();

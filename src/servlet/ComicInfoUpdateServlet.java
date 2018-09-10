@@ -96,7 +96,7 @@ public class ComicInfoUpdateServlet extends HttpServlet {
 
 			ExtractFileName efn = new ExtractFileName();
 
-			fileName = efn.extractFileName(part);
+			fileName = efn.extractFileName(part).replaceAll(".*?\\\\", "");
 
 			if (!(fileName.isEmpty())) {
 				part.write("C:\\tmp\\img\\" + fileName);
