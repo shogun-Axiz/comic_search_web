@@ -49,7 +49,7 @@ public class AccountInfoManagementServlet extends HttpServlet {
 			birthday = cond.conversion(strBirthday);
 		}catch(Exception e) {
 			e.printStackTrace();
-			request.setAttribute("msg", "誕生日をyyyy/mm/dd形式で入力してください\r\n");
+			request.setAttribute("msg", "生年月日をyyyy/mm/dd形式で入力してください\r\n");
 			// 次画面指定
 			request.getRequestDispatcher("accountInfoManagement.jsp").forward(request, response);
 			return;

@@ -97,8 +97,8 @@
 						<tr align="center">
 							<td class="email">${list.email}</td>
 							<td class="username">${list.userName}</td>
-							<td class="birthday">${list.birthday}</td>
-							<td class="joindate">${list.joinDate}</td>
+							<td class="birthday">${fn:replace(list.birthday, "-", "/")}</td>
+							<td class="joindate">${fn:replace(list.joinDate, "-", "/")}</td>
 							<td><button type="submit" class="btn btn-danger btn-lg"
 									onClick="location.href='./forcedWithdrawal?userId=${list.userId}'">強制退会</button></td>
 						</tr>
